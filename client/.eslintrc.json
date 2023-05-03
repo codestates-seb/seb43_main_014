@@ -1,24 +1,25 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:import/recommended",
-    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": {
+    "prettier/prettier": ["error", {}, { "usePrettierrc": true }]
+  },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    }
   },
-  "rules": {
-    "react/react-in-jsx-scope": 0,
-    "react/jsx-uses-react": 0
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
