@@ -6,6 +6,7 @@ export default function Root() {
     <div>
       <nav>Navbar 컴포넌트 들어올 자리</nav>
       <Outlet />
+      <footer>Footer 컴포넌트 들어올 자리</footer>
     </div>
   );
 }
