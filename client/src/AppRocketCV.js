@@ -37,8 +37,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
-  return <RouterProvider router={router}>App</RouterProvider>;
+function AppRocKetCV() {
+  return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
-export default App;
+export default AppRocKetCV;
