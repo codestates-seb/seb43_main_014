@@ -4,6 +4,7 @@ import './GlobalStyles.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <div>Home 홈 페이지 컴포넌트 들어올 자리</div> },
       { path: '/login', element: <Login /> },
-      { path: '/signup', element: <div>회원가입 페이지</div> },
+      { path: '/signup', element: <Signup /> },
       {
         path: '/mypage/:userId',
         element: <div>마이페이지 컴포넌트 들어올 자리</div>,
