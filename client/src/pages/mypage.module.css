@@ -1,0 +1,9 @@
+.container {
+  width: 75rem;
+  margin: auto;
+  padding: 3rem;
+  border: 1px solid tomato;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
