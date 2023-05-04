@@ -4,15 +4,19 @@ import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage';
 import './GlobalStyles.css';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Main from './pages/Main';
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <div>Home 홈 페이지 컴포넌트 들어올 자리</div> },
-      { path: '/login', element: <div>Login 컴포넌트 들어올자리</div> },
-      { path: '/signup', element: <div>회원가입 페이지</div> },
+      { index: true, element: <Main /> },
+      { path: '/login', element: <Login /> },
+      { path: '/signup', element: <Signup /> },
       {
         path: '/mypage',
         element: <MyPage />,
