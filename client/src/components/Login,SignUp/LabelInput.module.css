@@ -1,0 +1,43 @@
+.box {
+  width: 90%;
+}
+
+.label {
+  margin-top: 3rem;
+  display: block;
+  font-weight: bolder;
+}
+
+.input {
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background-color: var(--puple100);
+  border-radius: 0.3rem;
+}
+
+.password_menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.passwordReset {
+  margin-top: 3rem;
+  color: mediumblue;
+}
+
+.passwordReset:hover {
+  text-decoration: none;
+}
+
+.startEnd {
+  display: flex;
+  justify-content: space-between;
+}
+
+.duplicate {
+  margin-top: 3rem;
+  color: mediumblue;
+}
