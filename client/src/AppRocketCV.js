@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './App.css';
+import './GlobalStyles.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
