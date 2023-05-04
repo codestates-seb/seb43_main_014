@@ -58,8 +58,7 @@ const Header = () => {
 export default Header;
 
 const BasicHeader = styled.header`
-  z-index: 1;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   max-width: 100%;
