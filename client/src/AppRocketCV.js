@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
+import MyPage from './pages/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -14,8 +15,8 @@ const router = createBrowserRouter([
       { path: '/login', element: <div>Login 컴포넌트 들어올자리</div> },
       { path: '/signup', element: <div>회원가입 페이지</div> },
       {
-        path: '/mypage/:userId',
-        element: <div>마이페이지 컴포넌트 들어올 자리</div>,
+        path: '/mypage',
+        element: <MyPage />,
       },
       {
         path: '/profile/:userId',
