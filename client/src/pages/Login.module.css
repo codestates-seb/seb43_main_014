@@ -1,0 +1,96 @@
+.container {
+  width: 75rem;
+  border: 1px solid red;
+  display: flex;
+  margin: 0 auto;
+}
+
+.left {
+  width: 55%;
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+.hello {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.logo_img {
+  margin-top: 5rem;
+  width: 80%;
+  max-width: 15rem;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 45%;
+  height: 100%;
+  border: 1px solid green;
+  margin: 1rem;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.box {
+  width: 90%;
+}
+
+.label {
+  margin-top: 3rem;
+  display: block;
+  font-weight: bolder;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background-color: var(--puple100);
+  border-radius: 0.3rem;
+}
+
+.button {
+  width: 90%;
+  margin-top: 3.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  border: none;
+  background-color: var(--puple100);
+  border-radius: 0.3rem;
+}
+
+.Oauth_title {
+  text-align: center;
+}
+
+.Oauth_img {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.Oauth_img img {
+  width: 3rem;
+  margin: 0 1.6rem;
+  border: 1px solid red;
+}
+
+.Oauth_name {
+  margin: 0 1.5rem;
+  margin-bottom: 1rem;
+}
