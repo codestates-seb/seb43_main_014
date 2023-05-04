@@ -19,7 +19,8 @@ const Profile = () => {
             </div>
             <div className={styles.proInfo}>
               <div className={styles.info}>
-                <span>김도현</span>
+                <span>이름 *</span>
+                <input></input>
               </div>
               <span className={styles.emailNum}>kdohyn98@github.com</span>
               <span>010-0000-0000</span>
