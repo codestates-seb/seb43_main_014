@@ -5,6 +5,7 @@ import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
@@ -39,8 +40,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-function AppRocKetCV() {
+export default function AppRocKetCV() {
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
-
-export default AppRocketCV;
