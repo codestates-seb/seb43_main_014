@@ -42,4 +42,4 @@ function AppRocKetCV() {
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
-export default AppRocKetCV;
+export default AppRocketCV;
