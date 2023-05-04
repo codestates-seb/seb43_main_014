@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Footer from './components/Footer';
 import './GlobalStyles.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
@@ -43,4 +43,4 @@ function AppRocKetCV() {
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
-export default AppRocKetCV;
+export default AppRocketCV;
