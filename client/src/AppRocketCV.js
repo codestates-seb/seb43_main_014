@@ -1,5 +1,5 @@
 import React from 'react';
-import Footer from './components/Footer';
+import Main from './pages/Main';
 import './GlobalStyles.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
