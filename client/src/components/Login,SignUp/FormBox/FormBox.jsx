@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './FormBox.module.css';
-import LabelInput from './LabelInput';
-import Button from './Button';
-import Oauth from './Oauth';
+import LabelInput from '../LabelInput/LabelInput';
+import Button from '../Button/Button';
+import Oauth from '../Oauth/Oauth';
 
 export default function FormBox() {
   const currentUrl = window.location.href;

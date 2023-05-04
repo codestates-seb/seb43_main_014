@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Hello.module.css';
-import logo from '../../images/rocket.png';
+import styles from './HelloBox.module.css';
+import logo from '../../../images/rocket.png';
 
 export default function Hello() {
   return (

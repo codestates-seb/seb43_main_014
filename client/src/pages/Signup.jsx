@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './Signup.module.css';
-import Hello from '../components/Login,SignUp/Hello';
-import FormBox from '../components/Login,SignUp/FormBox';
+import HelloBox from '../components/Login,SignUp/HelloBox/HelloBox';
+import FormBox from '../components/Login,SignUp/FormBox/FormBox';
 
 export default function Signup() {
   return (
     <main className={styles.container}>
-      <Hello />
+      <HelloBox />
       <FormBox />
     </main>
   );
