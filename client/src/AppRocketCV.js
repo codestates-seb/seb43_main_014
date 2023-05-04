@@ -1,11 +1,11 @@
 import React from 'react';
-import Footer from './components/Footer';
+import Main from './pages/Main';
 import './GlobalStyles.css';
 
 function AppRocketCV() {
   return (
     <>
-      <Footer />
+      <Main />
     </>
   );
 }
