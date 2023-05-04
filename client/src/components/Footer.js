@@ -25,7 +25,6 @@ export default Footer;
 
 const Container = styled.footer`
   z-index: 1;
-  position: fixed;
   display: flex;
   bottom: 0;
   background-color: var(--puple100);
