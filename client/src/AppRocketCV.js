@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <div>Home 홈 페이지 컴포넌트 들어올 자리</div> },
-      { path: '/login', element: <div>Login 컴포넌트 들어올자리</div> },
+      { path: '/login', element: <Login /> },
       { path: '/signup', element: <div>회원가입 페이지</div> },
       {
         path: '/mypage/:userId',
