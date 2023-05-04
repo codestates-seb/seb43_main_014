@@ -1,0 +1,64 @@
+.container {
+  width: 30rem;
+}
+.container:last-child {
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+}
+.proCard {
+  background-color: var(--puple100);
+  width: 30rem;
+  padding: 0.1rem;
+}
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+.profilePic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  padding: 0.3rem;
+}
+.pic {
+  width: 4rem;
+  height: 4rem;
+}
+
+.proInfo {
+  display: flex;
+  flex-direction: column;
+}
+.infos {
+  margin: 0.15rem 0.2rem;
+  display: flex;
+  align-items: center;
+}
+.info {
+  font-weight: 500;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.skillTags {
+  margin: 0rem 0rem 0.8rem 0.8rem;
+}
+.skillTag {
+  background-color: red;
+  margin-right: 0.9rem;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  color: white;
+}
+.skillTag:nth-child(2) {
+  background-color: green;
+}
+.skillTag:nth-child(3) {
+  background-color: blue;
+}
+.infoUpdate {
+  margin: 0.3rem 0.2rem;
+}
