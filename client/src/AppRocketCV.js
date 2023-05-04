@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
 import Footer from './components/Footer';
+import './GlobalStyles.css';
 
-function App() {
+function AppRocketCV() {
   return (
     <>
       <Footer />
@@ -10,4 +10,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppRocketCV;
