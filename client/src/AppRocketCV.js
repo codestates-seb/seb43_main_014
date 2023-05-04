@@ -38,8 +38,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-function AppRocKetCV() {
+function AppRocketCV() {
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
-
 export default AppRocketCV;

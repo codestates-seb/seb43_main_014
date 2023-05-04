@@ -1,0 +1,22 @@
+.left {
+  width: 55%;
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  border-radius: 1rem;
+  border: 0.3rem solid var(--puple300);
+}
+
+.hello {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.logo_img {
+  margin-top: 5rem;
+  width: 80%;
+  max-width: 15rem;
+}
