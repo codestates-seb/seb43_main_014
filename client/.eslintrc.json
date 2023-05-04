@@ -7,8 +7,7 @@
   ],
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
-    "react/prop-types": "off"
+    "prettier/prettier": ["error", {}, { "usePrettierrc": true }]
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
