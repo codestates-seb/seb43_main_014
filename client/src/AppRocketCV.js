@@ -1,10 +1,9 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './App.css';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage';
-
+import './GlobalStyles.css';
 const router = createBrowserRouter([
   {
     path: '/',
