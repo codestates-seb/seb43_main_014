@@ -21,6 +21,6 @@ public class CustomSection {
     private String customContent;
 
     @ManyToOne
-    @JoinColumn(name = "CV_ID")
+    @JoinColumn(name = "CV_ID", nullable = false)
     private Cv cv;
 }
