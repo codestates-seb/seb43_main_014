@@ -1,12 +1,15 @@
 package com.cv.domain.cv.entity;
 
+import com.cv.domain.career.entity.Career;
+import com.cv.domain.customSection.entity.CustomSection;
+import com.cv.domain.education.entity.Education;
+import com.cv.domain.project.entity.Project;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +31,7 @@ public class Cv {
 
     private String phone;
 
+    @Lob
     private String selfIntroduction;
 
     private String developmentJob;
@@ -39,4 +43,19 @@ public class Cv {
     private String birthDay;
 
     private Boolean isDelete = false;
+
+    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    private List<CvSkillStack> cvSkillStackList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    private List<Education> educationList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    private List<CustomSection> customSectionList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    private List<Project> projectList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    private List<Career> careerList = new ArrayList<>();
 }
