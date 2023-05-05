@@ -25,14 +25,14 @@ public class Project {
 
     private String endMonth;
 
-    private String projectName;
+    private String projectSubject;
 
     @Lob
     private String description;
 
     // TODO : links 추가
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CV_ID", nullable = false)
     private Cv cv;
 
