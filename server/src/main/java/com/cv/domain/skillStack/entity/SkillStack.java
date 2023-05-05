@@ -1,6 +1,8 @@
 package com.cv.domain.skillStack.entity;
 
+import com.cv.domain.career.entity.CareerSkillStack;
 import com.cv.domain.cv.entity.CvSkillStack;
+import com.cv.domain.project.entity.ProjectSkillStack;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +23,10 @@ public class SkillStack {
 
     @OneToMany(mappedBy = "skill_stack", cascade = CascadeType.REMOVE)
     private List<CvSkillStack> cvSkillStackList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "skill_stack", cascade = CascadeType.REMOVE)
+    private List<ProjectSkillStack> projectSkillStackList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "skill_stack", cascade = CascadeType.REMOVE)
+    private List<CareerSkillStack> careerSkillStackList = new ArrayList<>();
 }
