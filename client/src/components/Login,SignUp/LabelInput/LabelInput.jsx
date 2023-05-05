@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './LabelInput.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function LabelInput({ label, duplicate }) {
   const currentUrl = window.location.href;
+  const navigate = useNavigate();
 
   // 비밀번호 확인 인풋창 라벨없음
   if (label === '비밀번호 확인') {
@@ -19,6 +20,7 @@ export default function LabelInput({ label, duplicate }) {
     );
   }
 
+  // 우측 상단에 비밀번호 재설정 있는 인풋창
   if (label === '비밀번호') {
     return (
       <div className={styles.box}>
@@ -28,7 +30,13 @@ export default function LabelInput({ label, duplicate }) {
           </label>
           {currentUrl === 'http://localhost:3000/login' && (
             <Link className={styles.passwordReset}>
-              <div>{label} 재설정</div>
+              <div
+                onClick={() => {
+                  navigate('/reset_password');
+                }}
+              >
+                비밀번호 재설정
+              </div>
             </Link>
           )}
         </div>
@@ -45,6 +53,7 @@ export default function LabelInput({ label, duplicate }) {
     );
   }
 
+  // 라벨+인풋창
   return (
     <div className={styles.box}>
       <div className={styles.startEnd}>
