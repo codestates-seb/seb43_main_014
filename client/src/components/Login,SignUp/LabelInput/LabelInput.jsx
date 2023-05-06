@@ -1,53 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './LabelInput.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-export default function LabelInput({ label, duplicate }) {
-  const currentUrl = window.location.href;
-  const navigate = useNavigate();
+export default function LabelInput({
+  labelText,
+  duplicate,
+  isNoLabel,
+  signup,
+  login,
+  type,
+  name,
+}) {
+  const [form, setForm] = useState({ name: '', email: '', password: '' });
 
-  // 비밀번호 확인 인풋창 라벨없음
-  if (label === '비밀번호 확인') {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, e.target.value);
+    setForm({ ...form, [name]: value });
+  };
+
+  // 라벨없는 인풋창! (비밀번호 확인)
+  if (isNoLabel) {
     return (
       <div className={styles.box}>
         <div style={{ marginTop: '0.4rem' }}></div>
         <input
+          name={name}
           type="password"
           className={styles.input}
-          placeholder="비밀번호를 확인 해주세요."
+          placeholder={`비밀번호 확인 해주세요.`}
+          onChange={handleChange}
         />
       </div>
     );
   }
 
-  // 우측 상단에 비밀번호 재설정 있는 인풋창
-  if (label === '비밀번호') {
+  // 회원가입 페이지 비밀번호 인풋창
+  if (signup) {
     return (
       <div className={styles.box}>
         <div className={styles.password_menu}>
-          <label htmlFor="" className={styles.label}>
-            {label}
+          <label htmlFor={name} className={styles.label}>
+            비밀번호
           </label>
-          {currentUrl === 'http://localhost:3000/login' && (
-            <Link className={styles.passwordReset}>
-              <div
-                onClick={() => {
-                  navigate('/reset_password');
-                }}
-              >
-                비밀번호 재설정
-              </div>
-            </Link>
-          )}
         </div>
         <input
+          id={name}
+          name={name}
           type="password"
           className={styles.input}
-          placeholder={
-            currentUrl === 'http://localhost:3000/signup'
-              ? '영문자, 숫자, 특수문자 포함 8글자 이상'
-              : '비밀번호를 입력해주세요.'
-          }
+          placeholder="영문자, 숫자, 특수문자 포함 8글자 이상"
+          onChange={handleChange}
+        />
+      </div>
+    );
+  }
+
+  // 로그인 페이지에서 비밀번호 인풋창 (비밀번호 재설정 버튼 추가됨)
+  if (login) {
+    return (
+      <div className={styles.box}>
+        <div className={styles.password_menu}>
+          <label htmlFor={name} className={styles.label}>
+            비밀번호
+          </label>
+          <Link to="/reset_password" className={styles.passwordReset}>
+            비밀번호 재설정
+          </Link>
+        </div>
+        <input
+          id={name}
+          name={name}
+          type="password"
+          className={styles.input}
+          placeholder="비밀번호 입력해주세요."
+          onChange={handleChange}
         />
       </div>
     );
@@ -57,17 +84,18 @@ export default function LabelInput({ label, duplicate }) {
   return (
     <div className={styles.box}>
       <div className={styles.startEnd}>
-        <label htmlFor="" className={styles.label}>
-          {label}
+        <label htmlFor={name} className={styles.label}>
+          {labelText}
         </label>
-        {currentUrl === 'http://localhost:3000/signup' && duplicate && (
-          <div className={styles.duplicate}>중복확인</div>
-        )}
+        {duplicate && <div className={styles.duplicate}>중복확인</div>}
       </div>
       <input
-        type="text"
+        id={name}
+        name={name}
+        type={type}
         className={styles.input}
-        placeholder={`${label}을 입력해주세요.`}
+        placeholder={`${labelText} 입력해주세요.`}
+        onChange={handleChange}
       />
     </div>
   );
