@@ -34,3 +34,11 @@
   border-top-right-radius: 1rem;
   text-decoration: none;
 }
+
+.errorsMsg {
+  color: red;
+}
+
+.successMsg {
+  color: blue;
+}
