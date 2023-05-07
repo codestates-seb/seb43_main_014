@@ -111,7 +111,8 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) {
+    const allTrue = Object.values(valid).every((value) => value === true);
+    if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
     }
@@ -150,7 +151,6 @@ export default function Signup() {
           <div className={valid.name ? styles.successMsg : styles.errorsMsg}>
             {errors.name}
           </div>
-
           <LabelInput
             labelText="휴대폰 번호"
             type="text"
