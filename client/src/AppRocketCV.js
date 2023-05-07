@@ -4,10 +4,10 @@ import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage';
 import './GlobalStyles.css';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
 import Main from './pages/Main';
-import ResetPassword from './pages/ResetPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 
 const router = createBrowserRouter([
   {

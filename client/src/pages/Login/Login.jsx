@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styles from './Login.module.css';
-import HelloBox from '../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
-import FormBox from '../components/Login,SignUp,ResetPassword/FormBox/FormBox';
-import Button from '../components/Login,SignUp,ResetPassword/Button/Button';
-import LabelInput from '../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
+import HelloBox from '../../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
+import FormBox from '../../components/Login,SignUp,ResetPassword/FormBox/FormBox';
+import Button from '../../components/Login,SignUp,ResetPassword/Button/Button';
+import LabelInput from '../../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
 import { Link } from 'react-router-dom';
-import Oauth from '../components/Login,SignUp,ResetPassword/Oauth/Oauth';
+import Oauth from '../../components/Login,SignUp,ResetPassword/Oauth/Oauth';
 
 export default function Login() {
   const [form, setForm] = useState({

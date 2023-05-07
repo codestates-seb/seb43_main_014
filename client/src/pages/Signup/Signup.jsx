@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from './Signup.module.css';
-import HelloBox from '../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
-import FormBox from '../components/Login,SignUp,ResetPassword/FormBox/FormBox';
-import LabelInput from '../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
-import Button from '../components/Login,SignUp,ResetPassword/Button/Button';
-import Oauth from '../components/Login,SignUp,ResetPassword/Oauth/Oauth';
+import HelloBox from '../../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
+import FormBox from '../../components/Login,SignUp,ResetPassword/FormBox/FormBox';
+import LabelInput from '../../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
+import Button from '../../components/Login,SignUp,ResetPassword/Button/Button';
+import Oauth from '../../components/Login,SignUp,ResetPassword/Oauth/Oauth';
 import { Link } from 'react-router-dom';
 
 export default function Signup() {
