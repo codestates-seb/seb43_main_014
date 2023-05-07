@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
-import MyPage from './pages/MyPage';
+import MyPage from './pages/MyPage/MyPage';
 import './GlobalStyles.css';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
