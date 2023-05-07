@@ -10,18 +10,57 @@ export default function ResetPassword() {
     phone: '',
   });
 
+  const [errors, setErrors] = useState({
+    phone: '',
+  });
+
+  const [valid, setValid] = useState({
+    phone: false,
+  });
+
+  const validate = (form) => {
+    const newErrors = {
+      phone: '',
+    };
+
+    if (form.phone.trim() === '') {
+      newErrors.phone = '휴대폰 번호를 입력해주세요.';
+      setValid((prevValid) => ({ ...prevValid, phone: false }));
+    } else if (
+      !/^01([016789]{1}|[5]{1}[0123456789]{1})(\d{3}|\d{4})(\d{4})$/.test(
+        form.phone,
+      )
+    ) {
+      newErrors.phone = '올바른 휴대폰 번호를 입력해주세요.';
+      setValid((prevValid) => ({ ...prevValid, phone: false }));
+    } else {
+      newErrors.phone = '올바른 형식입니다.';
+      setValid((prevValid) => ({ ...prevValid, phone: true }));
+    }
+    setErrors(newErrors);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const allTrue = Object.values(valid).every((value) => value === true);
+    if (allTrue) {
+      // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
+      console.log('Form data:', form);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, e.target.value);
     console.log(form);
-    setForm({ ...form, [name]: value });
+    setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    validate({ ...form, [name]: value });
   };
 
   return (
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.title}>비밀번호 재설정</div>
           <div className={styles.explanation}>
             <p>회원가입 시 사용한 휴대폰 번호를 입력해주세요.</p>
@@ -35,6 +74,9 @@ export default function ResetPassword() {
             value={form.phone}
             handleChange={handleChange}
           />
+          <div className={valid.phone ? styles.successMsg : styles.errorsMsg}>
+            {errors.phone}
+          </div>
           <br />
           <br />
           <br />
