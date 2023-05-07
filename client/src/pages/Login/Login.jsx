@@ -16,11 +16,8 @@ export default function Login() {
   });
 
   const [errors, setErrors] = useState({
-    name: '',
-    phone: '',
     email: '',
     password: '',
-    password_confirm: '',
   });
 
   const [valid, setValid] = useState({
