@@ -32,8 +32,9 @@ export default function Signup() {
     password_confirm: false,
   });
   console.log(valid);
+  console.log(form);
 
-  const validate = () => {
+  const validate = (form) => {
     const newErrors = {
       name: '',
       phone: '',
@@ -97,10 +98,12 @@ export default function Signup() {
 
     if (form.password_confirm.trim() === '') {
       newErrors.password_confirm = '비밀번호를 다시 입력해주세요.';
+      setValid((prevValid) => ({ ...prevValid, password_confirm: false }));
     } else if (form.password !== form.password_confirm) {
       newErrors.password_confirm = '비밀번호가 일치하지 않습니다.';
-    } else {
-      newErrors.password_confirm = '올바른 형식입니다.';
+      setValid((prevValid) => ({ ...prevValid, password_confirm: false }));
+    } else if (form.password === form.password_confirm) {
+      newErrors.password_confirm = '비밀번호가 일치합니다.';
       setValid((prevValid) => ({ ...prevValid, password_confirm: true }));
     }
     setErrors(newErrors);
@@ -115,11 +118,12 @@ export default function Signup() {
   };
 
   const handleChange = (e) => {
-    validate();
     const { name, value } = e.target;
-    // console.log(name, e.target.value);
-    console.log(form);
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
+    // 문제발생: 최신 form value를 전달받지 못함(setState가 비동기로 동작)
+    // 해결방법:
+    // form value를 업데이트해서 전달
+    validate({ ...form, [name]: value });
   };
 
   return (
