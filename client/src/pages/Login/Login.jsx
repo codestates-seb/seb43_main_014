@@ -4,12 +4,14 @@ import HelloBox from '../../components/Login,SignUp,ResetPassword/HelloBox/Hello
 import FormBox from '../../components/Login,SignUp,ResetPassword/FormBox/FormBox';
 import Button from '../../components/Login,SignUp,ResetPassword/Button/Button';
 import LabelInput from '../../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Oauth from '../../components/Login,SignUp,ResetPassword/Oauth/Oauth';
-import { useRecoilState } from 'recoil';
-import { IsLoginAtom } from '../../recoil/IsLoginAtom';
+import { useSetRecoilState } from 'recoil';
+import { TokenAtom } from '../../recoil/TokenAtom';
+import axios from 'axios';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -24,8 +26,6 @@ export default function Login() {
     email: false,
     password: false,
   });
-
-  const [isLogin, setIsLogin] = useRecoilState(IsLoginAtom);
 
   const validate = (form) => {
     const newErrors = {
@@ -65,18 +65,30 @@ export default function Login() {
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
+  const setAccessToken = useSetRecoilState(TokenAtom);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
+      axios.post('API/login', form).then((res) => {
+        console.log(res.data);
+        setAccessToken(res.data.accessToken);
+        navigate('/');
+      });
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(form);
+    if (value.includes(' ')) {
+      // 공백이 포함되어 있다면
+      alert('공백은 입력할 수 없습니다.');
+      e.preventDefault(); // 입력 막기
+      return;
+    }
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     validate({ ...form, [name]: value });
   };
