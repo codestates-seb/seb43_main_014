@@ -63,9 +63,11 @@ export default function Login() {
     setErrors(newErrors);
   };
 
+  const allTrue = Object.values(valid).every((value) => value === true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const allTrue = Object.values(valid).every((value) => value === true);
+
     if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
@@ -117,7 +119,7 @@ export default function Login() {
           >
             {errors.password}
           </div>
-          <Button text="로그인" />
+          <Button allTrue={!allTrue} text="로그인" />
         </form>
         <Oauth />
       </FormBox>
