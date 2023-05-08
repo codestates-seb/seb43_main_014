@@ -1,9 +1,3 @@
-.container {
-  width: 75rem;
-  display: flex;
-  margin: 0 auto;
-}
-
 .right {
   display: flex;
   flex-direction: column;

@@ -4,9 +4,10 @@ import Root from './pages/Root';
 import NotFound from './pages/NotFound';
 import MyPage from './pages/MyPage/MyPage';
 import './GlobalStyles.css';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
 import Main from './pages/Main';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       { index: true, element: <Main /> },
       { path: '/login', element: <Login /> },
       { path: '/signup', element: <Signup /> },
+      {
+        path: '/reset_password',
+        element: <ResetPassword />,
+      },
       {
         path: '/mypage',
         element: <MyPage />,

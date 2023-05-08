@@ -1,12 +1,7 @@
-.right {
+.container {
+  width: 75rem;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 45%;
-  height: 100%;
-  border-radius: 1rem;
-  border: 0.3rem solid var(--puple300);
-  margin: 1rem;
+  margin: 0 auto;
 }
 
 .form {
@@ -40,12 +35,10 @@
   text-decoration: none;
 }
 
-.input {
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
-  width: 100%;
-  padding: 1rem;
-  border: none;
-  background-color: var(--puple100);
-  border-radius: 0.3rem;
+.errorsMsg {
+  color: red;
+}
+
+.successMsg {
+  color: blue;
 }
