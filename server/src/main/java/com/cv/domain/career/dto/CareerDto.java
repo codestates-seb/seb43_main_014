@@ -17,7 +17,7 @@ public class CareerDto {
 
         private String developmentJob;
 
-        private List<CareerSkillStackDto.Add> skillList;
+        private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 
     @Getter
@@ -32,6 +32,6 @@ public class CareerDto {
 
         private String developmentJob;
 
-        private List<CareerSkillStackDto.Add> skillList;
+        private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 }

@@ -3,7 +3,7 @@ package com.cv.domain.cv.dto;
 import com.cv.domain.customSection.dto.CustomSectionDto;
 import com.cv.domain.education.dto.EducationDto;
 import com.cv.domain.career.dto.CareerDto;
-import com.cv.domain.project.dto.ProjectSkillStackDto;
+import com.cv.domain.project.dto.ProjectDto;
 import lombok.Data;
 import lombok.Getter;
 
@@ -32,15 +32,15 @@ public class CvDto {
 
         private String developmentJob;
 
-        private List<CvSkillStackDto.Add> skillList;
+        private List<CvSkillStackDto.Add> cvSkillStacks;
 
-        private List<EducationDto.Add> educationList;
+        private List<EducationDto.Add> educations;
 
-        private List<CareerDto.Add> careerList;
+        private List<CareerDto.Add> careers;
 
-        private List<CustomSectionDto.Add> customSectionList;
+        private List<CustomSectionDto.Add> customSections;
 
-        private List<ProjectSkillStackDto.Add> projectList;
+        private List<ProjectDto.Add> projects;
     }
 
     @Data
@@ -70,14 +70,14 @@ public class CvDto {
 
         private String developmentJob;
 
-        private List<CvSkillStackDto.Response> skillList;
+        private List<CvSkillStackDto.Response> cvSkillStacks;
 
-        private List<EducationDto.Response> educationList;
+        private List<EducationDto.Response> educations;
 
-        private List<CareerDto.Response> careerList;
+        private List<CareerDto.Response> careers;
 
-        private List<CustomSectionDto.Response> customSectionList;
+        private List<CustomSectionDto.Response> customSections;
 
-        private List<ProjectSkillStackDto.Response> projectList;
+        private List<ProjectDto.Response> projects;
     }
 }
