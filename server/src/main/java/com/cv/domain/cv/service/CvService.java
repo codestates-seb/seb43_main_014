@@ -64,9 +64,9 @@ public class CvService {
         return findVerifiedCv(cvId);
     }
 
-    public void deleteCv() {
-
-        // TODO 이력서 상태를 DELETE로 변경할건지, 레파지토리에서 삭제할건지
+    public void deleteCv(long cvId) {
+        Cv findCv = findVerifiedCv(cvId);
+        findCv.setIsDelete(true);
     }
 
     private Cv findVerifiedCv(long cvId) {
