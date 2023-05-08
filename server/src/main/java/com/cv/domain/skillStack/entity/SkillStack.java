@@ -19,6 +19,8 @@ public class SkillStack {
     @Id
     private Long skillStackId;
 
+    private String skillName;
+
     private String description;
 
     @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)

@@ -32,7 +32,7 @@ public class Education {
     @Lob
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CV_ID", nullable = false)
     private Cv cv;
 }
