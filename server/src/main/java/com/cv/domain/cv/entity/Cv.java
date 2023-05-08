@@ -25,7 +25,7 @@ public class Cv {
 
     private String email;
 
-    private String userName;
+    private String name;
 
     private String address;
 
@@ -45,17 +45,17 @@ public class Cv {
     private Boolean isDelete = false;
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
-    private List<CvSkillStack> cvSkillStackList = new ArrayList<>();
+    private List<CvSkillStack> cvSkillStacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
-    private List<Education> educationList = new ArrayList<>();
+    private List<Education> educations = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
-    private List<CustomSection> customSectionList = new ArrayList<>();
+    private List<CustomSection> customSections = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
-    private List<Project> projectList = new ArrayList<>();
+    private List<Project> projects = new ArrayList<>();
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
-    private List<Career> careerList = new ArrayList<>();
+    private List<Career> careers = new ArrayList<>();
 }
