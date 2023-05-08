@@ -40,9 +40,10 @@ export default function ResetPassword() {
     setErrors(newErrors);
   };
 
+  const allTrue = Object.values(valid).every((value) => value === true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const allTrue = Object.values(valid).every((value) => value === true);
     if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
@@ -80,7 +81,7 @@ export default function ResetPassword() {
           <br />
           <br />
           <br />
-          <Button text="비밀번호 재설정" />
+          <Button allTrue={!allTrue} text="비밀번호 재설정" />
         </form>
       </FormBox>
     </main>
