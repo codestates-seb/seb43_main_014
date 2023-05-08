@@ -1,5 +1,6 @@
 package com.cv.domain.user.dto;
 
+import com.cv.domain.user.validator.ValidEmail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,7 +16,9 @@ public class UserDto {
         private String name;
 
         @NotBlank
-        @Email
+        @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+ \\.com$",
+                message = "올바른 이메일을 작성해주세요.")
+        @ValidEmail(message = "이메일은 중복될 수 없습니다.")
         private String email;
 
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
@@ -25,5 +28,9 @@ public class UserDto {
         @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$",
         message = "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.")
         private String phone;
+    }
+
+    public static class Patch{
+
     }
 }
