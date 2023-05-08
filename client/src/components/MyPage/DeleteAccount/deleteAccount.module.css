@@ -1,0 +1,12 @@
+.container {
+  background-color: var(--puple100);
+  width: 61rem;
+  padding: 3rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.delete {
+  font-weight: 500;
+}
