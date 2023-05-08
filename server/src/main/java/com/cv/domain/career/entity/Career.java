@@ -37,7 +37,7 @@ public class Career {
     private String description;
 
     @OneToMany(mappedBy = "career")
-    private List<CareerSkillStack> careerSkillStackList = new ArrayList<>();
+    private List<CareerSkillStack> careerSkillStacks = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CV_ID")

@@ -76,4 +76,9 @@ public class CvService {
 
         return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
+
+    // TODO 아래 로직 필요 없으면 삭제 예정
+//    private Cv verifyThatCvAlreadyExists(Cv cv) {
+//        Optional<Cv> optionalCv = cvRepository.findById(cv.getCvId());
+//    }
 }
