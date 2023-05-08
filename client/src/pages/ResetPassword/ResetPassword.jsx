@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import HelloBox from '../../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
-import Button from '../../components/Login,SignUp,ResetPassword/Button/Button';
+import HelloBox from '../../components/common/HelloBox/HelloBox';
+import Button from '../../components/common/Button/Button';
 import styles from './ResetPassword.module.css';
-import LabelInput from '../../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
-import FormBox from '../../components/Login,SignUp,ResetPassword/FormBox/FormBox';
+import LabelInput from '../../components/common/LabelInput/LabelInput';
+import FormBox from '../../components/common/FormBox/FormBox';
 
 export default function ResetPassword() {
   const [form, setForm] = useState({
@@ -40,9 +40,10 @@ export default function ResetPassword() {
     setErrors(newErrors);
   };
 
+  const allTrue = Object.values(valid).every((value) => value === true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const allTrue = Object.values(valid).every((value) => value === true);
     if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
@@ -51,7 +52,12 @@ export default function ResetPassword() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(form);
+    if (value.includes(' ')) {
+      // 공백이 포함되어 있다면
+      alert('공백은 입력할 수 없습니다.');
+      e.preventDefault(); // 입력 막기
+      return;
+    }
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     validate({ ...form, [name]: value });
   };
@@ -80,7 +86,7 @@ export default function ResetPassword() {
           <br />
           <br />
           <br />
-          <Button text="비밀번호 재설정" />
+          <Button allTrue={!allTrue} text="비밀번호 재설정" />
         </form>
       </FormBox>
     </main>
