@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styles from './Login.module.css';
-import HelloBox from '../../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
-import FormBox from '../../components/Login,SignUp,ResetPassword/FormBox/FormBox';
-import Button from '../../components/Login,SignUp,ResetPassword/Button/Button';
-import LabelInput from '../../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
+import HelloBox from '../../components/common/HelloBox/HelloBox';
+import FormBox from '../../components/common/FormBox/FormBox';
+import Button from '../../components/common/Button/Button';
+import LabelInput from '../../components/common/LabelInput/LabelInput';
 import { Link, useNavigate } from 'react-router-dom';
-import Oauth from '../../components/Login,SignUp,ResetPassword/Oauth/Oauth';
+import Oauth from '../../components/common/Oauth/Oauth';
 import { useSetRecoilState } from 'recoil';
 import { TokenAtom } from '../../recoil/TokenAtom';
 import axios from 'axios';
@@ -108,7 +108,7 @@ export default function Login() {
           </div>
           <LabelInput
             labelText="이메일"
-            type="email"
+            type="text"
             name="email"
             placeholder="이메일을 입력해주세요."
             value={form.email}

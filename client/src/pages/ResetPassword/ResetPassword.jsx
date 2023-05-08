@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import HelloBox from '../../components/Login,SignUp,ResetPassword/HelloBox/HelloBox';
-import Button from '../../components/Login,SignUp,ResetPassword/Button/Button';
+import HelloBox from '../../components/common/HelloBox/HelloBox';
+import Button from '../../components/common/Button/Button';
 import styles from './ResetPassword.module.css';
-import LabelInput from '../../components/Login,SignUp,ResetPassword/LabelInput/LabelInput';
-import FormBox from '../../components/Login,SignUp,ResetPassword/FormBox/FormBox';
+import LabelInput from '../../components/common/LabelInput/LabelInput';
+import FormBox from '../../components/common/FormBox/FormBox';
 
 export default function ResetPassword() {
   const [form, setForm] = useState({
