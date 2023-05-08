@@ -20,7 +20,7 @@ public class CustomSection {
     @Lob
     private String customContent;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CV_ID", nullable = false)
     private Cv cv;
 }
