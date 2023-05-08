@@ -69,18 +69,19 @@ const BasicHeader = styled.header`
   font-size: 1.5rem;
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
+  border: 1px solid tomato;
   .Logo {
     width: 2rem;
     height: 2rem;
-    margin-right: 5rem;
+    margin-right: 28rem;
     cursor: pointer;
   }
 `;
 
 const StyledButton = styled.button`
   min-width: 7rem;
-  margin-left: 0.5rem;
-  font-size: 0, 8rem;
+  margin: 0rem 0rem 0rem 3rem;
+  font-size: 1rem;
   cursor: pointer;
   padding: 1rem;
   border: none;

@@ -8,8 +8,8 @@ import CvPage from '../components/CvPage';
 const Main = () => {
   return (
     <>
-      <CvPage />
       <Container>
+        <CvPage />
         <span>신입 개발자의 이력서 작성, 막막하기만 하다구요?</span>
         <span>이력서를 가장 빠르고 쉽게 제작하는 방법!</span>
 
@@ -54,6 +54,7 @@ const Container = styled.main`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  border: 1px solid gray;
   span {
     font-size: 1.5rem;
   }

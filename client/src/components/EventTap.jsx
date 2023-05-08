@@ -24,6 +24,7 @@ const Econtainer = styled.div`
   height: 15rem;
   text-align: center;
   margin: 3rem 0 3rem 0;
+  border: 1px solid tomato;
   span {
     font-size: 0.8rem;
     color: gray;
@@ -44,6 +45,7 @@ const StyledButton = styled.button`
   border-radius: 0.3rem var(--puple100);
   background-color: var(--bgColor);
   color: white;
+  border: 1px solid tomato;
 
   &:hover {
     background-color: var(--puple300);

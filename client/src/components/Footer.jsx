@@ -33,6 +33,7 @@ const Container = styled.footer`
   box-shadow: 0 -1px 2px hsla(0, 0%, 0%, 0.05), 0 -1px 4px hsla(0, 0%, 0%, 0.05),
     0 -2px 8px hsla(0, 0%, 0%, 0.05);
   text-align: center;
+  border: 1px solid tomato;
   div {
     display: flex;
     flex-direction: column;

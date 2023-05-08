@@ -61,7 +61,7 @@ export default function CvPage() {
 
   return (
     <Container>
-      <Box sx={{ width: '50%' }}>
+      <Box sx={{ width: '65rem' }}>
         <Stepper nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label} completed={completed[index]}>
@@ -107,6 +107,8 @@ export default function CvPage() {
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  width: 63rem;
   margin-top: 2rem;
+  border: 1px solid green;
 `;
