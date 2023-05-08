@@ -3,6 +3,8 @@ package com.cv.domain.cv.service;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.repository.CvRepository;
+import com.cv.global.exception.BusinessLogicException;
+import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +74,6 @@ public class CvService {
     private Cv findVerifiedCv(long cvId) {
         Optional<Cv> optionalCv = cvRepository.findById(cvId);
 
-        // TODO 비즈니스 로직으로 orElseThrow 추가
-        return optionalCv.get();
+        return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
 }
