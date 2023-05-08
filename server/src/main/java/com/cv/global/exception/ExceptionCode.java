@@ -9,7 +9,9 @@ public enum ExceptionCode {
         - 500 Internal Server Error, 502 Bad Gateway
      */
 
-    USER_NOT_FOUND(404, "User not found");
+    USER_NOT_FOUND(404, "User not found"),
+    USER_EXISTS(409, "Member exists"),
+    RESUME_NOT_FOUND(404, "Resume not found");
 
     @Getter
     private int status;
