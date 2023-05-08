@@ -8,7 +8,37 @@
   align-items: center;
   justify-content: center;
 }
-.container h3 {
+.mypageItem {
+  margin-bottom: 2.5rem;
+}
+.mypageCv {
+  margin-bottom: 2.5rem;
+  /* padding-bottom: 2rem; */
+  /* border-bottom: 0.1rem solid slategray; */
+}
+.container h2 {
+  margin: 0rem;
   display: flex;
   justify-content: flex-start;
+}
+.cvList {
+  display: flex;
+  justify-content: end;
+}
+.cvList button {
+  background-color: var(--blue500);
+  border: 0.5px solid var(--bgColor);
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  /* letter-spacing: 0.2rem; */
+  color: rgb(255 255 255);
+  width: 8.4rem;
+  height: 3rem;
+  cursor: pointer;
+  margin: 1rem 3rem 0rem 0rem;
+}
+.cvList button:hover {
+  background-color: #94b2f9;
+  border: 0.5px solid var(--bgColor);
 }
