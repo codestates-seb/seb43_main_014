@@ -3,7 +3,6 @@ import styles from './profileUpdata.module.css';
 import axios from 'axios';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import Btn from '../../Btn/Btn';
 
 const ProfileUpdata = ({ setInfoUpdata }) => {
   const name = '도현';
