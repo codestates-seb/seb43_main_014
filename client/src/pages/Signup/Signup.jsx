@@ -61,7 +61,7 @@ export default function Signup() {
         form.phone,
       )
     ) {
-      newErrors.phone = '올바른 휴대폰 번호를 입력해주세요.';
+      newErrors.phone = '"-" 하이픈은 빼고 입력해주세요!';
       setValid((prevValid) => ({ ...prevValid, phone: false }));
     } else {
       newErrors.phone = '올바른 형식입니다.';
@@ -113,7 +113,6 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
@@ -122,10 +121,15 @@ export default function Signup() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (value.includes(' ')) {
+      // 공백이 포함되어 있다면
+      alert('공백은 입력할 수 없습니다.');
+      e.preventDefault(); // 입력 막기
+      return;
+    }
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     // 문제발생: 최신 form value를 전달받지 못함(setState가 비동기로 동작)
-    // 해결방법:
-    // form value를 업데이트해서 전달
+    // 해결방법: form value를 업데이트해서 전달
     validate({ ...form, [name]: value });
   };
 
@@ -166,7 +170,7 @@ export default function Signup() {
           </div>
           <LabelInput
             labelText="이메일"
-            type="email"
+            type="text"
             name="email"
             placeholder="이메일을 입력해주세요."
             duplicate={true}

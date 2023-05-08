@@ -52,7 +52,12 @@ export default function ResetPassword() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(form);
+    if (value.includes(' ')) {
+      // 공백이 포함되어 있다면
+      alert('공백은 입력할 수 없습니다.');
+      e.preventDefault(); // 입력 막기
+      return;
+    }
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     validate({ ...form, [name]: value });
   };
