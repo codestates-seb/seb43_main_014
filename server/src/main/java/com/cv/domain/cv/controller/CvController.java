@@ -26,9 +26,9 @@ public class CvController {
     public ResponseEntity<CvDto.Response> postCv(@RequestBody @Valid CvDto.Post requestBody) {
 
         Cv postCv = mapper.cvPostToCv(requestBody);
-        // TODO 비즈니스 로직 추가
+        Cv cv = cvService.createCv(postCv);
 
-        return new ResponseEntity<>(mapper.cvToCvResponse(postCv), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.CREATED);
     }
 
     // 이력서 수정
@@ -37,18 +37,18 @@ public class CvController {
                                   @RequestBody @Valid CvDto.Patch requestBody) {
 
         Cv patchCv = mapper.cvPatchToCv(requestBody);
-        // TODO 비즈니스 로직 추가
+        Cv cv = cvService.updateCv(patchCv);
 
-        return new ResponseEntity<>(mapper.cvToCvResponse(patchCv), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.OK);
     }
 
     // 이력서 조회
     @GetMapping("/{cv-id}")
     public ResponseEntity<CvDto.Response> getCv(@PathVariable("cv-id") long cvId) {
 
-        // TODO 비즈니스 로직 추가
+        Cv cv = cvService.getCv(cvId);
 
-        return null;
+        return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.OK);
     }
 
     // 이력서 삭제
