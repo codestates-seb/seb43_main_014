@@ -12,10 +12,10 @@ const DeleteModal = () => {
   const onClick = () => {
     console.log('btn');
   };
-  const onCheck = (e, check) => {
-    // setCheck(!check);
-    check = e.target.checked;
-    console.log(check);
+  const onCheck = () => {
+    // ck = e.target.checked;
+    // console.log(e.target.checked);
+    setCheck(!check);
   };
   return (
     <>
@@ -46,7 +46,7 @@ const DeleteModal = () => {
                 </div>
                 <div className={styles.modalGuideCheck}>
                   <div className={styles.modalGuideCheckbox}>
-                    <input type="checkbox" onChange={(e) => onCheck(e)} />
+                    <input type="checkbox" onClick={onCheck} />
                   </div>
                   <span>
                     계정을 삭제하면 되돌릴 수 없으며, 삭제한 데이터를 복구할 수
@@ -54,7 +54,9 @@ const DeleteModal = () => {
                   </span>
                 </div>
                 <div className={styles.modalGuideBtn}>
-                  <button onClick={onClick}>계정 삭제하기</button>
+                  <button disabled={check} onClick={onClick}>
+                    계정 삭제하기
+                  </button>
                 </div>
               </div>
             </div>

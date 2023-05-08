@@ -1,0 +1,44 @@
+.container {
+  /* border: 1px solid tomato; */
+  background-color: var(--puple100);
+  width: 61rem;
+  padding: 3rem 3rem 1rem 3rem;
+  border-radius: 0.375rem;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  flex-direction: column;
+}
+h4 {
+  margin: 0rem;
+}
+.cvContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.cvCard {
+  /* border: 1px solid tomato; */
+  padding: 1rem 1rem;
+  width: 15rem;
+  height: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 0.3rem;
+  color: black;
+}
+.cvJob {
+  font-size: 0.92rem;
+}
+.cvDate {
+  display: flex;
+  justify-content: end;
+  font-size: 0.8rem;
+  color: slategray;
+}
+.pageNum {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
