@@ -16,13 +16,14 @@ export default CvExample;
 
 const Container = styled.main`
   margin: 8rem 0rem 4rem 0;
-  width: 100%;
+  width: 75rem;
   max-width: 100%;
   background-color: white;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  border: 1px solid tomato;
   span {
     font-size: 0.9rem;
   }

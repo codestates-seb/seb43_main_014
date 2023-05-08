@@ -46,6 +46,7 @@ const ReviewCard = () => {
 export default ReviewCard;
 
 const Econtainer = styled.div`
+  border: 1px solid tomato;
   display: flex;
   width: 12rem;
   background-color: white;
