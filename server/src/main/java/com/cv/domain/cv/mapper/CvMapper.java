@@ -5,9 +5,11 @@ import com.cv.domain.customSection.mapper.CustomSectionMapper;
 import com.cv.domain.cv.dto.CvDto;
 import com.cv.domain.cv.dto.CvSkillStackDto;
 import com.cv.domain.cv.dto.LinkDto;
+import com.cv.domain.cv.dto.PortfolioDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.entity.Link;
+import com.cv.domain.cv.entity.Portfolio;
 import com.cv.domain.project.mapper.ProjectMapper;
 import org.mapstruct.Mapper;
 
@@ -29,4 +31,8 @@ public interface CvMapper {
     LinkDto.Response linkToLinkResponse(Link link);
     List<Link> linkAddsToLinks(List<LinkDto.Add> linkAdds);
     List<LinkDto.Response> linksToLinkResponses(List<Link> links);
+    Portfolio portfolioAddToPortfolio(PortfolioDto.Add portfolioAdd);
+    PortfolioDto.Response portfolioToPortfolioResponse(Portfolio portfolio);
+    List<Portfolio> portfolioAddsToPortfolios(List<PortfolioDto.Add> portfolioAdds);
+    List<PortfolioDto.Response> portfolioToPortfolioResponses(List<Portfolio> portfolios);
 }
