@@ -1,19 +1,19 @@
 package com.cv.domain.user.entity;
 
-import com.cv.domain.audit.Auditable;
+import com.cv.global.audit.Auditable;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "member")
-@Getter
+@NoArgsConstructor
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

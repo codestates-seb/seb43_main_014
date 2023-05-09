@@ -2,14 +2,16 @@ package com.cv.domain.user.dto;
 
 import com.cv.domain.user.validator.ValidEmail;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class UserDto {
-    @Getter
     @AllArgsConstructor
+    @Data
     public static class Post {
         @NotBlank(message = "이름은 공백이 아니어야 합니다.")
         private String name;
@@ -31,5 +33,10 @@ public class UserDto {
 
     public static class Patch{
 
+    }
+
+    @Data
+    public static class SignUpResponse{
+        private Long userId;
     }
 }
