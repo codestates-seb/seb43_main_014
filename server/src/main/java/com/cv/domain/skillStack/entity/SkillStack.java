@@ -24,11 +24,11 @@ public class SkillStack {
     private String description;
 
     @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)
-    private List<CvSkillStack> cvSkillStackList = new ArrayList<>();
+    private List<CvSkillStack> cvSkillStacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)
-    private List<ProjectSkillStack> projectSkillStackList = new ArrayList<>();
+    private List<ProjectSkillStack> projectSkillStacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)
-    private List<CareerSkillStack> careerSkillStackList = new ArrayList<>();
+    private List<CareerSkillStack> careerSkillStacks = new ArrayList<>();
 }

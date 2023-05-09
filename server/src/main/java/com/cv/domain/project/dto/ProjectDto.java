@@ -19,7 +19,7 @@ public class ProjectDto {
 
         private String projectSubject;
 
-        private List<ProjectSkillStackDto.Add> skillList;
+        private List<ProjectSkillStackDto.Add> projectSkillStacks;
     }
 
     @Getter
@@ -36,6 +36,6 @@ public class ProjectDto {
 
         private String projectSubject;
 
-        private List<ProjectSkillStackDto.Add> skillList;
+        private List<ProjectSkillStackDto.Add> projectSkillStacks;
     }
 }

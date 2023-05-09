@@ -9,15 +9,15 @@ public class CareerDto {
 
     @Data
     public static class Add {
+        private String joinYear;
+        private String joinMonth;
+        private String retirementYear;
+        private String retirementMonth;
         private String companyName;
-
         private String duty;
-
         private String companyInformation;
-
         private String developmentJob;
-
-        private List<CareerSkillStackDto.Add> skillList;
+        private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 
     @Getter
@@ -32,6 +32,6 @@ public class CareerDto {
 
         private String developmentJob;
 
-        private List<CareerSkillStackDto.Add> skillList;
+        private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 }
