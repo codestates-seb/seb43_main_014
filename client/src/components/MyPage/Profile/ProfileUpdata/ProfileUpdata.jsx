@@ -8,11 +8,12 @@ const ProfileUpdata = ({ setInfoUpdata }) => {
   const name = '도현';
   const email = `kdohyn98@github.com`;
   const pNum = '010-1234-1234';
-  const [isEdit, setIsEdit] = useState(false);
   const [userName, setUserName] = useState(name);
+  const [userPNum, setUserPNum] = useState(pNum);
 
   const onSubmit = () => {
     axios.patch(``, {});
+    console.log('asd');
   };
 
   return (
@@ -33,58 +34,33 @@ const ProfileUpdata = ({ setInfoUpdata }) => {
           <div className={styles.proInfo}>
             <div className={styles.info}>
               <span>이름</span>
-              {isEdit ? (
-                <div className={styles.updataInput}>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      onSubmit();
-                      setIsEdit(false);
-                    }}
-                  >
-                    <input
-                      type="text"
-                      defaultValue={userName}
-                      onChange={(e) => setUserName(e.target.value)}
-                    />
-                  </form>
-                </div>
-              ) : (
-                <div className={styles.updataInput}>
-                  <form
-                    onClick={() => {
-                      setIsEdit(true);
-                    }}
-                  >
-                    <input type="text" defaultValue={userName} />
-                  </form>
-                </div>
-              )}
+              <div className={styles.updataInput}>
+                <input
+                  type="text"
+                  defaultValue={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </div>
             </div>
             <div>
               <span className={styles.emailNumInput}>email</span>
               <div className={styles.updataInput}>
-                <form>
-                  <input
-                    className={styles.notInput}
-                    type="text"
-                    value={email}
-                    disabled
-                  />
-                </form>
+                <input
+                  className={styles.notInput}
+                  type="text"
+                  value={email}
+                  disabled
+                />
               </div>
             </div>
             <div>
               <span className={styles.emailNumInput}>휴대폰 번호</span>
               <div className={styles.updataInput}>
-                <form>
-                  <input
-                    className={styles.notInput}
-                    disabled
-                    type="text"
-                    value={pNum}
-                  />
-                </form>
+                <input
+                  type="text"
+                  defaultValue={userPNum}
+                  onChange={(e) => setUserPNum(e.target.value)}
+                />
               </div>
             </div>
           </div>
@@ -97,10 +73,9 @@ const ProfileUpdata = ({ setInfoUpdata }) => {
           >
             취소
           </button>
-          <button className={styles.btn} onClick={() => setInfoUpdata(false)}>
+          <button type="submit" className={styles.btn} onClick={onSubmit}>
             저장
           </button>
-          {/* <Btn btnName="저장" onClick={() => setInfoUpdata(false)} /> */}
         </div>
       </div>
     </>
