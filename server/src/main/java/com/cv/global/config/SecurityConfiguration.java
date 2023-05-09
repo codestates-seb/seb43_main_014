@@ -1,14 +1,20 @@
 package com.cv.global.config;
 
 //import com.cv.global.auth.filter.JwtAuthenticationFilter;
+//import com.cv.global.auth.filter.JwtVerificationFilter;
+//import com.cv.global.auth.handler.UserAccessDeniedHandler;
+//import com.cv.global.auth.handler.UserAuthenticationEntryPoint;
 //import com.cv.global.auth.handler.UserAuthenticationFailureHandler;
 //import com.cv.global.auth.handler.UserAuthenticationSuccessHandler;
 //import com.cv.global.auth.jwt.JwtTokenizer;
+//import com.cv.global.auth.utils.UserAuthorityUtils;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
+//import org.springframework.http.HttpMethod;
 //import org.springframework.security.authentication.AuthenticationManager;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+//import org.springframework.security.config.http.SessionCreationPolicy;
 //import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.SecurityFilterChain;
@@ -23,9 +29,11 @@ package com.cv.global.config;
 //@Configuration
 //public class SecurityConfiguration {
 //    private final JwtTokenizer jwtTokenizer;
+//    private final UserAuthorityUtils authorityUtils;
 //
-//    public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
+//    public SecurityConfiguration(JwtTokenizer jwtTokenizer, UserAuthorityUtils authorityUtils) {
 //        this.jwtTokenizer = jwtTokenizer;
+//        this.authorityUtils = authorityUtils;
 //    }
 //
 //    @Bean
@@ -35,12 +43,29 @@ package com.cv.global.config;
 //                .and()
 //                .csrf().disable()
 //                .cors(withDefaults())
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
 //                .formLogin().disable()
 //                .httpBasic().disable()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new UserAuthenticationEntryPoint())
+//                .accessDeniedHandler(new UserAccessDeniedHandler())
+//                .and()
 //                .apply(new CustomFilterConfigurer())
 //                .and()
 //                .authorizeHttpRequests(authorize -> authorize
-//                        .anyRequest().permitAll());
+//                        .antMatchers(HttpMethod.POST, "/*/user").permitAll()
+//                        .antMatchers(HttpMethod.PATCH, "/*/user").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/*/user").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/*/user/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.DELETE, "/*/user/**").hasRole("USER")
+//                        .antMatchers(HttpMethod.POST, "/*/cv").hasRole("USER")
+//                        .antMatchers(HttpMethod.PATCH, "/*/cv").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/*/cv").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/*/cv/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.DELETE, "/*/cv/**").hasRole("USER")
+//                        .anyRequest().permitAll()
+//                );
 //
 //        return http.build();
 //    }
@@ -55,7 +80,10 @@ package com.cv.global.config;
 //            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
 //            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 //
-//            builder.addFilter(jwtAuthenticationFilter);
+//            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+//
+//            builder.addFilter(jwtAuthenticationFilter)
+//                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
 //        }
 //    }
 //
