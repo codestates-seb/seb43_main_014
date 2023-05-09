@@ -22,12 +22,8 @@ public class CvService {
     @Autowired
     private S3Uploader s3Uploader;
 
-    public Cv createCv(Cv cv, MultipartFile image) throws IOException {
+    public Cv createCv(Cv cv){
         // TODO user 정보가 있는지 확인하는 로직 추가
-        if(!image.isEmpty()){
-            String storedFileName = s3Uploader.upload(image, "images");
-            cv.setImageUrl(storedFileName);
-        }
         return cvRepository.save(cv);
     }
 

@@ -21,15 +21,14 @@ import java.io.IOException;
 @RestController
 public class CvController {
 
-    private CvMapper mapper;
-    private CvService cvService;
+    private final CvMapper mapper;
+    private final CvService cvService;
 
     // 이력서 작성
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<CvDto.Response> postCv(@RequestBody @Valid CvDto.Post requestBody,
-                                                 @RequestParam(value="image")MultipartFile image) throws IOException {
+    @PostMapping
+    public ResponseEntity<CvDto.Response> postCv(@RequestBody @Valid CvDto.Post requestBody){
         Cv postCv = mapper.cvPostToCv(requestBody);
-        Cv cv = cvService.createCv(postCv, image);
+        Cv cv = cvService.createCv(postCv);
         return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.CREATED);
     }
 

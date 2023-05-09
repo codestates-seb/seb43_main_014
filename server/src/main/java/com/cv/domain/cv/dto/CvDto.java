@@ -7,6 +7,7 @@ import com.cv.domain.career.dto.CareerDto;
 import com.cv.domain.project.dto.ProjectDto;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -51,9 +52,10 @@ public class CvDto {
 
     }
 
+    @Setter
     @Getter
     public static class Response {
-        private long cvId;
+        private Long cvId;
 
         private String name;
 
