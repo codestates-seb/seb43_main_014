@@ -37,5 +37,5 @@ public class Project {
     private Cv cv;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
-    private List<ProjectSkillStack> projectSkillStackList = new ArrayList<>();
+    private List<ProjectSkillStack> projectSkillStacks = new ArrayList<>();
 }

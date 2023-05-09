@@ -22,23 +22,24 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentException(MethodArgumentNotValidException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getBindingResult().getFieldErrors());
+        log.error("# handleMethodArgumentException", e);
 
-        return response;
+        return ErrorResponse.of(e.getBindingResult().getFieldErrors());
     }
 
     // @Validated, 바인딩 실패 시 해당 예외 발생
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getConstraintViolations());
+        log.error("# handleConstraintViolationException", e);
 
-        return response;
+        return ErrorResponse.of(e.getConstraintViolations());
     }
 
     @ExceptionHandler
     public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
         final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
+        log.error("# handleBusinessLogicException", e);
 
         return new ResponseEntity(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
@@ -46,18 +47,18 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ErrorResponse handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        final ErrorResponse response = ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
+        log.error("# handleHttpRequestMethodNotSupportedException", e);
 
-        return response;
+        return ErrorResponse.of(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST,
-                "Required request body is missing");
+        log.error("# handleHttpMessageNotReadableException", e);
 
-        return response;
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST,
+                "Required request body is missing");
     }
 
     // @RequestParam, required 속성 값 default는 true
@@ -65,9 +66,9 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
+        log.error("# handleMissingServletRequestParameterException", e);
 
-        return response;
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler
@@ -75,8 +76,6 @@ public class GlobalExceptionAdvice {
     public ErrorResponse handleException(Exception e) {
         log.error("# handle Exception", e);
 
-        final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        return response;
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

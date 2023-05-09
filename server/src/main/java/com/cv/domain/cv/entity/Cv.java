@@ -16,8 +16,8 @@ import java.util.List;
 @Entity
 public class Cv {
 
-    //    TODO : profileImage 추가
-    //    TODO : myLinks 추가
+    //    TODO : profileImage 추가 -> 검색
+    //    TODO : myLinks 추가 -> Dto 수정해야함
     //    TODO : portfolio 추가
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -58,4 +58,7 @@ public class Cv {
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
     private List<Career> careers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    private List<Link> links = new ArrayList<>();
 }
