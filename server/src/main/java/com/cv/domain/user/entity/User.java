@@ -4,7 +4,6 @@ import com.cv.global.audit.Auditable;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "member")
 @NoArgsConstructor
 public class User extends Auditable {
     @Id

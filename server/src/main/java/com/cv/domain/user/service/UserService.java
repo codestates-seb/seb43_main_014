@@ -6,8 +6,7 @@ package com.cv.domain.user.service;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.stereotype.Service;
 //
-//import javax.transaction.Transactional;
-//import java.util.List;
+import javax.transaction.Transactional;
 
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//@Transactional
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class UserService {
