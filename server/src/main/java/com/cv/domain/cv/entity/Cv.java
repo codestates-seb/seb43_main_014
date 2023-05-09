@@ -34,6 +34,8 @@ public class Cv {
 
     private String developmentJob;
 
+    private String imageUrl;
+
     private String birthYear;
 
     private String birthMonth;
