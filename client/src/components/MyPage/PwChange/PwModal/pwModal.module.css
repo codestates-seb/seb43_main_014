@@ -1,6 +1,9 @@
 h4 {
   margin: 0rem;
 }
+input {
+  padding-left: 0.8rem;
+}
 .modalChangeInput {
   display: flex;
   flex-direction: column;
@@ -11,8 +14,8 @@ h4 {
   margin-bottom: 0.3rem;
 }
 .inputDetail {
-  font-size: 0.8rem;
-  color: lightgrey;
+  font-size: 0.7rem;
+  color: lightslategrey;
 }
 .resetLink {
   color: blue;
