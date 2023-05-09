@@ -17,7 +17,6 @@ import java.util.List;
 public class Cv {
 
     //    TODO : profileImage 추가 -> 검색
-    //    TODO : portfolio 추가
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long cvId;
