@@ -5,9 +5,13 @@ import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.repository.CvRepository;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
+import com.cv.global.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -15,10 +19,15 @@ import java.util.Optional;
 public class CvService {
 
     private final CvRepository cvRepository;
+    @Autowired
+    private S3Uploader s3Uploader;
 
-    public Cv createCv(Cv cv) {
+    public Cv createCv(Cv cv, MultipartFile image) throws IOException {
         // TODO user 정보가 있는지 확인하는 로직 추가
-
+        if(!image.isEmpty()){
+            String storedFileName = s3Uploader.upload(image, "images");
+            cv.setImageUrl(storedFileName);
+        }
         return cvRepository.save(cv);
     }
 
