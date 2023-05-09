@@ -14,7 +14,7 @@ const PwModal = ({ openModalHandler }) => {
           <form>
             <div className={styles.modalChangeInput}>
               <span>현재 비밀번호</span>
-              <input></input>
+              <input type="password" />
               <div>
                 <span className={styles.inputDetail}>
                   비밀번호를 잊으셨나요?{' '}
@@ -26,14 +26,14 @@ const PwModal = ({ openModalHandler }) => {
             </div>
             <div className={styles.modalChangeInput}>
               <span>비밀번호</span>
-              <input />
+              <input type="password" />
               <span className={styles.inputDetail}>
                 비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)
               </span>
             </div>
             <div className={styles.modalChangeInput}>
               <span>비밀번호 확인</span>
-              <input></input>
+              <input type="password" />
             </div>
             <div className={styles.modalChangeBtn}>
               <button
