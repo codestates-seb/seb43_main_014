@@ -8,25 +8,25 @@ package com.cv.domain.user.service;
 //
 //import javax.transaction.Transactional;
 //import java.util.List;
-//
+
 //@Transactional
 //@Service
-//public class UserService {
+public class UserService {
 //    private final UserRepository userRepository;
 //    private final PasswordEncoder passwordEncoder;
-//    private final UserAuthorityUtils authorityUtils;
+//    //private final UserAuthorityUtils authorityUtils;
 //
 //    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserAuthorityUtils authorityUtils) {
 //        this.userRepository = userRepository;
 //        this.passwordEncoder = passwordEncoder;
-//        this.authorityUtils = authorityUtils;
+//        //this.authorityUtils = authorityUtils;
 //    }
 //
 //    public User createUser(User user) {
-//        verifyExistsEmail(user.getEmail());
+//        //verifyExistsEmail(user.getEmail());
 //
 //        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-//        user.setPassword(encryptedPassword);
+//        //user.setPassword(encryptedPassword);
 //
 //        List<String> roles = authorityUtils.createRoles(user.getEmail());
 //        user.setRoles(roles);
@@ -35,4 +35,4 @@ package com.cv.domain.user.service;
 //
 //        return savedUser;
 //    }
-//}
+}
