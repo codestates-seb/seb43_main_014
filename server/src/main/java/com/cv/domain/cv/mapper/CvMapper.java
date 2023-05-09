@@ -4,8 +4,10 @@ import com.cv.domain.career.mapper.CareerMapper;
 import com.cv.domain.customSection.mapper.CustomSectionMapper;
 import com.cv.domain.cv.dto.CvDto;
 import com.cv.domain.cv.dto.CvSkillStackDto;
+import com.cv.domain.cv.dto.LinkDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
+import com.cv.domain.cv.entity.Link;
 import com.cv.domain.project.mapper.ProjectMapper;
 import org.mapstruct.Mapper;
 
@@ -23,4 +25,8 @@ public interface CvMapper {
     CvSkillStackDto.Response cvSkillStackToCvSkillStackResponse(CvSkillStack cvSkillStack);
     List<CvSkillStack> cvSkillStackAddsToCvSkillStacks(List<CvSkillStackDto.Add> cvSkillStackAdds);
     List<CvSkillStackDto.Response> cvSkillStacksToCvSkillStackResponses(List<CvSkillStack> skillStacks);
+    Link linkAddToLink(LinkDto.Add linkAdd);
+    LinkDto.Response linkToLinkResponse(Link link);
+    List<Link> linkAddsToLinks(List<LinkDto.Add> linkAdds);
+    List<LinkDto.Response> linksToLinkResponses(List<Link> links);
 }
