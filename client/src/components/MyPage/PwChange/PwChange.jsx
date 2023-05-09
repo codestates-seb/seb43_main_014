@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styles from './pwChange.module.css';
-import Btn from '../Btn/Btn';
 import PwModal from './PwModal/PwModal';
 
 const PwChange = () => {
   const date = '2023-05-05';
   const [newDate, setNewDate] = useState(date);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.date}>
@@ -19,10 +21,10 @@ const PwChange = () => {
         </div>
       </div>
       <div>
-        {/* <button className={styles.changeBtn}>비밀번호 변경</button> */}
-        {/* <Btn btnName="비밀번호 변경"></Btn> */}
-        <PwModal />
-        {/* <button className={styles.changeBtn}></button> */}
+        <button className={styles.modalBtn} onClick={openModalHandler}>
+          비밀번호 변경
+        </button>
+        {isOpen ? <PwModal openModalHandler={openModalHandler} /> : null}
       </div>
     </div>
   );
