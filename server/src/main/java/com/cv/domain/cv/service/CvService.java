@@ -47,7 +47,11 @@ public class CvService {
         findCv.getCvSkillStacks().clear();
         findCv.getCvSkillStacks().addAll(cv.getCvSkillStacks());
 
-        // TODO myLinks, portfolios 수정 로직 추가
+        findCv.getLinks().clear();
+        findCv.getLinks().addAll(cv.getLinks());
+
+        findCv.getPortfolios().clear();
+        findCv.getPortfolios().addAll(cv.getPortfolios());
 
         findCv.getEducations().clear();
         findCv.getEducations().addAll(cv.getEducations());
@@ -76,9 +80,4 @@ public class CvService {
 
         return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
-
-    // TODO 아래 로직 필요 없으면 삭제 예정
-//    private Cv verifyThatCvAlreadyExists(Cv cv) {
-//        Optional<Cv> optionalCv = cvRepository.findById(cv.getCvId());
-//    }
 }
