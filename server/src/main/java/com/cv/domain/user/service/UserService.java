@@ -9,8 +9,10 @@ package com.cv.domain.user.service;
 //import javax.transaction.Transactional;
 //import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 //@Transactional
-//@Service
+@Service
 public class UserService {
 //    private final UserRepository userRepository;
 //    private final PasswordEncoder passwordEncoder;

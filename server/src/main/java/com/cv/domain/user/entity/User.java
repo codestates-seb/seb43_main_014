@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "member")
 @Getter
 public class User extends Auditable {
     @Id

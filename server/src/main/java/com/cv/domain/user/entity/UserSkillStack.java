@@ -10,6 +10,6 @@ public class UserSkillStack {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    private User userId;
+    private User user;
 
 }
