@@ -12,7 +12,7 @@ public class ProjectSkillStackDto {
         private String description;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long skillStackId;
 

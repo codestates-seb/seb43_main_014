@@ -1,17 +1,18 @@
 package com.cv.domain.skillStack.dto;
 
+import lombok.Data;
 import lombok.Getter;
 
 public class SkillStackDto {
 
-    @Getter
+    @Data
     public static class Add {
         private String skillName;
 
         private String description;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long skillStackId;
 

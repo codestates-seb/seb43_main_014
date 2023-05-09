@@ -22,7 +22,7 @@ public class ProjectDto {
         private List<ProjectSkillStackDto.Add> projectSkillStacks;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long projectId;
 

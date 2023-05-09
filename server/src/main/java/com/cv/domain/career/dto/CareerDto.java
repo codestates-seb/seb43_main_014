@@ -28,7 +28,7 @@ public class CareerDto {
         private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long careerId;
 

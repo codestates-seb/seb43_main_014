@@ -12,7 +12,7 @@ public class CustomSectionDto {
         private String customContent;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long customSectionId;
 

@@ -52,8 +52,7 @@ public class CvDto {
 
     }
 
-    @Setter
-    @Getter
+    @Data
     public static class Response {
         private Long cvId;
 
