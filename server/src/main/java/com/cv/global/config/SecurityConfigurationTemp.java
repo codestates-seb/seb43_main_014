@@ -10,7 +10,8 @@ public class SecurityConfigurationTemp {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-        .authorizeHttpRequests(authorize -> authorize
+                .csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize
                 .anyRequest().permitAll()
         );
 
