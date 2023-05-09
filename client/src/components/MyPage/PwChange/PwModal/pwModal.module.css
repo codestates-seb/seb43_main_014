@@ -1,50 +1,6 @@
-.modalContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-.modalBackdrop {
-  /* // TODO : Modal이 떴을 때의 배경을 깔아주는 CSS를 구현합니다. */
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.modalBtn {
-  background-color: var(--blue500);
-  border: 0.5px solid var(--bgColor);
-  border-radius: 0.3rem;
-  font-weight: 500;
-  font-size: 1.2rem;
-  color: rgb(255 255 255);
-  width: 8.4rem;
-  height: 3rem;
-  cursor: pointer;
-}
-.modalBtn:hover {
-  background-color: #94b2f9;
-  border: 0.5px solid var(--bgColor);
-}
-.modalView {
-  background-color: white;
-  width: 30rem;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  border-radius: 1rem;
-  padding: 2rem 2rem;
-  border: 1px solid tomato;
-}
-.modalView h4 {
+h4 {
   margin: 0rem;
 }
-
 .modalChangeInput {
   display: flex;
   flex-direction: column;
@@ -57,6 +13,12 @@
 .inputDetail {
   font-size: 0.8rem;
   color: lightgrey;
+}
+.resetLink {
+  color: blue;
+}
+a:hover {
+  text-decoration: none;
 }
 .modalChangeInput input {
   width: auto;
