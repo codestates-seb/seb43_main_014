@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 const ProfileUpdata = ({ setInfoUpdata }) => {
   const name = '도현';
   const email = `kdohyn98@github.com`;
-  const pNum = '010-1234-1234';
+  const pNum = '01012341234';
   const [userName, setUserName] = useState(name);
   const [userPNum, setUserPNum] = useState(pNum);
 
