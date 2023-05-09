@@ -1,6 +1,7 @@
 package com.cv.domain.cv.dto;
 
 import com.cv.domain.customSection.dto.CustomSectionDto;
+import com.cv.domain.cv.entity.Link;
 import com.cv.domain.education.dto.EducationDto;
 import com.cv.domain.career.dto.CareerDto;
 import com.cv.domain.project.dto.ProjectDto;
@@ -41,6 +42,8 @@ public class CvDto {
         private List<CustomSectionDto.Add> customSections;
 
         private List<ProjectDto.Add> projects;
+
+        private List<LinkDto.Add> links;
     }
 
     @Data
@@ -79,5 +82,7 @@ public class CvDto {
         private List<CustomSectionDto.Response> customSections;
 
         private List<ProjectDto.Response> projects;
+
+        private List<LinkDto.Response> links;
     }
 }

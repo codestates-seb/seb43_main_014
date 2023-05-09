@@ -21,9 +21,9 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final UserMapper mapper;
+//    private final UserMapper mapper;
     //private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
+//    private final PasswordEncoder passwordEncoder;
     private final static String USER_DEFAULT_URL = "/user";
 
     @PostMapping

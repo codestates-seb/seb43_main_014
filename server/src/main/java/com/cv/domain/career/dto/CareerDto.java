@@ -9,6 +9,14 @@ public class CareerDto {
 
     @Data
     public static class Add {
+        private String joinYear;
+
+        private String joinMonth;
+
+        private String retirementYear;
+
+        private String retirementMonth;
+
         private String companyName;
 
         private String duty;
