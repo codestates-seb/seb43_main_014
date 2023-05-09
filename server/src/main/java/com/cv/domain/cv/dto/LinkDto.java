@@ -1,12 +1,13 @@
 package com.cv.domain.cv.dto;
 
+import com.cv.domain.cv.entity.Link;
 import lombok.Getter;
 
 public class LinkDto {
 
     @Getter
     public static class Add {
-        private String linkName;
+        private Link.LinkName linkName;
 
         private String linkAddress;
     }
@@ -15,7 +16,7 @@ public class LinkDto {
     public static class Response {
         private long linkId;
 
-        private String linkName;
+        private Link.LinkName linkName;
 
         private String linkAddress;
     }
