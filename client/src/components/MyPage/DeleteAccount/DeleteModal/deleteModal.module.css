@@ -7,14 +7,14 @@ h4 {
   margin-bottom: 1rem;
 }
 .modalGuideList {
-  background-color: red;
+  background-color: var(--puple100);
   padding: 0.4rem 0rem;
   margin-top: 0.7rem;
   border-radius: 0.3rem;
 }
 .modalGuideCheck {
   display: flex;
-  background-color: teal;
+  background-color: rgb(204 204 204);
   padding: 1rem;
   border-radius: 0.3rem;
   margin: 2rem 0rem;
@@ -23,7 +23,7 @@ h4 {
   width: 1.3rem;
   height: 1.3rem;
   margin-right: 1rem;
-  accent-color: red;
+  accent-color: #94b2f9;
 }
 .modalGuideBtn {
   display: flex;
