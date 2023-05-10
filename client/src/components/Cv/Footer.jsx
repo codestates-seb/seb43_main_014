@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../images/rocket.png';
+import Logo from '../../images/rocket.png';
 
 const Footer = () => {
   return (

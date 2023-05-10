@@ -5,13 +5,15 @@ import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
-import CvCustomInput from './CvCustomInput';
+import { useState } from 'react';
+import CvBasicInfo from './CvBasicInfo';
+import CvCareer from './CvCareer';
 
 const steps = ['기본 정보', '경력 및 프로젝트', '작성 완료'];
 
 export default function CvPage() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [completed, setCompleted] = useState({});
 
   const totalSteps = () => {
     return steps.length;
@@ -71,17 +73,18 @@ export default function CvPage() {
             </Step>
           ))}
         </Stepper>
-        <CvCustomInput />
+        <CvCareer />
+        <CvBasicInfo />
         <div>
           {allStepsCompleted() ? (
-            <React.Fragment>
+            <>
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Box sx={{ flex: '1 1 auto' }} />
                 <Button onClick={handleReset}>초기화</Button>
               </Box>
-            </React.Fragment>
+            </>
           ) : (
-            <React.Fragment>
+            <>
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Button
                   color="inherit"
@@ -97,7 +100,7 @@ export default function CvPage() {
                   {completedSteps() === totalSteps() - 1 ? '완료' : '다음 단계'}
                 </Button>
               </Box>
-            </React.Fragment>
+            </>
           )}
         </div>
       </Box>

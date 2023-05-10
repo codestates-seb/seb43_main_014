@@ -2,7 +2,7 @@ import React from 'react';
 // import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Logo from '../images/rocket.png';
+import Logo from '../../images/rocket.png';
 
 const Header = () => {
   //   const navigate = useNavigate();
