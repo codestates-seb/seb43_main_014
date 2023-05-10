@@ -1,9 +1,6 @@
 h4 {
   margin: 0rem;
 }
-input {
-  padding-left: 0.8rem;
-}
 .modalChangeInput {
   display: flex;
   flex-direction: column;
@@ -31,6 +28,7 @@ a:hover {
   background-color: whitesmoke;
   border-radius: 0.3rem;
   border: 0.5px solid var(--bgColor);
+  padding-left: 0.8rem;
 }
 .modalChangeBtn {
   display: flex;
