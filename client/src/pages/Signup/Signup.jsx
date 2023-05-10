@@ -5,9 +5,11 @@ import FormBox from '../../components/common/FormBox/FormBox';
 import LabelInput from '../../components/common/LabelInput/LabelInput';
 import Button from '../../components/common/Button/Button';
 import Oauth from '../../components/common/Oauth/Oauth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -56,12 +58,9 @@ export default function Signup() {
     if (form.phone.trim() === '') {
       newErrors.phone = '휴대폰 번호를 입력해주세요.';
       setValid((prevValid) => ({ ...prevValid, phone: false }));
-    } else if (
-      !/^01([016789]{1}|[5]{1}[0123456789]{1})(\d{3}|\d{4})(\d{4})$/.test(
-        form.phone,
-      )
-    ) {
-      newErrors.phone = '"-" 하이픈은 빼고 입력해주세요!';
+    } else if (!/^010-\d{4}-\d{4}$/.test(form.phone)) {
+      newErrors.phone =
+        "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.";
       setValid((prevValid) => ({ ...prevValid, phone: false }));
     } else {
       newErrors.phone = '올바른 형식입니다.';
@@ -116,6 +115,19 @@ export default function Signup() {
     if (allTrue) {
       // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
+      axios
+        .post(
+          'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/user',
+          form,
+        )
+        .then((res) => {
+          console.log(res);
+          alert('회원가입에 성공하셨습니다.');
+          navigate('/login');
+        })
+        .catch(() => {
+          alert('회원가입에 실패하였습니다.');
+        });
     }
   };
 
