@@ -9,7 +9,9 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
     User userPostDtoToUser(UserDto.Post userPostDto);
+    User userPasswordPatchDtoToUser(UserDto.PasswordPatch userPasswordPatchDto);
 
     UserDto.SignUpResponse userPostToSignUpResponse(User user);
+
 }
 

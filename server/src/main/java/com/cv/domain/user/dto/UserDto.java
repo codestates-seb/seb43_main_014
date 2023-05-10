@@ -18,7 +18,7 @@ public class UserDto {
 
         @NotBlank
         @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+ \\.com$",
-                message = "올바른 이메일을 작성해주세요.")
+                message = "올바른 이메일 양식으로 작성해주세요.")
         @ValidEmail(message = "이메일은 중복될 수 없습니다.")
         private String email;
 
@@ -31,9 +31,14 @@ public class UserDto {
         private String phone;
     }
 
-    public static class Patch{
-
+    @Data
+    public static class PasswordPatch{
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
+                message = "패스워드는 최소 8글자 이상이며, 적어도 하나의 알파벳 문자, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
+        private String password;
     }
+
+
 
     @Data
     public static class SignUpResponse{
