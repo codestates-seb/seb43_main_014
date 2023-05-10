@@ -14,10 +14,10 @@ public class ProjectSkillStack {
     private Long projectSkillStackId;
 
     @ManyToOne
-    @JoinColumn(name = "PROJECT_ID", nullable = false)
+    @JoinColumn(name = "PROJECT_ID")
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "SKILL_STACK_ID", nullable = false)
+    @JoinColumn(name = "SKILL_STACK_ID")
     private SkillStack skillStack;
 }
