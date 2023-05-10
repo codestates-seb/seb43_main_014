@@ -1,4 +1,4 @@
-package com.cv.domain.audit;
+package com.cv.global.audit;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
