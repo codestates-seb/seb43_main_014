@@ -80,6 +80,14 @@
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
 }
+.phoneNum {
+  margin: 0rem;
+}
+.message {
+  display: flex;
+  justify-content: end;
+  font-size: 0.8rem;
+}
 .updataInput input {
   width: 46rem;
   height: 2rem;
@@ -123,4 +131,11 @@
 }
 #cancel:hover {
   background-color: whitesmoke;
+}
+.errorsMsg {
+  color: red;
+}
+
+.successMsg {
+  color: blue;
 }
