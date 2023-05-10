@@ -1,45 +1,3 @@
-.modalContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-.modalBackdrop {
-  /* // TODO : Modal이 떴을 때의 배경을 깔아주는 CSS를 구현합니다. */
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.modalBtn {
-  background-color: var(--blue500);
-  border: 0.5px solid var(--bgColor);
-  border-radius: 0.3rem;
-  font-weight: 500;
-  font-size: 1.2rem;
-  color: rgb(255 255 255);
-  width: 8.4rem;
-  height: 3rem;
-  cursor: pointer;
-}
-.modalBtn:hover {
-  background-color: #94b2f9;
-  border: 0.5px solid var(--bgColor);
-}
-.modalView {
-  background-color: white;
-  width: 30rem;
-  height: auto;
-  display: flex;
-  border-radius: 1rem;
-  padding: 2rem 2rem;
-  border: 1px solid tomato;
-}
 h4 {
   margin-bottom: 1rem;
   margin-top: 0rem;
@@ -49,14 +7,14 @@ h4 {
   margin-bottom: 1rem;
 }
 .modalGuideList {
-  background-color: red;
+  background-color: var(--puple100);
   padding: 0.4rem 0rem;
   margin-top: 0.7rem;
   border-radius: 0.3rem;
 }
 .modalGuideCheck {
   display: flex;
-  background-color: teal;
+  background-color: rgb(204 204 204);
   padding: 1rem;
   border-radius: 0.3rem;
   margin: 2rem 0rem;
@@ -65,13 +23,13 @@ h4 {
   width: 1.3rem;
   height: 1.3rem;
   margin-right: 1rem;
-  accent-color: red;
+  accent-color: #94b2f9;
 }
 .modalGuideBtn {
   display: flex;
   justify-content: end;
 }
-.modalView button {
+.modalGuideBtn button {
   background-color: var(--blue500);
   border: 0.5px solid var(--bgColor);
   border-radius: 0.3rem;
@@ -82,7 +40,7 @@ h4 {
   height: 3rem;
   cursor: pointer;
 }
-.modalView button:hover {
+.modalGuideBtn button:hover {
   background-color: #94b2f9;
   border: 0.5px solid var(--bgColor);
 }
