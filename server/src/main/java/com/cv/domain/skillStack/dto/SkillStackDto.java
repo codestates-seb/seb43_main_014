@@ -1,7 +1,6 @@
 package com.cv.domain.skillStack.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 public class SkillStackDto {
 

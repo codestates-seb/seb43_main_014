@@ -1,28 +1,17 @@
 package com.cv.domain.cv.service;
 
-import com.cv.domain.career.entity.Career;
 import com.cv.domain.career.repository.CareerRepository;
-import com.cv.domain.customSection.entity.CustomSection;
 import com.cv.domain.customSection.repository.CustomSectionRepository;
 import com.cv.domain.cv.entity.Cv;
-import com.cv.domain.cv.entity.CvSkillStack;
-import com.cv.domain.cv.entity.Link;
 import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.repository.LinkRepository;
-import com.cv.domain.education.entity.Education;
 import com.cv.domain.education.repository.EducationRepository;
-import com.cv.domain.project.entity.Project;
 import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
