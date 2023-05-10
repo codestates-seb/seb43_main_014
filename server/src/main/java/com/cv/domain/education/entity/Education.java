@@ -33,6 +33,6 @@ public class Education {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CV_ID", nullable = false)
+    @JoinColumn(name = "CV_ID")
     private Cv cv;
 }

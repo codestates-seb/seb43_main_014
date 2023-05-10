@@ -99,46 +99,4 @@ public class CvService {
 
         return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
-
-    public void injectDownDomain(Cv cv) {
-        List<Link> links = cv.getLinks();
-        List<Link> newLinks = new ArrayList<>();
-        for(Link l : links){
-            l.setCv(cv);
-            newLinks.add(linkRepository.save(l));
-        }
-        cv.setLinks(newLinks);
-
-        List<Project> projects = cv.getProjects();
-        List<Project> newProjects = new ArrayList<>();
-        for(Project p : projects){
-            p.setCv(cv);
-            newProjects.add(projectRepository.save(p));
-        }
-        cv.setProjects(newProjects);
-
-        List<CustomSection> customSections = cv.getCustomSections();
-        List<CustomSection> newCustomSections = new ArrayList<>();
-        for(CustomSection c : customSections){
-            c.setCv(cv);
-            newCustomSections.add(customSectionRepository.save(c));
-        }
-        cv.setCustomSections(newCustomSections);
-
-        List<Education> educations = cv.getEducations();
-        List<Education> newEducations = new ArrayList<>();
-        for(Education e : educations){
-            e.setCv(cv);
-            newEducations.add(educationRepository.save(e));
-        }
-        cv.setEducations(newEducations);
-
-        List<Career> careers = cv.getCareers();
-        List<Career> newCareers = new ArrayList<>();
-        for(Career c : careers){
-            c.setCv(cv);
-            newCareers.add(careerRepository.save(c));
-        }
-        cv.setCareers(newCareers);
-    }
 }
