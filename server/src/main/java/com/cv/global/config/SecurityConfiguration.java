@@ -53,19 +53,18 @@ public class SecurityConfiguration {
                 .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
-                .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/*/user").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/*/user").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/*/user").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/user/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/*/user/**").hasRole("USER")
-                        .antMatchers(HttpMethod.POST, "/*/cv").hasRole("USER")
-                        .antMatchers(HttpMethod.PATCH, "/*/cv").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/*/cv").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/*/cv/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/*/cv/**").hasRole("USER")
-                        .anyRequest().permitAll()
-                );
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
+                .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/cv").hasRole("USER")
+                .antMatchers(HttpMethod.PATCH, "/cv").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/cv").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/cv/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
+                .anyRequest().authenticated(); // 인증되지 않은 요청은 보호되는 리소스에 접근할 수 없음(모든 요청에 대해 인증 요구)
 
         return http.build();
     }
@@ -95,8 +94,12 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // 프론트 단의 origin으로 제한 설정해야함
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // TODO : 프론트 단의 origin으로 제한 설정해야함
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 허용된 HTTP 메서드
+        configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 헤더 허용
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh")); // 클라이언트에게 노출되는 응답 헤더
+        configuration.setAllowCredentials(true); // 클라이언트 요청 헤더에 인증 정보 포함 가능
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
