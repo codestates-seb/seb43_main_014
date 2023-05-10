@@ -19,6 +19,10 @@ public class ProjectDto {
 
         private String projectSubject;
 
+        private String description;
+
+        private String link;
+
         private List<ProjectSkillStackDto.Add> projectSkillStacks;
     }
 
@@ -35,6 +39,10 @@ public class ProjectDto {
         private String endMonth;
 
         private String projectSubject;
+
+        private String description;
+
+        private String link;
 
         private List<ProjectSkillStackDto.Add> projectSkillStacks;
     }

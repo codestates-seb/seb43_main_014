@@ -30,6 +30,8 @@ public class Project {
     @Lob
     private String description;
 
+    private String link;
+
     // TODO : links 추가
 
     @ManyToOne(fetch = FetchType.LAZY)
