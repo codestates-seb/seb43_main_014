@@ -22,7 +22,7 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(length = 10, nullable = false)

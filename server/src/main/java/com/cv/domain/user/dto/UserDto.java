@@ -17,7 +17,7 @@ public class UserDto {
         private String name;
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+ \\.com$",
+        @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.com$",
                 message = "올바른 이메일을 작성해주세요.")
         @ValidEmail(message = "이메일은 중복될 수 없습니다.")
         private String email;
