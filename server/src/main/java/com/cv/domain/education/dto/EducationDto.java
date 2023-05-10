@@ -26,7 +26,6 @@ public class EducationDto {
     }
 
     @Data
-    @Builder
     public static class Response {
         private long educationId;
 

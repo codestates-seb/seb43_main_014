@@ -21,8 +21,6 @@ public class CareerDto {
 
         private String duty;
 
-        private String companyInformation;
-
         private String developmentJob;
 
         private List<CareerSkillStackDto.Add> careerSkillStacks;
@@ -35,8 +33,6 @@ public class CareerDto {
         private String companyName;
 
         private String duty;
-
-        private String companyInformation;
 
         private String developmentJob;
 

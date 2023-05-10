@@ -1,15 +1,15 @@
 package com.cv.domain.cv.entity;
 
 import com.cv.domain.skillStack.entity.SkillStack;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 public class CvSkillStack {
 

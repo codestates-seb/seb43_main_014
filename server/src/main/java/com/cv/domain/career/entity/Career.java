@@ -27,8 +27,6 @@ public class Career {
 
     private String companyName;
 
-    private String companyInformation;
-
     private String duty;    // 직책
 
     private String developmentJob;
