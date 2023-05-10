@@ -10,13 +10,14 @@ import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.entity.Link;
 import com.cv.domain.cv.entity.Portfolio;
+import com.cv.domain.education.mapper.EducationMapper;
 import com.cv.domain.project.mapper.ProjectMapper;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {
-        ProjectMapper.class, CareerMapper.class, CustomSectionMapper.class
+        ProjectMapper.class, CareerMapper.class, CustomSectionMapper.class, EducationMapper.class
 })
 public interface CvMapper {
     Cv cvPostToCv(CvDto.Post post);

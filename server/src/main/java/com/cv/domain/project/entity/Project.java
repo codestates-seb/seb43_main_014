@@ -1,14 +1,14 @@
 package com.cv.domain.project.entity;
 
 import com.cv.domain.cv.entity.Cv;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Project {

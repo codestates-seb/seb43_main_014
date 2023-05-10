@@ -64,4 +64,47 @@ public class Cv {
 
     @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
     private List<Portfolio> portfolios = new ArrayList<>();
+
+//    public void setCvSkillStacks(CvSkillStack cvSkillStack){
+//        this.cvSkillStacks.add(cvSkillStack);
+//        if(cvSkillStack.getCv() != this){
+//            cvSkillStack.setCv(this);
+//        }
+//    }
+//    public void setEducations(Education education){
+//        this.educations.add(education);
+//        if(education.getCv() != this){
+//            education.setCv(this);
+//        }
+//    }
+//    public void setCustomSections(CustomSection customSection){
+//        this.customSections.add(customSection);
+//        if(customSection.getCv() != this){
+//            customSection.setCv(this);
+//        }
+//    }
+//    public void setProjects(Project project){
+//        this.projects.add(project);
+//        if(project.getCv() != this){
+//            project.setCv(this);
+//        }
+//    }
+//    public void setCareers(Career career){
+//        this.careers.add(career);
+//        if(career.getCv() != this){
+//            career.setCv(this);
+//        }
+//    }
+//    public void setLinks(Link link){
+//        this.links.add(link);
+//        if(link.getCv() != this){
+//            link.setCv(this);
+//        }
+//    }
+//    public void setPortfolios(Portfolio portfolio){
+//        this.portfolios.add(portfolio);
+//        if(portfolio.getCv() != this){
+//            portfolio.setCv(this);
+//        }
+//    }
 }

@@ -1,12 +1,12 @@
 package com.cv.domain.customSection.entity;
 
 import com.cv.domain.cv.entity.Cv;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class CustomSection {

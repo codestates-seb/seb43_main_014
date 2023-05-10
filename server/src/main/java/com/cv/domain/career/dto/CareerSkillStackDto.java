@@ -2,6 +2,7 @@ package com.cv.domain.career.dto;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 public class CareerSkillStackDto {
 

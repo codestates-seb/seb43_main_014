@@ -29,6 +29,7 @@ public class CvController {
     public ResponseEntity<CvDto.Response> postCv(@RequestBody @Valid CvDto.Post requestBody){
         Cv postCv = mapper.cvPostToCv(requestBody);
         Cv cv = cvService.createCv(postCv);
+        cvService.injectDownDomain(cv);
         return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.CREATED);
     }
 
