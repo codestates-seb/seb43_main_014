@@ -33,7 +33,7 @@ public class Project {
     // TODO : links 추가
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CV_ID", nullable = false)
+    @JoinColumn(name = "CV_ID")
     private Cv cv;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)

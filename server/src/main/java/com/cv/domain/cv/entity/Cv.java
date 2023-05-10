@@ -44,25 +44,25 @@ public class Cv {
 
     private Boolean isDelete = false;
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<CvSkillStack> cvSkillStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Education> educations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<CustomSection> customSections = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Project> projects = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Career> careers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Link> links = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cv", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Portfolio> portfolios = new ArrayList<>();
 
     public void setCvSkillStacks(List<CvSkillStack> cvSkillStacks){
