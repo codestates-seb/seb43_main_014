@@ -2,20 +2,22 @@ package com.cv.domain.user.dto;
 
 import com.cv.domain.user.validator.ValidEmail;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class UserDto {
-    @Getter
     @AllArgsConstructor
+    @Data
     public static class Post {
         @NotBlank(message = "이름은 공백이 아니어야 합니다.")
         private String name;
 
         @NotBlank
-        @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+ \\.com$",
+        @Pattern(regexp = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.com$",
                 message = "올바른 이메일을 작성해주세요.")
         @ValidEmail(message = "이메일은 중복될 수 없습니다.")
         private String email;
@@ -31,5 +33,10 @@ public class UserDto {
 
     public static class Patch{
 
+    }
+
+    @Data
+    public static class SignUpResponse{
+        private Long userId;
     }
 }

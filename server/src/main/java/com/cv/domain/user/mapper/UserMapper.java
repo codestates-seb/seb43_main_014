@@ -8,7 +8,8 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
-    User userPostDtoToUser(UserDto.Post requestBody);
+    User userPostDtoToUser(UserDto.Post userPostDto);
 
+    UserDto.SignUpResponse userPostToSignUpResponse(User user);
 }
 
