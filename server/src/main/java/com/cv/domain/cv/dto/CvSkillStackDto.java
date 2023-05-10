@@ -12,7 +12,7 @@ public class CvSkillStackDto {
         private String description;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long skillStackId;
 
