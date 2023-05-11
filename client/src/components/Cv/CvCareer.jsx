@@ -452,11 +452,9 @@ const CvCareerInfo = () => {
 export default CvCareerInfo;
 
 const InputContainer = styled.div`
-  margin: 0rem 4rem 4rem 4rem;
+  margin: 0rem 4rem 8rem 4rem;
   display: flex;
   flex-direction: column;
-
-  border: 1px solid blue;
   width: 55rem;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -472,6 +470,7 @@ const InputContainer = styled.div`
   }
   span {
     font-size: 1rem;
+    color: gray;
   }
 
   .name1 {
@@ -479,7 +478,7 @@ const InputContainer = styled.div`
     flex-direction: column;
     width: 50%;
     input {
-      width: 22rem;
+      width: 24rem;
     }
   }
   .name2 {
@@ -487,34 +486,23 @@ const InputContainer = styled.div`
     flex-direction: column;
     width: 50%;
     input {
-      width: 22rem;
+      width: 24.5rem;
     }
-
-    border: 1px solid black;
   }
   .test2 {
-    border: 1px solid red;
     display: flex;
   }
 
   .body {
     margin: 3rem;
-    border: 1px solid skyblue;
   }
   .birth2 {
     width: 32.2rem;
-    border: 1px solid red;
   }
   .develop {
-    border: 1px solid red;
     width: 16.8rem;
   }
-  .tag {
-    border: 1px solid green;
-  }
-  .link {
-    border: 1px solid blue;
-  }
+
   .intro {
     input {
       width: 100%;
@@ -523,26 +511,26 @@ const InputContainer = styled.div`
   }
   .port {
     width: 20rem;
-    border: 1px solid blue;
   }
   .school {
     input {
       width: 100%;
     }
-    border: 1px solid blue;
   }
 `;
 
 const StyledButton = styled.button`
   width: 100%;
   height: 3.5rem;
-  font-size: 0, 8rem;
+  font-size: 0.8rem;
+  font-weight: bold;
   cursor: pointer;
   padding: 1rem;
   border: none;
   border-radius: 0.3rem var(--puple100);
   background-color: var(--bgColor);
-  color: black;
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   &:hover {
     background-color: var(--puple300);
@@ -552,7 +540,8 @@ const StyledButton = styled.button`
 const StyledDeleteButton = styled.button`
   width: 6rem;
   height: 2rem;
-  font-size: 0, 8rem;
+  font-size: 0.8rem;
+  font-weight: bold;
   cursor: pointer;
   border: none;
   border-radius: 0.3rem var(--puple100);

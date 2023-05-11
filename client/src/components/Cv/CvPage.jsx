@@ -8,6 +8,8 @@ import { useState } from 'react';
 import CvBasicInfo from './CvBasicInfo';
 import CvCareer from './CvCareer';
 import CvSkillInput from './CvCustomInput';
+import CompletePage from './CompletePage';
+import CvTemplate from './CvTemplate';
 
 export default function CvPage() {
   const [activeStep, setActiveStep] = useState(0);
@@ -17,13 +19,10 @@ export default function CvPage() {
       case 0:
         return <CvBasicInfo />;
       case 1:
-        return (
-          <>
-            <CvCareer />
-          </>
-        );
+        return <CvCareer />;
+
       case 2:
-        return '이력서 작성이 완료되었습니다. 수정할 사항이 있다면 이전버튼, 이력서를 저장하시려면 완료 버튼을 눌러주세요';
+        return <CompletePage />;
     }
   };
   const handleNext = () => {
@@ -72,7 +71,7 @@ export default function CvPage() {
                   다시 작성하기
                 </StyledResetButton>
               </div>
-              <div>템플릿 적용하여 작성된 이력서 보여주기</div>
+              <CvTemplate />
             </>
           )}
         </div>
@@ -85,10 +84,8 @@ const Container = styled.div`
   margin: 0 auto;
   width: 63rem;
   margin-top: 2rem;
-  border: 1px solid green;
 
   .test {
-    border: 1px solid green;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,12 +96,14 @@ const StyledButton = styled.button`
   width: 5rem;
   height: 2rem;
   font-size: 0.8rem;
+  font-weight: bold;
   cursor: pointer;
-  margin: 1rem;
+  margin: 2rem;
   border: none;
   border-radius: 0.3rem var(--puple100);
   background-color: var(--bgColor);
-  color: black;
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   &:hover {
     background-color: var(--puple300);
@@ -114,13 +113,15 @@ const StyledButton = styled.button`
 const StyledSaveButton = styled.button`
   width: 7rem;
   height: 2rem;
+  margin: 2rem;
   font-size: 0.8rem;
+  font-weight: bold;
   cursor: pointer;
-  margin: 1rem;
   border: none;
   border-radius: 0.3rem var(--puple100);
   background-color: var(--bgColor);
-  color: black;
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   &:hover {
     background-color: var(--puple300);
@@ -131,12 +132,14 @@ const StyledResetButton = styled.button`
   width: 7rem;
   height: 2rem;
   font-size: 0.8rem;
+  font-weight: bold;
   cursor: pointer;
   margin: 1rem;
   border: none;
   border-radius: 0.3rem var(--puple100);
   background-color: var(--bgColor);
-  color: black;
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   &:hover {
     background-color: var(--puple300);
