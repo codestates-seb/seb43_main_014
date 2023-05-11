@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// JWTAuthenticationFilter에서 인증에 성공했을 경우 발생하는 핸들러
 @Slf4j
 public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Override

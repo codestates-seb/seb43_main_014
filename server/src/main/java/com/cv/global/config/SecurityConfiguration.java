@@ -1,15 +1,14 @@
 package com.cv.global.config;
 
+import com.cv.domain.user.service.UserService;
 import com.cv.global.auth.filter.JwtAuthenticationFilter;
 import com.cv.global.auth.filter.JwtVerificationFilter;
-import com.cv.global.auth.handler.UserAccessDeniedHandler;
-import com.cv.global.auth.handler.UserAuthenticationEntryPoint;
-import com.cv.global.auth.handler.UserAuthenticationFailureHandler;
-import com.cv.global.auth.handler.UserAuthenticationSuccessHandler;
+import com.cv.global.auth.handler.*;
 import com.cv.global.auth.jwt.JwtTokenizer;
 import com.cv.global.auth.utils.UserAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,10 +30,12 @@ import static org.springframework.security.config.Customizer.*;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final UserAuthorityUtils authorityUtils;
+    private final UserService userService;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, UserAuthorityUtils authorityUtils) {
+    public SecurityConfiguration(@Lazy JwtTokenizer jwtTokenizer, @Lazy UserAuthorityUtils authorityUtils, @Lazy UserService userService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.userService = userService;
     }
 
     @Bean
@@ -53,18 +55,21 @@ public class SecurityConfiguration {
                 .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
-                .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/cv").hasRole("USER")
-                .antMatchers(HttpMethod.PATCH, "/cv").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/cv").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/cv/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
-                .anyRequest().authenticated(); // 인증되지 않은 요청은 보호되는 리소스에 접근할 수 없음(모든 요청에 대해 인증 요구)
+                .authorizeRequests(authorize -> authorize
+                        .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
+                        .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/user/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.POST, "/cv").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/cv").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/cv").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.GET, "/cv/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().authenticated() // 인증되지 않은 요청은 보호되는 리소스에 접근할 수 없음(모든 요청에 대해 인증 요구)
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, authorityUtils, userService)));
 
         return http.build();
     }
@@ -82,7 +87,8 @@ public class SecurityConfiguration {
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
 
             builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }
 
