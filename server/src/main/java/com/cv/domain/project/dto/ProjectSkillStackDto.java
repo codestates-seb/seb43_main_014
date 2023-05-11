@@ -18,6 +18,6 @@ public class ProjectSkillStackDto {
 
         private String skillName;
 
-        private String description;
+//        private String description;
     }
 }

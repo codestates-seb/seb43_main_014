@@ -19,6 +19,6 @@ public class CareerSkillStackDto {
 
         private String skillName;
 
-        private String description;
+//        private String description;
     }
 }
