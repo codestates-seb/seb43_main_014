@@ -1,5 +1,6 @@
 package com.cv.domain.cv.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
@@ -7,9 +8,9 @@ public class CvSkillStackDto {
 
     @Data
     public static class Add {
-        private String skillName;
+        private long skillStackId;
 
-        private String description;
+//        private String description;
     }
 
     @Data
@@ -18,6 +19,6 @@ public class CvSkillStackDto {
 
         private String skillName;
 
-        private String description;
+//        private String description;
     }
 }
