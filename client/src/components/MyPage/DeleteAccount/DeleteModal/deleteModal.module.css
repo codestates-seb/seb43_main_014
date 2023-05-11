@@ -29,18 +29,32 @@ h4 {
   display: flex;
   justify-content: end;
 }
-.modalGuideBtn button {
+.deleteBtn {
   background-color: var(--blue500);
   border: 0.5px solid var(--bgColor);
   border-radius: 0.3rem;
   font-weight: 500;
   font-size: 1.2rem;
-  color: rgb(255 255 255);
+  color: rgb(255, 255, 255);
   width: 8.4rem;
   height: 3rem;
   cursor: pointer;
 }
-.modalGuideBtn button:hover {
+.deleteBtn:hover {
   background-color: #94b2f9;
   border: 0.5px solid var(--bgColor);
+}
+.notBtn {
+  background-color: rgb(204, 204, 204);
+  border: 0.5px solid lightgray;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: rgb(255, 255, 255);
+  width: 8.4rem;
+  height: 3rem;
+}
+.notBtn:hover {
+  cursor: not-allowed;
+  background-color: rgb(180, 180, 180);
 }
