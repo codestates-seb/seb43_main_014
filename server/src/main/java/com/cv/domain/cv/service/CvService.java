@@ -3,30 +3,35 @@ package com.cv.domain.cv.service;
 import com.cv.domain.career.repository.CareerRepository;
 import com.cv.domain.customSection.repository.CustomSectionRepository;
 import com.cv.domain.cv.entity.Cv;
+import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.repository.CvRepository;
+import com.cv.domain.cv.repository.CvSkillStackRepository;
 import com.cv.domain.cv.repository.LinkRepository;
 import com.cv.domain.education.repository.EducationRepository;
 import com.cv.domain.project.repository.ProjectRepository;
+import com.cv.domain.skillStack.entity.SkillStack;
+import com.cv.domain.skillStack.repository.SkillStackRepository;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class CvService {
 
     private final CvRepository cvRepository;
-    private final CustomSectionRepository customSectionRepository;
-    private final LinkRepository linkRepository;
-    private final ProjectRepository projectRepository;
-    private final EducationRepository educationRepository;
-    private final CareerRepository careerRepository;
+    private final SkillStackRepository skillStackRepository;
+    private final CvSkillStackRepository cvSkillStackRepository;
 
     public Cv createCv(Cv cv){
         // TODO user 정보가 있는지 확인하는 로직 추가
+        findExistSkillStack(cv);
+
         return cvRepository.save(cv);
     }
 
@@ -88,4 +93,36 @@ public class CvService {
 
         return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
+
+    private void findExistSkillStack(Cv cv) {
+        for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
+            SkillStack findSkillStack =skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+            cvSkillStack.setSkillStack(findSkillStack);
+        }
+    }
+//
+//    private void putInformationForSkillStack(Cv cv) {
+//        List<CvSkillStack> cvSkillStackList = cv.getCvSkillStacks().stream()
+//                .map(cvSkillStack -> {
+//                    SkillStack skillStack;
+//                    Optional<SkillStack> optionalSkillStack = skillStackRepository.findBySkillName((cvSkillStack.getSkillStack().getSkillName()));
+//                    if (optionalSkillStack.isEmpty()) {
+//                        throw new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND);
+//                    } else {
+//                        skillStack = optionalSkillStack.get();
+//                        cvSkillStack.setSkillStack(skillStack);
+//                    }
+//                    skillStack.addCvSkillStack(cvSkillStack);
+//                    return cvSkillStack;
+//                })
+//                .collect(Collectors.toList());
+//
+//        cvSkillStackList.stream()
+//                .map(cvSkillStackRepository::save)
+//                .collect(Collectors.toList());
+//
+//        cv.setCvSkillStacks(cvSkillStackList);
+//    }
 }
