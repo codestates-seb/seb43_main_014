@@ -6,13 +6,13 @@ import ProfileCard from './ProfileCard/ProfileCard';
 const Profile = () => {
   const name = '도현';
   const email = `kdohyn98@github.com`;
-  const phon = '01012341234';
+  const phone = '01012341234';
   const [infoUpdata, setInfoUpdata] = useState(false);
   // const [userName, setUserName] = useState(name);
   const [inputs, setInputs] = useState({
     name: name,
     email: email,
-    phone: phon,
+    phone: phone,
   });
 
   return (
