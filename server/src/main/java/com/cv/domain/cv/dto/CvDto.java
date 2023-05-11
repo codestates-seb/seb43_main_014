@@ -49,7 +49,37 @@ public class CvDto {
 
     @Data
     public static class Patch {
+        private long cvId;
 
+        private String name;
+
+        private String email;
+
+        private String phone;
+
+        private String address;
+
+        private String birthDay;
+
+        private String birthMonth;
+
+        private String birthYear;
+
+        private String selfIntroduction;
+
+        private String developmentJob;
+
+        private List<CvSkillStackDto.Add> cvSkillStacks;
+
+        private List<EducationDto.Add> educations;
+
+        private List<CareerDto.Add> careers;
+
+        private List<CustomSectionDto.Add> customSections;
+
+        private List<ProjectDto.Add> projects;
+
+        private List<LinkDto.Add> links;
     }
 
     @Data
@@ -73,6 +103,8 @@ public class CvDto {
         private String selfIntroduction;
 
         private String developmentJob;
+
+        private Boolean isDelete;
 
         private List<CvSkillStackDto.Response> cvSkillStacks;
 

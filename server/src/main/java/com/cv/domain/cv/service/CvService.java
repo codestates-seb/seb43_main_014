@@ -64,23 +64,35 @@ public class CvService {
         Optional.ofNullable(cv.getDevelopmentJob())
                 .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
 
-        findCv.getCvSkillStacks().clear();
-        findCv.getCvSkillStacks().addAll(cv.getCvSkillStacks());
+        if (!findCv.getCareers().isEmpty()) {
+            findCv.getCvSkillStacks().clear();
+            findCv.getCvSkillStacks().addAll(cv.getCvSkillStacks());
+        }
 
-        findCv.getLinks().clear();
-        findCv.getLinks().addAll(cv.getLinks());
+        if (!findCv.getCareers().isEmpty()) {
+            findCv.getLinks().clear();
+            findCv.getLinks().addAll(cv.getLinks());
+        }
 
-        findCv.getPortfolios().clear();
-        findCv.getPortfolios().addAll(cv.getPortfolios());
+        if (!findCv.getCareers().isEmpty()) {
+            findCv.getPortfolios().clear();
+            findCv.getPortfolios().addAll(cv.getPortfolios());
+        }
 
-        findCv.getEducations().clear();
-        findCv.getEducations().addAll(cv.getEducations());
+        if (!findCv.getCareers().isEmpty()) {
+            findCv.getEducations().clear();
+            findCv.getEducations().addAll(cv.getEducations());
+        }
 
-        findCv.getCareers().clear();
-        findCv.getCareers().addAll(cv.getCareers());
+        if (!findCv.getCareers().isEmpty()) {
+            findCv.getCareers().clear();
+            findCv.getCareers().addAll(cv.getCareers());
+        }
 
-        findCv.getProjects().clear();
-        findCv.getProjects().addAll(cv.getProjects());
+        if (!findCv.getCareers().isEmpty()) {
+            findCv.getProjects().clear();
+            findCv.getProjects().addAll(cv.getProjects());
+        }
 
         return cvRepository.save(findCv);
     }
