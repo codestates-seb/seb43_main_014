@@ -38,6 +38,7 @@ public class UserDetailsService implements org.springframework.security.core.use
             setEmail(user.getEmail());
             setPassword(user.getPassword());
             setRoles(user.getRoles());
+            setName(user.getName());
         }
 
         @Override

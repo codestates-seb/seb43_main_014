@@ -67,7 +67,7 @@ public class CvService {
         Optional.ofNullable(cv.getDevelopmentJob())
                 .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
 
-        if (!findCv.getEducations().isEmpty()) {
+        if (cv.getEducations() != null) {
             for (int i = 0; i < cv.getEducations().size(); i++) {
                 findCv.getEducations().get(i).setAdmissionYear(cv.getEducations().get(i).getAdmissionYear());
                 findCv.getEducations().get(i).setAdmissionMonth(cv.getEducations().get(i).getAdmissionMonth());
@@ -85,7 +85,7 @@ public class CvService {
                 }
             }
         } else {
-            findCv.getEducations().clear();
+            findCv.setEducations(null);
         }
 
 
