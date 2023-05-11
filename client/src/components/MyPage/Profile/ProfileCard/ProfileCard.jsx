@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './profileCard.module.css';
 
-const ProfileCard = ({ setInfoUpdata }) => {
+const ProfileCard = ({ inputs, userName, setInfoUpdata }) => {
+  const { name, email, phone } = inputs;
   return (
     <>
       <div className={styles.proCard}>
@@ -13,9 +14,9 @@ const ProfileCard = ({ setInfoUpdata }) => {
             />
           </div>
           <div className={styles.proInfo}>
-            <span className={styles.info}>김도현</span>
-            <span className={styles.email}>kdohyn98@github.com</span>
-            <span className={styles.num}>010-0000-0000</span>
+            <span className={styles.info}>{name}</span>
+            <span className={styles.email}>{email}</span>
+            <span className={styles.num}>{phone}</span>
           </div>
         </div>
         <div className={styles.updata}>
