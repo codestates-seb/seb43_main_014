@@ -6,91 +6,80 @@ import Button from '../../components/common/Button/Button';
 import LabelInput from '../../components/common/LabelInput/LabelInput';
 import { Link, useNavigate } from 'react-router-dom';
 import Oauth from '../../components/common/Oauth/Oauth';
-import { useSetRecoilState } from 'recoil';
-import { TokenAtom } from '../../recoil/TokenAtom';
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
+import { isLoginSelector, tokenState } from '../../recoil/TokenAtom';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { validate } from '../../utils/validate-login';
 
 export default function Login() {
   const navigate = useNavigate();
+  const Tokenvalue = useRecoilValue(tokenState);
+
+  const [cookies, setCookie] = useCookies(['token']); // useCookies
+
+  const setToken = useSetRecoilState(tokenState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginSelector);
+  console.log(isLogin); // 로그인시 : false -> true
+
+  // InputValueState
   const [form, setForm] = useState({
-    email: '',
+    username: '',
     password: '',
   });
-
   const [errors, setErrors] = useState({
-    email: '',
+    username: '',
     password: '',
   });
-
   const [valid, setValid] = useState({
-    email: false,
+    username: false,
     password: false,
   });
 
-  const validate = (form) => {
-    const newErrors = {
-      email: '',
-      password: '',
-    };
-
-    if (form.email.trim() === '') {
-      newErrors.email = '이메일을 입력해주세요.';
-      setValid((prevValid) => ({ ...prevValid, email: false }));
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(form.email)) {
-      newErrors.email = '올바른 이메일 형식이 아닙니다.';
-      setValid((prevValid) => ({ ...prevValid, email: false }));
-    } else {
-      newErrors.email = '올바른 형식입니다.';
-      setValid((prevValid) => ({ ...prevValid, email: true }));
-    }
-
-    if (form.password.trim() === '') {
-      newErrors.password = '비밀번호를 입력해주세요.';
-      setValid((prevValid) => ({ ...prevValid, password: false }));
-    } else if (form.password.length < 8) {
-      newErrors.password = '비밀번호는 8자리 이상이어야 합니다.';
-      setValid((prevValid) => ({ ...prevValid, password: false }));
-    } else if (
-      !/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/.test(form.password)
-    ) {
-      newErrors.password =
-        '영문자, 숫자, 특수문자를 포함한 8글자 이상의 비밀번호를 입력해주세요.';
-      setValid((prevValid) => ({ ...prevValid, password: false }));
-    } else {
-      newErrors.password = '올바른 형식입니다.';
-      setValid((prevValid) => ({ ...prevValid, password: true }));
-    }
-    setErrors(newErrors);
-  };
-
   const allTrue = Object.values(valid).every((value) => value === true);
-
-  const setAccessToken = useSetRecoilState(TokenAtom);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (allTrue) {
-      // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
-      axios.post('API/login', form).then((res) => {
-        console.log(res.data);
-        setAccessToken(res.data.accessToken);
-        navigate('/');
-      });
+      axios
+        .post(
+          'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
+          form,
+          {
+            withCredentials: true,
+          },
+        )
+        .then((res) => {
+          console.log(res.headers);
+          console.log(res);
+
+          // 토큰 값을 Recoil 상태로 업데이트합니다.
+          const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
+          setToken(token); // 토큰을 리코일 상태에 저장
+          console.log(Tokenvalue);
+          setCookie('token', token, { path: '/' }); // 토큰을 쿠키에 저장
+          alert('로그인 성공!');
+          navigate('/');
+        })
+        .catch(() => {
+          alert('로그인 실패!');
+        });
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      // 공백이 포함되어 있다면
       alert('공백은 입력할 수 없습니다.');
       e.preventDefault(); // 입력 막기
       return;
     }
+    console.log({ ...form, [name]: value });
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-    validate({ ...form, [name]: value });
+    const [newErrors, newValid] = validate({ ...form, [name]: value });
+    setErrors(newErrors);
+    setValid(newValid);
   };
 
   return (
@@ -109,13 +98,15 @@ export default function Login() {
           <LabelInput
             labelText="이메일"
             type="text"
-            name="email"
+            name="username"
             placeholder="이메일을 입력해주세요."
-            value={form.email}
+            value={form.username}
             handleChange={handleChange}
           />
-          <div className={valid.email ? styles.successMsg : styles.errorsMsg}>
-            {errors.email}
+          <div
+            className={valid.username ? styles.successMsg : styles.errorsMsg}
+          >
+            {errors.username}
           </div>
           <LabelInput
             labelText="비밀번호"
