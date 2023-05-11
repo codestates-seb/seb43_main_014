@@ -88,6 +88,7 @@
 .notInput {
   color: #ababab;
   cursor: not-allowed;
+  width: 46rem;
 }
 
 /** 유저 정보 수정 버튼*/
