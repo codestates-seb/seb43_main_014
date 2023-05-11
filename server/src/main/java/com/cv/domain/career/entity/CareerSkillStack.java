@@ -17,7 +17,7 @@ public class CareerSkillStack {
     private Long careerSkillStackId;
 
     @ManyToOne
-    @JoinColumn(name = "CAREER_ID", nullable = false)
+    @JoinColumn(name = "CAREER_ID")
     private Career career;
 
     @ManyToOne

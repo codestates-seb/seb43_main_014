@@ -36,6 +36,6 @@ public class Project {
     @JoinColumn(name = "CV_ID")
     private Cv cv;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectSkillStack> projectSkillStacks = new ArrayList<>();
 }

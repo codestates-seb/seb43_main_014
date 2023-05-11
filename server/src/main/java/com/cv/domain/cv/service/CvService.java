@@ -31,14 +31,18 @@ public class CvService {
 
     private final CvRepository cvRepository;
     private final SkillStackRepository skillStackRepository;
+    private final CareerSkillStackRepository careerSkillStackRepository;
+    private final CareerRepository careerRepository;
+
 
     public Cv createCv(Cv cv){
         // TODO user 정보가 있는지 확인하는 로직 추가
-        findExistSkillStack(cv);
-
         return cvRepository.save(cv);
     }
+    public void injectLowDomain(Cv cv){
 
+        findExistSkillStack(cv);
+    }
     public Cv updateCv(Cv cv) {
         Cv findCv = findVerifiedCv(cv.getCvId());
 
@@ -136,6 +140,9 @@ public class CvService {
                         .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
 
                 careerSkillStack.setSkillStack(findSkillStack);
+
+                careerSkillStack.setCareer(career);
+                careerSkillStackRepository.save(careerSkillStack);
             }
         }
 

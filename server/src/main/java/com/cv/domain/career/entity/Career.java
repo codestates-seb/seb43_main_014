@@ -34,7 +34,7 @@ public class Career {
     @Lob
     private String description;
 
-    @OneToMany(mappedBy = "career")
+    @OneToMany(mappedBy = "career", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<CareerSkillStack> careerSkillStacks = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
