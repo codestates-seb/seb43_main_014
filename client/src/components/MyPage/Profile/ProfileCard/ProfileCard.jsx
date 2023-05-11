@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './profileCard.module.css';
 
-const ProfileCard = ({ inputs, userName, setInfoUpdata }) => {
+const ProfileCard = ({ inputs, setInfoUpdata }) => {
   const { name, email, phone } = inputs;
   return (
     <>

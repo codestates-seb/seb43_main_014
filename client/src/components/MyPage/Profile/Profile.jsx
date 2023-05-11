@@ -3,17 +3,8 @@ import styles from './profile.module.css';
 import ProfileUpdata from './ProfileUpdata/ProfileUpdata';
 import ProfileCard from './ProfileCard/ProfileCard';
 
-const Profile = () => {
-  const name = '도현';
-  const email = `kdohyn98@github.com`;
-  const phone = '01012341234';
+const Profile = ({ inputs, setInputs }) => {
   const [infoUpdata, setInfoUpdata] = useState(false);
-  // const [userName, setUserName] = useState(name);
-  const [inputs, setInputs] = useState({
-    name: name,
-    email: email,
-    phone: phone,
-  });
 
   return (
     <div>
@@ -24,11 +15,7 @@ const Profile = () => {
           setInfoUpdata={setInfoUpdata}
         />
       ) : (
-        <ProfileCard
-          inputs={inputs}
-          setInfoUpdata={setInfoUpdata}
-          // onChange={onChange}
-        />
+        <ProfileCard inputs={inputs} setInfoUpdata={setInfoUpdata} />
       )}
     </div>
   );
