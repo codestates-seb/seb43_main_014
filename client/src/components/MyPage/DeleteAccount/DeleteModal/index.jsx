@@ -4,11 +4,11 @@ import axios from 'axios';
 import Modal from '../../../common/Modal';
 // role: 'dialog',
 
-const DeleteModal = ({ openModalHandler }) => {
+const DeleteModal = ({ openModalHandler, inputs }) => {
   const [check, setCheck] = useState(false);
-
+  const { name, email } = inputs;
   const onSubmit = () => {
-    axios.delete(``, {});
+    axios.delete(``);
     console.log('btn');
   };
   const onCheck = () => {
@@ -20,7 +20,7 @@ const DeleteModal = ({ openModalHandler }) => {
         <div>
           <h4>계정 삭제</h4>
           <div className={styles.modalGuide}>
-            (이름) 님(email)의 계정 삭제를 선택 하였습니다.
+            {name} 님({email})의 계정 삭제를 선택 하였습니다.
           </div>
           <span>프로필 정보</span>
           <div className={styles.modalGuideList}>
@@ -42,9 +42,18 @@ const DeleteModal = ({ openModalHandler }) => {
             </span>
           </div>
           <div className={styles.modalGuideBtn}>
-            <button type="submit" disabled={!check} onClick={onSubmit}>
-              계정 삭제하기
-            </button>
+            {check ? (
+              <button
+                className={styles.deleteBtn}
+                type="submit"
+                disabled={!check}
+                onClick={onSubmit}
+              >
+                계정 삭제하기
+              </button>
+            ) : (
+              <button className={styles.notBtn}>계정 삭제하기</button>
+            )}
           </div>
         </div>
       </Modal>
