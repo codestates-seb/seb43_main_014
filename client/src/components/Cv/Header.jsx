@@ -4,25 +4,26 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logo from '../../images/rocket.png';
 import { isLoginSelector, tokenState } from '../../recoil/TokenAtom';
 import { useRecoilState } from 'recoil';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [isLogin, setIsLogin] = useRecoilState(isLoginSelector);
   const [token, setToken] = useRecoilState(tokenState);
   console.log(isLogin);
 
   const handleLogout = () => {
-    removeCookie('token'); // 쿠키 저장소에서 토큰 제거
-    setToken(''); // 리코일 토큰 상태 초기화
     axios
       .delete(
         'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/logout',
       )
       .then((res) => {
-        console.log(res);
+        removeCookie('token'); // 쿠키 저장소에서 토큰 제거
+        setToken(''); // 리코일 토큰 상태 초기화
+        navigate('/');
       })
       .catch((error) => {
         console.log(error);

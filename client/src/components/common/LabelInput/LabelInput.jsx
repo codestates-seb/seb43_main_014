@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './LabelInput.module.css';
 import { Link } from 'react-router-dom';
+import Modal from '../../common/Modal/index';
+import Button from '../Button/Button';
 
 export default function LabelInput({
   labelText,
@@ -13,6 +15,13 @@ export default function LabelInput({
   value,
   handleChange,
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const valid = false;
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
   // 라벨없는 인풋창! (ex.비밀번호 확인)
   if (isNoLabel) {
     return (
@@ -42,8 +51,27 @@ export default function LabelInput({
             비밀번호 재설정
           </Link>
         )}
-        {duplicate && <div className={styles.duplicate}>중복확인</div>}
+        {duplicate && (
+          <div className={styles.duplicate} onClick={openModalHandler}>
+            중복확인
+          </div>
+        )}
       </div>
+      {isOpen && (
+        <Modal openModalHandler={openModalHandler}>
+          {valid ? (
+            <div className={styles.center}>
+              <p>사용 가능한 이메일입니다.</p>
+              <Button text="사용하기" />
+            </div>
+          ) : (
+            <div className={styles.center}>
+              <p>이미 존재하는 이메일입니다.</p>
+              <Button text="다른 이메일 작성하기" />
+            </div>
+          )}
+        </Modal>
+      )}
       <input
         className={styles.input}
         id={name}
