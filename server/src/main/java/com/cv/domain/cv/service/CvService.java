@@ -13,6 +13,8 @@ import com.cv.domain.education.entity.Education;
 import com.cv.domain.education.repository.EducationRepository;
 import com.cv.domain.project.entity.Project;
 import com.cv.domain.project.repository.ProjectRepository;
+import com.cv.domain.skillStack.entity.SkillStack;
+import com.cv.domain.skillStack.repository.SkillStackRepository;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +37,11 @@ public class CvService {
     private final ProjectRepository projectRepository;
     private final EducationRepository educationRepository;
     private final CareerRepository careerRepository;
+    private final SkillStackRepository skillStackRepository;
 
     public Cv createCv(Cv cv){
         // TODO user 정보가 있는지 확인하는 로직 추가
+        findExistSkillStack(cv);
         return cvRepository.save(cv);
     }
 
@@ -98,5 +102,14 @@ public class CvService {
         Optional<Cv> optionalCv = cvRepository.findById(cvId);
 
         return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
+    }
+
+    private void findExistSkillStack(Cv cv) {
+        for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
+            SkillStack findSkillStack = skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
+                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+            cvSkillStack.setSkillStack(findSkillStack);
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.cv.domain.cv.entity.Portfolio;
 import com.cv.domain.education.mapper.EducationMapper;
 import com.cv.domain.project.mapper.ProjectMapper;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -23,8 +24,10 @@ public interface CvMapper {
     Cv cvPostToCv(CvDto.Post post);
     Cv cvPatchToCv(CvDto.Patch patch);
     CvDto.Response cvToCvResponse(Cv cv);
-
+    @Mapping(source = "skillStackId", target = "skillStack.skillStackId")
     CvSkillStack cvSkillStackAddToCvSkillStack(CvSkillStackDto.Add cvSkillStackAdd);
+    @Mapping(source = "skillStack.skillStackId", target = "skillStackId")
+    @Mapping(source = "skillStack.skillName", target = "skillName")
     CvSkillStackDto.Response cvSkillStackToCvSkillStackResponse(CvSkillStack cvSkillStack);
     List<CvSkillStack> cvSkillStackAddsToCvSkillStacks(List<CvSkillStackDto.Add> cvSkillStackAdds);
     List<CvSkillStackDto.Response> cvSkillStacksToCvSkillStackResponses(List<CvSkillStack> skillStacks);

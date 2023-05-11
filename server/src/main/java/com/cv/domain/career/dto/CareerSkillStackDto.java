@@ -8,9 +8,9 @@ public class CareerSkillStackDto {
 
     @Data
     public static class Add {
-        private String skillName;
+        private String skillStackId;
 
-        private String description;
+//        private String description;
     }
 
     @Data
