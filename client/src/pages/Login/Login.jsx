@@ -55,8 +55,9 @@ export default function Login() {
 
           // 토큰 값을 Recoil 상태로 업데이트합니다.
           const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
-          console.log(Tokenvalue);
+
           setToken(token);
+          console.log(Tokenvalue);
           setCookie('token', token, { path: '/' }); // 토큰을 쿠키에 저장
           alert('로그인 성공!');
           navigate('/');
