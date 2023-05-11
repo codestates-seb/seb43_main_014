@@ -14,22 +14,20 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
     phone: false,
   });
   const onSubmit = () => {
-    axios.patch(``, {});
+    axios.patch(``, { inputs });
     console.log('asd');
   };
 
-  const validate = () => {
+  const validate = (inputs) => {
     const newErrors = {
       phone: '',
     };
-
-    if (phone.trim() === '') {
+    if (inputs.phone.trim() === '') {
       newErrors.phone = '휴대폰 번호를 입력해주세요.';
       setValid((prevValid) => ({ ...prevValid, phone: false }));
-    } else if (
-      !/^01([016789]{1}|[5]{1}[0123456789]{1})(\d{3}|\d{4})(\d{4})$/.test(phone)
-    ) {
-      newErrors.phone = '올바른 휴대폰 번호를 입력해주세요.';
+    } else if (!/^010-\d{4}-\d{4}$/.test(inputs.phone)) {
+      newErrors.phone =
+        "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.";
       setValid((prevValid) => ({ ...prevValid, phone: false }));
     } else {
       newErrors.phone = '올바른 형식입니다.';
@@ -46,6 +44,8 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
     });
     validate({ ...inputs, [name]: value });
     console.log({ ...inputs, [name]: value });
+    console.log(e.target);
+    console.log(value);
   };
   return (
     <>
@@ -63,8 +63,8 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
             </div>
           </div>
           <div className={styles.proInfo}>
-            <div className={styles.info}>
-              <span>이름</span>
+            <div>
+              <span className={styles.info}>이름</span>
               <div className={styles.updataInput}>
                 <input
                   name="name"
@@ -75,7 +75,7 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
               </div>
             </div>
             <div>
-              <span className={styles.emailNumInput}>email</span>
+              <span className={styles.info}>email</span>
               <div className={styles.updataInput}>
                 <input
                   className={styles.notInput}
@@ -86,7 +86,7 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
               </div>
             </div>
             <div>
-              <span className={styles.emailNumInput}>휴대폰 번호</span>
+              <span className={styles.info}>휴대폰 번호</span>
               <div className={`${styles.updataInput} ${styles.phoneNum}`}>
                 <input
                   name="phone"

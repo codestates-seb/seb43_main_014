@@ -49,15 +49,11 @@
   flex-direction: column;
   justify-content: space-around;
 }
-.info span {
+.info {
   font-weight: 400;
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
-}
-.info {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 
 .updataInput {
@@ -72,14 +68,7 @@
   background-color: white;
   margin-bottom: 1.5rem;
 }
-.emailNumInput {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  font-weight: 400;
-  font-size: 1.1rem;
-  margin-bottom: 0.3rem;
-}
+
 .phoneNum {
   margin: 0rem;
 }
