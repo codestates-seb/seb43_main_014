@@ -10,6 +10,7 @@ import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.repository.CvSkillStackRepository;
 import com.cv.domain.cv.repository.LinkRepository;
+import com.cv.domain.education.entity.Education;
 import com.cv.domain.education.repository.EducationRepository;
 import com.cv.domain.project.entity.Project;
 import com.cv.domain.project.entity.ProjectSkillStack;
@@ -33,7 +34,6 @@ public class CvService {
     private final CvRepository cvRepository;
     private final SkillStackRepository skillStackRepository;
     private final CareerSkillStackRepository careerSkillStackRepository;
-    private final CareerRepository careerRepository;
     private final ProjectSkillStackRepository projectSkillStackRepository;
 
 
@@ -66,44 +66,67 @@ public class CvService {
                 .ifPresentOrElse(findCv::setSelfIntroduction, () -> findCv.setSelfIntroduction(null));
         Optional.ofNullable(cv.getDevelopmentJob())
                 .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
-//        if (!findCv.getCvSkillStacks().isEmpty()) {
+
+        if (!findCv.getEducations().isEmpty()) {
+            for (int i = 0; i < cv.getEducations().size(); i++) {
+                findCv.getEducations().get(i).setAdmissionYear(cv.getEducations().get(i).getAdmissionYear());
+                findCv.getEducations().get(i).setAdmissionMonth(cv.getEducations().get(i).getAdmissionMonth());
+                findCv.getEducations().get(i).setGraduationYear(cv.getEducations().get(i).getGraduationYear());
+                findCv.getEducations().get(i).setGraduationMonth(cv.getEducations().get(i).getGraduationMonth());
+                findCv.getEducations().get(i).setSchoolName(cv.getEducations().get(i).getSchoolName());
+                findCv.getEducations().get(i).setMajor(cv.getEducations().get(i).getMajor());
+                findCv.getEducations().get(i).setDegree(cv.getEducations().get(i).getDegree());
+                findCv.getEducations().get(i).setDescription(cv.getEducations().get(i).getDescription());
+            }
+
+            if (cv.getEducations().size() < findCv.getEducations().size()) {
+                for (int i = cv.getEducations().size(); i < findCv.getEducations().size(); i++) {
+                    findCv.getEducations().remove(i);
+                }
+            }
+        } else {
+            findCv.getEducations().clear();
+        }
+
+
+        //        if (!findCv.getCvSkillStacks().isEmpty()) {
 //            findCv.getCvSkillStacks().clear();
-//            findCv.setCvSkillStacks(cv.getCvSkillStacks());
+//            findCv.getCvSkillStacks().addAll(cv.getCvSkillStacks());
 //        } else {
 //            cv.getCvSkillStacks().clear();
 //        }
 //
 //        if (!findCv.getLinks().isEmpty()) {
 //            findCv.getLinks().clear();
-//            findCv.setLinks(cv.getLinks());
+//            findCv.getLinks().addAll(cv.getLinks());
 //        } else {
 //            cv.getLinks().clear();
 //        }
 //
 //        if (!findCv.getPortfolios().isEmpty()) {
 //            findCv.getPortfolios().clear();
-//            findCv.setPortfolios(cv.getPortfolios());
+//            findCv.getPortfolios().addAll(cv.getPortfolios());
 //        } else {
 //            cv.getPortfolios().clear();
 //        }
 //
 //        if (!findCv.getEducations().isEmpty()) {
 //            findCv.getEducations().clear();
-//            findCv.setEducations(cv.getEducations());
+//            findCv.getEducations().addAll(cv.getEducations());
 //        } else {
 //            cv.getEducations().clear();
 //        }
 //
 //        if (!findCv.getCareers().isEmpty()) {
 //            findCv.getCareers().clear();
-//            findCv.setCareers(cv.getCareers());
+//            findCv.getCareers().addAll(cv.getCareers());
 //        } else {
 //            cv.getCareers().clear();
 //        }
 //
 //        if (!findCv.getProjects().isEmpty()) {
 //            findCv.getProjects().clear();
-//            findCv.setProjects(cv.getProjects());
+//            findCv.getProjects().addAll(cv.getProjects());
 //        } else {
 //            cv.getProjects().clear();
 //        }
@@ -155,11 +178,11 @@ public class CvService {
                     SkillStack findSkillStack = skillStackRepository.findById(projectSkillStack.getSkillStack().getSkillStackId())
                             .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
 
-                    projectSkillStack.setSkillStack(findSkillStack);
+                projectSkillStack.setSkillStack(findSkillStack);
 
-                    projectSkillStack.setProject(project);
-                    projectSkillStackRepository.save(projectSkillStack);
-                }
+                projectSkillStack.setProject(project);
+                projectSkillStackRepository.save(projectSkillStack);
             }
+        }
     }
 }
