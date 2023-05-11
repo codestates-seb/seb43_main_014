@@ -41,3 +41,14 @@
   margin-top: 3rem;
   color: mediumblue;
 }
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.center p {
+  font-size: x-large;
+  font-weight: 700;
+}
