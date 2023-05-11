@@ -145,6 +145,7 @@ public class CvService {
     public void deleteCv(long cvId) {
         Cv findCv = findVerifiedCv(cvId);
         findCv.setIsDelete(true);
+        cvRepository.save(findCv);
     }
 
     private Cv findVerifiedCv(long cvId) {

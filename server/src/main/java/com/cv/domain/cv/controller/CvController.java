@@ -53,6 +53,7 @@ public class CvController {
     // 이력서 삭제
     @DeleteMapping("/{cv-id}")
     public ResponseEntity<HttpStatus> deleteCv(@PathVariable("cv-id") long cvId) {
+        cvService.deleteCv(cvId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
