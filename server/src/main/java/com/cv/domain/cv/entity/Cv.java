@@ -67,6 +67,8 @@ public class Cv {
 
     public void setCvSkillStacks(List<CvSkillStack> cvSkillStacks){
         this.cvSkillStacks = cvSkillStacks;
+        if(cvSkillStacks == null)
+            return;
         for(CvSkillStack css : cvSkillStacks){
             if(css.getCv() != this){
                 css.setCv(this);
@@ -75,6 +77,8 @@ public class Cv {
     }
     public void setEducations(List<Education> educations){
         this.educations = educations;
+        if(educations == null)
+            return;
         for(Education e : educations){
             if(e.getCv() != this){
                 e.setCv(this);
@@ -83,6 +87,8 @@ public class Cv {
     }
     public void setCustomSections(List<CustomSection> customSections){
         this.customSections = customSections;
+        if(customSections == null)
+            return;
         for(CustomSection cs : customSections){
             if(cs.getCv() != this){
                 cs.setCv(this);
@@ -91,6 +97,8 @@ public class Cv {
     }
     public void setProjects(List<Project> projects){
         this.projects = projects;
+        if(projects == null)
+            return;
         for(Project p : projects){
             if(p.getCv() != this){
                 p.setCv(this);
@@ -99,6 +107,8 @@ public class Cv {
     }
     public void setCareers(List<Career> careers){
         this.careers = careers;
+        if(careers == null)
+            return;
         for(Career c : careers){
             if(c.getCv() != this){
                 c.setCv(this);
@@ -107,6 +117,8 @@ public class Cv {
     }
     public void setLinks(List<Link> links){
         this.links = links;
+        if(links == null)
+            return;
         for(Link l : links){
             if(l.getCv() != this){
                 l.setCv(this);
@@ -115,6 +127,8 @@ public class Cv {
     }
     public void setPortfolios(List<Portfolio> portfolios){
         this.portfolios = portfolios;
+        if(portfolios == null)
+            return;
         for(Portfolio p : portfolios){
             if(p.getCv() != this){
                 p.setCv(this);
