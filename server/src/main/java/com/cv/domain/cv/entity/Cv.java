@@ -65,4 +65,60 @@ public class Cv {
     @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Portfolio> portfolios = new ArrayList<>();
 
+    public void setCvSkillStacks(List<CvSkillStack> cvSkillStacks){
+        this.cvSkillStacks = cvSkillStacks;
+        for(CvSkillStack css : cvSkillStacks){
+            if(css.getCv() != this){
+                css.setCv(this);
+            }
+        }
+    }
+    public void setEducations(List<Education> educations){
+        this.educations = educations;
+        for(Education e : educations){
+            if(e.getCv() != this){
+                e.setCv(this);
+            }
+        }
+    }
+    public void setCustomSections(List<CustomSection> customSections){
+        this.customSections = customSections;
+        for(CustomSection cs : customSections){
+            if(cs.getCv() != this){
+                cs.setCv(this);
+            }
+        }
+    }
+    public void setProjects(List<Project> projects){
+        this.projects = projects;
+        for(Project p : projects){
+            if(p.getCv() != this){
+                p.setCv(this);
+            }
+        }
+    }
+    public void setCareers(List<Career> careers){
+        this.careers = careers;
+        for(Career c : careers){
+            if(c.getCv() != this){
+                c.setCv(this);
+            }
+        }
+    }
+    public void setLinks(List<Link> links){
+        this.links = links;
+        for(Link l : links){
+            if(l.getCv() != this){
+                l.setCv(this);
+            }
+        }
+    }
+    public void setPortfolios(List<Portfolio> portfolios){
+        this.portfolios = portfolios;
+        for(Portfolio p : portfolios){
+            if(p.getCv() != this){
+                p.setCv(this);
+            }
+        }
+    }
 }

@@ -31,9 +31,6 @@ public class CvService {
 
     private final CvRepository cvRepository;
     private final SkillStackRepository skillStackRepository;
-    private final CvSkillStackRepository cvSkillStackRepository;
-    private final CareerSkillStackRepository careerSkillStackRepository;
-    private final CareerRepository careerRepository;
 
     public Cv createCv(Cv cv){
         // TODO user 정보가 있는지 확인하는 로직 추가
@@ -64,34 +61,46 @@ public class CvService {
         Optional.ofNullable(cv.getDevelopmentJob())
                 .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
 
-        if (!findCv.getCareers().isEmpty()) {
+        if (!findCv.getCvSkillStacks().isEmpty()) {
             findCv.getCvSkillStacks().clear();
             findCv.getCvSkillStacks().addAll(cv.getCvSkillStacks());
+        } else {
+            cv.getCvSkillStacks().clear();
         }
 
-        if (!findCv.getCareers().isEmpty()) {
+        if (!findCv.getLinks().isEmpty()) {
             findCv.getLinks().clear();
             findCv.getLinks().addAll(cv.getLinks());
+        } else {
+            cv.getLinks().clear();
         }
 
-        if (!findCv.getCareers().isEmpty()) {
+        if (!findCv.getPortfolios().isEmpty()) {
             findCv.getPortfolios().clear();
             findCv.getPortfolios().addAll(cv.getPortfolios());
+        } else {
+            cv.getPortfolios().clear();
         }
 
-        if (!findCv.getCareers().isEmpty()) {
+        if (!findCv.getEducations().isEmpty()) {
             findCv.getEducations().clear();
             findCv.getEducations().addAll(cv.getEducations());
+        } else {
+            cv.getEducations().clear();
         }
 
         if (!findCv.getCareers().isEmpty()) {
             findCv.getCareers().clear();
             findCv.getCareers().addAll(cv.getCareers());
+        } else {
+            cv.getCareers().clear();
         }
 
-        if (!findCv.getCareers().isEmpty()) {
+        if (!findCv.getProjects().isEmpty()) {
             findCv.getProjects().clear();
             findCv.getProjects().addAll(cv.getProjects());
+        } else {
+            cv.getProjects().clear();
         }
 
         return cvRepository.save(findCv);
