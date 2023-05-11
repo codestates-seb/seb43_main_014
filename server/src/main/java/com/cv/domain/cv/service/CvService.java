@@ -3,6 +3,7 @@ package com.cv.domain.cv.service;
 import com.cv.domain.career.entity.Career;
 import com.cv.domain.career.entity.CareerSkillStack;
 import com.cv.domain.career.repository.CareerRepository;
+import com.cv.domain.career.repository.CareerSkillStackRepository;
 import com.cv.domain.customSection.repository.CustomSectionRepository;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
@@ -31,6 +32,8 @@ public class CvService {
     private final CvRepository cvRepository;
     private final SkillStackRepository skillStackRepository;
     private final CvSkillStackRepository cvSkillStackRepository;
+    private final CareerSkillStackRepository careerSkillStackRepository;
+    private final CareerRepository careerRepository;
 
     public Cv createCv(Cv cv){
         // TODO user 정보가 있는지 확인하는 로직 추가

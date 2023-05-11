@@ -36,6 +36,6 @@ public class CareerDto {
 
         private String developmentJob;
 
-        private List<CareerSkillStackDto.Add> careerSkillStacks;
+        private List<CareerSkillStackDto.Response> careerSkillStacks;
     }
 }

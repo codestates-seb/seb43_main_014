@@ -44,6 +44,6 @@ public class ProjectDto {
 
         private String link;
 
-        private List<ProjectSkillStackDto.Add> projectSkillStacks;
+        private List<ProjectSkillStackDto.Response> projectSkillStacks;
     }
 }
