@@ -5,42 +5,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState } from 'react';
 import styled from 'styled-components';
-import CvSkillInput from './CvCustomInput';
-
-const days = [
-  '일',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '21',
-  '22',
-  '23',
-  '24',
-  '25',
-  '26',
-  '27',
-  '28',
-  '29',
-  '30',
-  '31',
-];
 
 const months = [
   '월',
@@ -113,70 +77,58 @@ const years = [
   '1961',
   '1960',
 ];
-const jobs = [
-  '직무',
-  '서버/백엔드 개발자',
-  '프론트엔드 개발자',
-  '웹 풀스택 개발자',
-  '안드로이드 개발자',
-  'IOS 개발자',
-  '블록체인',
-  '개발 PM',
-];
-const CvBasicInfo = () => {
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [year, setYear] = useState('');
-  const [job, setJob] = useState('');
+
+const CvCompany = () => {
+  const [comstartmonth, setComStartMonth] = useState('');
+  const [comstartyear, setComStartYear] = useState('');
+  const [comendmonth, setComEndMonth] = useState('');
+  const [comendyear, setComEndYear] = useState('');
 
   const onChange = (event) => {
     const {
       target: { name, value },
     } = event;
-    if (name === 'day') {
-      setDay(value);
-    } else if (name === 'month') {
-      setMonth(value);
-    } else if (name === 'year') {
-      setYear(value);
-    } else if (name === 'job') {
-      setJob(value);
+    if (name === 'com-start-month') {
+      setComStartMonth(value);
+    } else if (name === 'com-start-year') {
+      setComStartYear(value);
+    } else if (name === 'com-end-month') {
+      setComEndMonth(value);
+    } else if (name === 'com-end-year') {
+      setComEndYear(value);
     }
-    console.log(value);
   };
 
   return (
     <InputContainer>
       <div className="body">
-        <div className="title">
-          <input placeholder="이력서 제목"></input>
-          <hr></hr>
-        </div>
         <div className="test2">
-          <div className="photo">
-            <input type="file" accept="image/*"></input>
-          </div>
-          <div className="name">
-            <span>성명</span>
-            <input></input>
-            <span>이메일 주소</span>
-            <input></input>
-            <span>전화번호</span>
-            <input></input>
-            <span>주소</span>
+          <div className="name1">
+            <span>회사명</span>
             <input></input>
           </div>
+
+          <div className="name2">
+            <span>직책</span>
+            <input></input>
+          </div>
+        </div>
+        <div className="school">
+          <span>개발직무</span>
+          <input></input>
+          <span>기술스택</span>
+          <input></input>
         </div>
         <div className="test2">
           <div className="birth2">
-            <span>생년월일</span>
+            <span>시작일</span>
             <FormControl sx={{ m: 1, width: 115, height: 0 }}>
               <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="com-start-month"
+                value={comstartmonth}
                 label="Month"
                 onChange={onChange}
               >
@@ -187,30 +139,13 @@ const CvBasicInfo = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 120 }}>
-              <InputLabel id="demo-simple-select-label">일</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                name="day"
-                value={day}
-                label="Day"
-                onChange={onChange}
-              >
-                {days.map((day) => (
-                  <MenuItem key={day} value={day}>
-                    {day}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <FormControl sx={{ m: 1, width: 170 }}>
               <InputLabel id="demo-simple-select-label">년</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="com-start-year"
+                value={comstartyear}
                 label="Year"
                 onChange={onChange}
               >
@@ -222,22 +157,38 @@ const CvBasicInfo = () => {
               </Select>
             </FormControl>
           </div>
-          <div className="develop">
-            <span>개발 직무</span>
-
-            <FormControl sx={{ m: 1, width: 170 }}>
-              <InputLabel id="demo-simple-select-label">직무</InputLabel>
+          <div className="birth2">
+            <span>종료일</span>
+            <FormControl sx={{ m: 1, width: 115, height: 0 }}>
+              <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="job"
-                value={job}
-                label="job"
+                name="com-end-month"
+                value={comendmonth}
+                label="Month"
                 onChange={onChange}
               >
-                {jobs.map((job) => (
-                  <MenuItem key={job} value={job}>
-                    {job}
+                {months.map((month) => (
+                  <MenuItem key={month} value={month}>
+                    {month}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ m: 1, width: 170 }}>
+              <InputLabel id="demo-simple-select-label">년</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                name="com-end-year"
+                value={comendyear}
+                label="Year"
+                onChange={onChange}
+              >
+                {years.map((year) => (
+                  <MenuItem key={year} value={year}>
+                    {year}
                   </MenuItem>
                 ))}
               </Select>
@@ -246,36 +197,24 @@ const CvBasicInfo = () => {
         </div>
 
         <div className="intro">
-          <span>자기소개</span>
+          <span>설명</span>
           <input></input>
         </div>
-
-        <div className="tag">
-          <span>기술스택 태그</span>
+        <div>
+          <StyledDeleteButton>삭제하기</StyledDeleteButton>
         </div>
-        <div className="link">
-          <div>
-            <span>링크</span>
-          </div>
-          <div>
-            <input></input>
-            <input></input>
-            <input></input>
-          </div>
-        </div>
-        <div className="port">
-          <span>포트폴리오</span>
-          <input type="file" accept="pdf/*"></input>
+        <div>
+          <StyledButton>+ 경력 추가하기</StyledButton>
         </div>
       </div>
     </InputContainer>
   );
 };
 
-export default CvBasicInfo;
+export default CvCompany;
 
 const InputContainer = styled.div`
-  margin: 0rem 4rem 4rem 4rem;
+  margin: 4rem;
   display: flex;
   flex-direction: column;
 
@@ -284,7 +223,7 @@ const InputContainer = styled.div`
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   input {
-    width: 26rem;
+    width: 50%;
     height: 2.5rem;
     margin: 0 0 1rem 0rem;
     border-radius: 0.2rem;
@@ -297,10 +236,21 @@ const InputContainer = styled.div`
     font-size: 1rem;
   }
 
-  .name {
+  .name1 {
     display: flex;
     flex-direction: column;
-    width: 41rem;
+    width: 50%;
+    input {
+      width: 22rem;
+    }
+  }
+  .name2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    input {
+      width: 22rem;
+    }
 
     border: 1px solid black;
   }
@@ -308,12 +258,7 @@ const InputContainer = styled.div`
     border: 1px solid red;
     display: flex;
   }
-  .photo {
-    width: 20rem;
-    height: 20rem;
-    margin: 0 1rem 0 0rem;
-    border: 1px solid blue;
-  }
+
   .body {
     margin: 3rem;
     border: 1px solid skyblue;
@@ -333,19 +278,51 @@ const InputContainer = styled.div`
     border: 1px solid blue;
   }
   .intro {
-    margin: 1rem 0 0 0;
     input {
       width: 100%;
-      height: 20rem;
+      height: 10rem;
     }
   }
   .port {
     width: 20rem;
     border: 1px solid blue;
   }
-  .title {
+  .school {
     input {
-      margin: 0;
+      width: 100%;
     }
+    border: 1px solid blue;
+  }
+`;
+
+const StyledButton = styled.button`
+  width: 100%;
+  height: 3.5rem;
+  font-size: 0, 8rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: var(--bgColor);
+  color: black;
+
+  &:hover {
+    background-color: var(--puple300);
+  }
+`;
+
+const StyledDeleteButton = styled.button`
+  width: 6rem;
+  height: 2rem;
+  font-size: 0, 8rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: white;
+  border: 1px solid gray;
+  color: black;
+
+  &:hover {
+    background-color: var(--puple300);
   }
 `;

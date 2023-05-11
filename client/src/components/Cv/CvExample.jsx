@@ -21,8 +21,8 @@ const Container = styled.main`
   background-color: white;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   border: 1px solid tomato;
   span {
     font-size: 0.9rem;
