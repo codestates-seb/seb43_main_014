@@ -11,14 +11,14 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CareerMapper {
-    @Mapping(source = "skillStackId", target = "skillStack.skillStackId")
     Career careerAddToCareer(CareerDto.Add careerAdd);
-    @Mapping(source = "skillStack.skillStackId", target = "skillStackId")
-    @Mapping(source = "sKillStack.skillName", target = "skillName")
     CareerDto.Response careerToCareerResponse(Career career);
     List<CareerDto.Response> careersToCareerResponses(List<Career> careers);
     List<Career> careerAddsToCareers(List<CareerDto.Add> careerAdds);
+    @Mapping(source = "skillStackId", target = "skillStack.skillStackId")
     CareerSkillStack careerSkillStackAddToCareerSkillStack(CareerSkillStackDto.Add careerSkillStackAdd);
+    @Mapping(source = "skillStack.skillStackId", target = "skillStackId")
+    @Mapping(source = "skillStack.skillName", target = "skillName")
     CareerSkillStackDto.Response careerSkillStackToCareerSkillStackResponse(CareerSkillStack careerSkillStack);
     List<CareerSkillStack> careerSkillStackAddsToCareerSkillStacks(List<CareerSkillStackDto.Add> careerSkillStackAdds);
     List<CareerSkillStackDto.Response> careerSkillStacksToCareerSkillStackResponses(List<CareerSkillStack> careerSkillStacks);

@@ -7,7 +7,7 @@ public class CvSkillStackDto {
 
     @Data
     public static class Add {
-        private String skillName;
+        private long skillStackId;
 
 //        private String description;
     }

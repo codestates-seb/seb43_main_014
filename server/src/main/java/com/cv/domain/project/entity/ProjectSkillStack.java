@@ -1,11 +1,14 @@
 package com.cv.domain.project.entity;
 
 import com.cv.domain.skillStack.entity.SkillStack;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
+@Data
+@NoArgsConstructor
 @Entity
 public class ProjectSkillStack {
 

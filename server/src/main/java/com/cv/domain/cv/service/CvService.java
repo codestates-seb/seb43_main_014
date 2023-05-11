@@ -1,5 +1,7 @@
 package com.cv.domain.cv.service;
 
+import com.cv.domain.career.entity.Career;
+import com.cv.domain.career.entity.CareerSkillStack;
 import com.cv.domain.career.repository.CareerRepository;
 import com.cv.domain.customSection.repository.CustomSectionRepository;
 import com.cv.domain.cv.entity.Cv;
@@ -8,6 +10,8 @@ import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.repository.CvSkillStackRepository;
 import com.cv.domain.cv.repository.LinkRepository;
 import com.cv.domain.education.repository.EducationRepository;
+import com.cv.domain.project.entity.Project;
+import com.cv.domain.project.entity.ProjectSkillStack;
 import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
@@ -96,33 +100,28 @@ public class CvService {
 
     private void findExistSkillStack(Cv cv) {
         for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
-            SkillStack findSkillStack =skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
+            SkillStack findSkillStack = skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
                     .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
 
             cvSkillStack.setSkillStack(findSkillStack);
         }
+
+        for (Career career : cv.getCareers()) {
+            for (CareerSkillStack careerSkillStack : career.getCareerSkillStacks()) {
+                SkillStack findSkillStack = skillStackRepository.findById(careerSkillStack.getSkillStack().getSkillStackId())
+                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+                careerSkillStack.setSkillStack(findSkillStack);
+            }
+        }
+
+        for (Project project : cv.getProjects()) {
+            for (ProjectSkillStack projectSkillStack : project.getProjectSkillStacks()) {
+                SkillStack findSkillStack = skillStackRepository.findById(projectSkillStack.getSkillStack().getSkillStackId())
+                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+                projectSkillStack.setSkillStack(findSkillStack);
+            }
+        }
     }
-//
-//    private void putInformationForSkillStack(Cv cv) {
-//        List<CvSkillStack> cvSkillStackList = cv.getCvSkillStacks().stream()
-//                .map(cvSkillStack -> {
-//                    SkillStack skillStack;
-//                    Optional<SkillStack> optionalSkillStack = skillStackRepository.findBySkillName((cvSkillStack.getSkillStack().getSkillName()));
-//                    if (optionalSkillStack.isEmpty()) {
-//                        throw new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND);
-//                    } else {
-//                        skillStack = optionalSkillStack.get();
-//                        cvSkillStack.setSkillStack(skillStack);
-//                    }
-//                    skillStack.addCvSkillStack(cvSkillStack);
-//                    return cvSkillStack;
-//                })
-//                .collect(Collectors.toList());
-//
-//        cvSkillStackList.stream()
-//                .map(cvSkillStackRepository::save)
-//                .collect(Collectors.toList());
-//
-//        cv.setCvSkillStacks(cvSkillStackList);
-//    }
 }
