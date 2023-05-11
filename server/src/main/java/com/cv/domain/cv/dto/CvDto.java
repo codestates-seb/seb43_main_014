@@ -13,8 +13,9 @@ import java.util.List;
 
 public class CvDto {
 
-    @Getter
+    @Data
     public static class Post {
+        private long userId;
 
         private String name;
 
@@ -85,6 +86,8 @@ public class CvDto {
     @Data
     public static class Response {
         private Long cvId;
+
+        private long userId;
 
         private String name;
 

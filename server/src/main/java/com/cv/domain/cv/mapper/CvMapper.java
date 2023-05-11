@@ -21,8 +21,10 @@ import java.util.List;
         ProjectMapper.class, CareerMapper.class, CustomSectionMapper.class, EducationMapper.class
 })
 public interface CvMapper {
+    @Mapping(source = "userId", target = "user.userId")
     Cv cvPostToCv(CvDto.Post post);
     Cv cvPatchToCv(CvDto.Patch patch);
+    @Mapping(source = "user.userId", target = "userId")
     CvDto.Response cvToCvResponse(Cv cv);
     @Mapping(source = "skillStackId", target = "skillStack.skillStackId")
     CvSkillStack cvSkillStackAddToCvSkillStack(CvSkillStackDto.Add cvSkillStackAdd);

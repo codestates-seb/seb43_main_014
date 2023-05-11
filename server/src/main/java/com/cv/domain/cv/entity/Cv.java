@@ -4,6 +4,7 @@ import com.cv.domain.career.entity.Career;
 import com.cv.domain.customSection.entity.CustomSection;
 import com.cv.domain.education.entity.Education;
 import com.cv.domain.project.entity.Project;
+import com.cv.domain.user.entity.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -43,6 +44,10 @@ public class Cv {
     private String birthDay;
 
     private Boolean isDelete = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @OneToMany(mappedBy = "cv", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<CvSkillStack> cvSkillStacks = new ArrayList<>();

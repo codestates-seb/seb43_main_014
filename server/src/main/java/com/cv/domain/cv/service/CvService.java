@@ -18,6 +18,7 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
+import com.cv.domain.user.service.UserService;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +36,12 @@ public class CvService {
     private final SkillStackRepository skillStackRepository;
     private final CareerSkillStackRepository careerSkillStackRepository;
     private final ProjectSkillStackRepository projectSkillStackRepository;
+    private final UserService userService;
 
 
     public Cv createCv(Cv cv){
-        // TODO user 정보가 있는지 확인하는 로직 추가
+
+        userService.findUser(cv.getUser().getUserId());
         return cvRepository.save(cv);
     }
     public void injectLowDomain(Cv cv){
