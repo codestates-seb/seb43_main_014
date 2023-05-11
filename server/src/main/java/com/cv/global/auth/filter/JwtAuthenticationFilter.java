@@ -4,6 +4,7 @@ import com.cv.domain.user.entity.User;
 import com.cv.global.auth.dto.LoginDto;
 import com.cv.global.auth.jwt.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -51,11 +53,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateAccessToken(user);
 
+        // JWT token을 response 헤더에 넣어줌
         response.setHeader("Authorization", "Bear " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
-        // JWT 생성을 AuthenticationSuccessHandler에서 해도 됨
-        // FIXME : 프론트 단에서, 사용자 정보를 원하면 로그인 인증 후 추가 작업을 AuthenticationSuccessHandler에서 해주는 게 좋아 보임
+        LinkedHashMap<String, Object> userInfo = new LinkedHashMap<>();
+        userInfo.put("userId", user.getUserId());
+        userInfo.put("name", user.getName());
+
+        Gson gson = new Gson();
+        String userInfoJson = gson.toJson(userInfo);
+
+        // 로그인 사용자 정보(userId, name)를 response body에 넣어줌
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(userInfoJson);
+
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
 
         // AuthenticationFailureHandler의 onAuthenticationFailure()는 알아서 호출됨
