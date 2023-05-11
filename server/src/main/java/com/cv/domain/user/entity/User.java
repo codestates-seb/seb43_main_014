@@ -22,7 +22,7 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(length = 10, nullable = false)
@@ -65,7 +65,7 @@ public class User extends Auditable {
     }
 
     // 이미 존재하는 멤버가 있는지 확인
-    public static void checkExistMember(User user){
+    public static void checkExistUser(User user){
         if(user != null)
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
     }
@@ -77,13 +77,4 @@ public class User extends Auditable {
         }
         return true;
     }
-
-    //
-    public static void checkIsMine(long authenticatedUserId) {
-        if (this.userId != authenticatedUserId) {
-            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
-        }
-    }
-
-
 }
