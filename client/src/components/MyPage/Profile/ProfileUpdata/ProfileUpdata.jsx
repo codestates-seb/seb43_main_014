@@ -77,12 +77,13 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
             <div>
               <span className={styles.info}>email</span>
               <div className={styles.updataInput}>
-                <input
+                {/* <input
                   className={styles.notInput}
                   type="text"
                   value={email}
                   disabled
-                />
+                /> */}
+                <span className={styles.notInput}>{email}</span>
               </div>
             </div>
             <div>
