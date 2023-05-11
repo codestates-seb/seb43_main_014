@@ -146,7 +146,7 @@ const CvBasicInfo = () => {
   };
 
   return (
-    <InputContainer>
+    <Container>
       <div className="body">
         <div className="title">
           <input placeholder="이력서 제목"></input>
@@ -265,26 +265,25 @@ const CvBasicInfo = () => {
         </div>
         <div className="port">
           <span>포트폴리오</span>
-          <input type="file" accept="pdf/*"></input>
+          <input></input>
         </div>
       </div>
-    </InputContainer>
+    </Container>
   );
 };
 
 export default CvBasicInfo;
 
-const InputContainer = styled.div`
-  margin: 0rem 4rem 4rem 4rem;
+const Container = styled.div`
+  margin: 0rem 4rem 8rem 4rem;
   display: flex;
   flex-direction: column;
 
-  border: 1px solid blue;
   width: 55rem;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   input {
-    width: 26rem;
+    width: 28rem;
     height: 2.5rem;
     margin: 0 0 1rem 0rem;
     border-radius: 0.2rem;
@@ -295,43 +294,33 @@ const InputContainer = styled.div`
   }
   span {
     font-size: 1rem;
+    font-weight: bold;
+    color: gray;
   }
 
   .name {
     display: flex;
     flex-direction: column;
     width: 41rem;
-
-    border: 1px solid black;
   }
   .test2 {
-    border: 1px solid red;
     display: flex;
   }
   .photo {
     width: 20rem;
     height: 20rem;
     margin: 0 1rem 0 0rem;
-    border: 1px solid blue;
   }
   .body {
     margin: 3rem;
-    border: 1px solid skyblue;
   }
   .birth2 {
     width: 32.2rem;
-    border: 1px solid red;
   }
   .develop {
-    border: 1px solid red;
     width: 16.8rem;
   }
-  .tag {
-    border: 1px solid green;
-  }
-  .link {
-    border: 1px solid blue;
-  }
+
   .intro {
     margin: 1rem 0 0 0;
     input {
@@ -341,7 +330,6 @@ const InputContainer = styled.div`
   }
   .port {
     width: 20rem;
-    border: 1px solid blue;
   }
   .title {
     input {

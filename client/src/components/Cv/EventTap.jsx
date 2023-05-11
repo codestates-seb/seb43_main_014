@@ -3,20 +3,20 @@ import styled from 'styled-components';
 
 const EventTap = () => {
   return (
-    <Econtainer>
+    <Container>
       <h3>로켓CV 오픈 기념 이벤트!</h3>
       <span>로켓CV를 이용하여 취업을 하신 분들의 후기를 들려주세요!</span>
       <span>추첨을 통해 500만 메소를 드립니다.</span>
       <StyledButton>후기 작성하기</StyledButton>
-    </Econtainer>
+    </Container>
   );
 };
 
 export default EventTap;
 
-const Econtainer = styled.div`
+const Container = styled.div`
   display: flex;
-  width: 50rem;
+  width: 45rem;
   background-color: var(--puple300);
   justify-content: center;
   flex-direction: column;
@@ -24,9 +24,9 @@ const Econtainer = styled.div`
   height: 15rem;
   text-align: center;
   margin: 3rem 0 3rem 0;
-  border: 1px solid tomato;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   span {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: gray;
   }
   h3 {
@@ -45,7 +45,7 @@ const StyledButton = styled.button`
   border-radius: 0.3rem var(--puple100);
   background-color: var(--bgColor);
   color: white;
-  border: 1px solid tomato;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   &:hover {
     background-color: var(--puple300);

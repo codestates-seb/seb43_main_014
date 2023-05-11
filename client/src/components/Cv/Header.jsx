@@ -39,7 +39,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="contents_menu">
-            <Link to="/cv">이력서 작성</Link>
+            <Link to="/create-cv">이력서 작성</Link>
             <Link to="/project/matching">프로젝트 매칭</Link>
             <Link to="/team">팀원 소개</Link>
             <Link to="/team">문의 하기</Link>
@@ -65,7 +65,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="contents_menu">
-            <Link to="/cv">이력서 작성</Link>
+            <Link to="/create-cv">이력서 작성</Link>
             <Link to="/project/matching">프로젝트 매칭</Link>
             <Link to="/team">팀원 소개</Link>
             <Link to="/team">문의 하기</Link>
@@ -83,9 +83,9 @@ const Header = () => {
 export default Header;
 
 const BasicHeader = styled.header`
-  background-color: var(--puple300);
+  background-color: var(--puple100);
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 500;
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
 
@@ -129,19 +129,3 @@ const BasicHeader = styled.header`
     height: 1.2rem;
   }
 `;
-
-// const StyledButton = styled.button`
-//   min-width: 7rem;
-//   margin: 0rem 0rem 0rem 3rem;
-//   font-size: 1rem;
-//   cursor: pointer;
-//   padding: 1rem;
-//   border: none;
-//   border-radius: 0.3rem var(--puple100);
-//   background-color: var(--puple100);
-//   color: black;
-
-//   &:hover {
-//     background-color: var(--puple100);
-//   }
-// `;

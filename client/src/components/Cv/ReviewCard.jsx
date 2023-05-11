@@ -19,34 +19,33 @@ const ReviewCard = () => {
   };
   return (
     <>
-      <Econtainer>
+      <Container>
         <AccountCircleIcon />
         <span>{data.name}</span>
         <Rating name="read-only" value="5" readOnly />
         <p>{data.content}</p>
-      </Econtainer>
+      </Container>
 
-      <Econtainer>
+      <Container>
         <AccountCircleIcon />
         <span>{data.name2}</span>
         <Rating name="read-only" value="5" readOnly />
         <p>{data.content2}</p>
-      </Econtainer>
+      </Container>
 
-      <Econtainer>
+      <Container>
         <AccountCircleIcon />
         <span>{data.name3}</span>
         <Rating name="read-only" value="5" readOnly />
         <p>{data.content3}</p>
-      </Econtainer>
+      </Container>
     </>
   );
 };
 
 export default ReviewCard;
 
-const Econtainer = styled.div`
-  border: 1px solid tomato;
+const Container = styled.div`
   display: flex;
   width: 12rem;
   background-color: white;
