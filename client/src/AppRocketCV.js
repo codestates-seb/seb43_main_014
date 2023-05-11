@@ -8,6 +8,7 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import Main from './pages/Main';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
+import CvPage from './components/Cv/CvPage';
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/create-cv',
-        element: <div>이력서 작성 페이지 컴포넌트 올 자리</div>,
+        element: <CvPage />,
       },
     ],
   },

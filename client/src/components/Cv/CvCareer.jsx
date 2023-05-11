@@ -20,7 +20,7 @@ const months = [
   '10',
   '11',
   '12',
-];
+]; //포문으로 해결
 const years = [
   '년',
   '2012',
@@ -79,16 +79,48 @@ const years = [
 ];
 
 const CvCareerInfo = () => {
-  const [month, setMonth] = useState('');
+  const [eduStartMonth, setEduStartMonth] = useState('');
+  const [eduStartYear, setEduStartYear] = useState('');
+  const [eduEndMonth, setEduEndMonth] = useState('');
+  const [eduEndYear, setEduEndYear] = useState('');
+  const [comStartMonth, setComStartMonth] = useState('');
+  const [comStartYear, setComStartYear] = useState('');
+  const [comEndMonth, setComEndMonth] = useState('');
+  const [comEndYear, setComEndYear] = useState('');
+  const [proStartMonth, setProStartMonth] = useState('');
+  const [proStartYear, setProStartYear] = useState('');
+  const [proEndMonth, setProEndMonth] = useState('');
+  const [proEndYear, setProEndYear] = useState('');
 
-  const [year, setYear] = useState('');
-
-  const handleChange = (event) => {
-    setMonth(event.target.value);
-  };
-
-  const handleChange2 = (event) => {
-    setYear(event.target.value);
+  const onChange = (event) => {
+    const {
+      target: { name, value },
+    } = event;
+    if (name === 'edu-start-month') {
+      setEduStartMonth(value);
+    } else if (name === 'edu-start-year') {
+      setEduStartYear(value);
+    } else if (name === 'edu-end-month') {
+      setEduEndMonth(value);
+    } else if (name === 'edu-end-year') {
+      setEduEndYear(value);
+    } else if (name === 'com-start-month') {
+      setComStartMonth(value);
+    } else if (name === 'com-start-year') {
+      setComStartYear(value);
+    } else if (name === 'com-end-month') {
+      setComEndMonth(value);
+    } else if (name === 'com-end-year') {
+      setComEndYear(value);
+    } else if (name === 'pro-start-month') {
+      setProStartMonth(value);
+    } else if (name === 'pro-start-year') {
+      setProStartYear(value);
+    } else if (name === 'pro-end-month') {
+      setProEndMonth(value);
+    } else if (name === 'pro-end-year') {
+      setProEndYear(value);
+    }
   };
 
   return (
@@ -121,10 +153,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="edu-start-month"
+                value={eduStartMonth}
                 label="Month"
-                onChange={handleChange}
+                onChange={onChange}
               >
                 {months.map((month) => (
                   <MenuItem key={month} value={month}>
@@ -138,10 +170,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="edu-start-year"
+                value={eduStartYear}
                 label="Year"
-                onChange={handleChange2}
+                onChange={onChange}
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -158,10 +190,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="edu-end-month"
+                value={eduEndMonth}
                 label="Month"
-                onChange={handleChange}
+                onChange={onChange}
               >
                 {months.map((month) => (
                   <MenuItem key={month} value={month}>
@@ -175,10 +207,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="edu-end-year"
+                value={eduEndYear}
                 label="Year"
-                onChange={handleChange2}
+                onChange={onChange}
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -227,10 +259,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="com-start-month"
+                value={comStartMonth}
                 label="Month"
-                onChange={handleChange}
+                onChange={onChange}
               >
                 {months.map((month) => (
                   <MenuItem key={month} value={month}>
@@ -244,10 +276,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="com-start-year"
+                value={comStartYear}
                 label="Year"
-                onChange={handleChange2}
+                onChange={onChange}
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -264,10 +296,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="com-end-month"
+                value={comEndMonth}
                 label="Month"
-                onChange={handleChange}
+                onChange={onChange}
               >
                 {months.map((month) => (
                   <MenuItem key={month} value={month}>
@@ -281,10 +313,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="com-end-year"
+                value={comEndYear}
                 label="Year"
-                onChange={handleChange2}
+                onChange={onChange}
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -333,10 +365,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="pro-start-month"
+                value={proStartMonth}
                 label="Month"
-                onChange={handleChange}
+                onChange={onChange}
               >
                 {months.map((month) => (
                   <MenuItem key={month} value={month}>
@@ -350,10 +382,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="pro-start-year"
+                value={proStartYear}
                 label="Year"
-                onChange={handleChange2}
+                onChange={onChange}
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -370,10 +402,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="pro-end-month"
+                value={proEndMonth}
                 label="Month"
-                onChange={handleChange}
+                onChange={onChange}
               >
                 {months.map((month) => (
                   <MenuItem key={month} value={month}>
@@ -387,10 +419,10 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="pro-end-year"
+                value={proEndYear}
                 label="Year"
-                onChange={handleChange2}
+                onChange={onChange}
               >
                 {years.map((year) => (
                   <MenuItem key={year} value={year}>
@@ -420,7 +452,7 @@ const CvCareerInfo = () => {
 export default CvCareerInfo;
 
 const InputContainer = styled.div`
-  margin: 4rem;
+  margin: 0rem 4rem 4rem 4rem;
   display: flex;
   flex-direction: column;
 
