@@ -12,7 +12,8 @@ public enum ExceptionCode {
     USER_NOT_FOUND(404, "User not found"),
     USER_EXISTS(409, "Member exists"),
     RESUME_NOT_FOUND(404, "Resume not found"),
-    RESUME_EXISTS(409, "Resume exists");
+    RESUME_EXISTS(409, "Resume exists"),
+    USER_NO_HAVE_AUTHORIZATION(404, "User no have authoization");
 
     @Getter
     private int status;
