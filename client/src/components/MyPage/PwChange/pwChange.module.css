@@ -16,7 +16,8 @@
 .pw {
   font-size: 1.2rem;
 }
-.changeBtn {
+
+.modalBtn {
   background-color: var(--blue500);
   border: 0.5px solid var(--bgColor);
   border-radius: 0.3rem;
@@ -27,15 +28,7 @@
   height: 3rem;
   cursor: pointer;
 }
-.changeBtn:hover {
+.modalBtn:hover {
   background-color: #94b2f9;
   border: 0.5px solid var(--bgColor);
-}
-.modalBox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  height: 70%;
-  background-color: white;
 }

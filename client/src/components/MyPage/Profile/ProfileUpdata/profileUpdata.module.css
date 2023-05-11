@@ -49,15 +49,11 @@
   flex-direction: column;
   justify-content: space-around;
 }
-.info span {
+.info {
   font-weight: 400;
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
-}
-.info {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
 }
 
 .updataInput {
@@ -72,13 +68,14 @@
   background-color: white;
   margin-bottom: 1.5rem;
 }
-.emailNumInput {
+
+.phoneNum {
+  margin: 0rem;
+}
+.message {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  font-weight: 400;
-  font-size: 1.1rem;
-  margin-bottom: 0.3rem;
+  justify-content: end;
+  font-size: 0.8rem;
 }
 .updataInput input {
   width: 46rem;
@@ -123,4 +120,11 @@
 }
 #cancel:hover {
   background-color: whitesmoke;
+}
+.errorsMsg {
+  color: red;
+}
+
+.successMsg {
+  color: blue;
 }

@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Logo from '../images/rocket.png';
-import { isLoginSelector, tokenState } from '../recoil/TokenAtom';
+import Logo from '../../images/rocket.png';
+import { isLoginSelector, tokenState } from '../../recoil/TokenAtom';
 import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import { logDOM } from '@testing-library/react';
 
 const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import EventTap from '../components/EventTap';
-import ReviewCard from '../components/ReviewCard';
-import CvExample from '../components/CvExample';
-import CvPage from '../components/CvPage';
+import EventTap from '../components/Cv/EventTap';
+import ReviewCard from '../components/Cv/ReviewCard';
+import CvExample from '../components/Cv/CvExample';
+import CvPage from '../components/Cv/CvPage';
 
 const Main = () => {
   return (
