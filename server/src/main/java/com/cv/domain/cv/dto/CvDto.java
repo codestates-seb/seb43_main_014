@@ -7,13 +7,15 @@ import com.cv.domain.career.dto.CareerDto;
 import com.cv.domain.project.dto.ProjectDto;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 public class CvDto {
 
-    @Getter
+    @Data
     public static class Post {
+        private long userId;
 
         private String name;
 
@@ -48,11 +50,6 @@ public class CvDto {
 
     @Data
     public static class Patch {
-
-    }
-
-    @Getter
-    public static class Response {
         private long cvId;
 
         private String name;
@@ -72,6 +69,45 @@ public class CvDto {
         private String selfIntroduction;
 
         private String developmentJob;
+
+        private List<CvSkillStackDto.Add> cvSkillStacks;
+
+        private List<EducationDto.Add> educations;
+
+        private List<CareerDto.Add> careers;
+
+        private List<CustomSectionDto.Add> customSections;
+
+        private List<ProjectDto.Add> projects;
+
+        private List<LinkDto.Add> links;
+    }
+
+    @Data
+    public static class Response {
+        private Long cvId;
+
+        private long userId;
+
+        private String name;
+
+        private String email;
+
+        private String phone;
+
+        private String address;
+
+        private String birthDay;
+
+        private String birthMonth;
+
+        private String birthYear;
+
+        private String selfIntroduction;
+
+        private String developmentJob;
+
+        private Boolean isDelete;
 
         private List<CvSkillStackDto.Response> cvSkillStacks;
 

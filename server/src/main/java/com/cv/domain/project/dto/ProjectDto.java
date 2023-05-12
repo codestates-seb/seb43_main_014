@@ -19,10 +19,14 @@ public class ProjectDto {
 
         private String projectSubject;
 
+        private String description;
+
+        private String link;
+
         private List<ProjectSkillStackDto.Add> projectSkillStacks;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long projectId;
 
@@ -36,6 +40,10 @@ public class ProjectDto {
 
         private String projectSubject;
 
-        private List<ProjectSkillStackDto.Add> projectSkillStacks;
+        private String description;
+
+        private String link;
+
+        private List<ProjectSkillStackDto.Response> projectSkillStacks;
     }
 }

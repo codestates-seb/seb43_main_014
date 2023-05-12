@@ -21,14 +21,12 @@ public class CareerDto {
 
         private String duty;
 
-        private String companyInformation;
-
         private String developmentJob;
 
         private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long careerId;
 
@@ -36,10 +34,8 @@ public class CareerDto {
 
         private String duty;
 
-        private String companyInformation;
-
         private String developmentJob;
 
-        private List<CareerSkillStackDto.Add> careerSkillStacks;
+        private List<CareerSkillStackDto.Response> careerSkillStacks;
     }
 }

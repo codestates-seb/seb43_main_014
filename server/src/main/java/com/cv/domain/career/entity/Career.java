@@ -1,14 +1,14 @@
 package com.cv.domain.career.entity;
 
 import com.cv.domain.cv.entity.Cv;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Career {
@@ -27,8 +27,6 @@ public class Career {
 
     private String companyName;
 
-    private String companyInformation;
-
     private String duty;    // 직책
 
     private String developmentJob;
@@ -36,7 +34,7 @@ public class Career {
     @Lob
     private String description;
 
-    @OneToMany(mappedBy = "career")
+    @OneToMany(mappedBy = "career", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<CareerSkillStack> careerSkillStacks = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

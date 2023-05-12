@@ -1,5 +1,7 @@
 package com.cv.domain.user.entity;
 
+import com.cv.domain.cv.entity.Cv;
+import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.global.audit.Auditable;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
@@ -51,6 +53,9 @@ public class User extends Auditable {
     // 삭제여부
     @Column
     private boolean isDelete = false;
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Cv> cvs = new ArrayList<>();
 
 
     public enum UserStatus {

@@ -7,17 +7,17 @@ public class ProjectSkillStackDto {
 
     @Data
     public static class Add {
-        private String skillName;
+        private long skillStackId;
 
-        private String description;
+//        private String description;
     }
 
-    @Getter
+    @Data
     public static class Response {
         private long skillStackId;
 
         private String skillName;
 
-        private String description;
+//        private String description;
     }
 }
