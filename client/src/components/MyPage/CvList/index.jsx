@@ -17,14 +17,14 @@ const CvList = () => {
             <h4>이력서 Title</h4>
             <div>개발 직무</div>
           </div>
-          <div className={styles.cvDate}>작성 날자</div>
+          <div className={styles.cvDate}>작성 날짜</div>
         </div>
         <div className={styles.cvCard}>
           <div>
             <h4>이력서 Title</h4>
             <div>개발 직무</div>
           </div>
-          <div className={styles.cvDate}>작성 날자</div>
+          <div className={styles.cvDate}>작성 날짜</div>
         </div>
       </div>
       <div className={styles.pageNum}>1 2 3 4</div>
