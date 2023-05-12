@@ -1,11 +1,14 @@
 package com.cv.domain.project.entity;
 
 import com.cv.domain.skillStack.entity.SkillStack;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
+@Data
+@NoArgsConstructor
 @Entity
 public class ProjectSkillStack {
 
@@ -14,10 +17,10 @@ public class ProjectSkillStack {
     private Long projectSkillStackId;
 
     @ManyToOne
-    @JoinColumn(name = "PROJECT_ID", nullable = false)
+    @JoinColumn(name = "PROJECT_ID")
     private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "SKILL_STACK_ID", nullable = false)
+    @JoinColumn(name = "SKILL_STACK_ID")
     private SkillStack skillStack;
 }

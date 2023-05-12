@@ -18,16 +18,15 @@ import javax.validation.Valid;
 @RestController
 public class CvController {
 
-    private CvMapper mapper;
-    private CvService cvService;
+    private final CvMapper mapper;
+    private final CvService cvService;
 
     // 이력서 작성
     @PostMapping
-    public ResponseEntity<CvDto.Response> postCv(@RequestBody @Valid CvDto.Post requestBody) {
-
+    public ResponseEntity<CvDto.Response> postCv(@RequestBody @Valid CvDto.Post requestBody){
         Cv postCv = mapper.cvPostToCv(requestBody);
         Cv cv = cvService.createCv(postCv);
-
+        cvService.injectLowDomain(cv);
         return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.CREATED);
     }
 
@@ -54,6 +53,7 @@ public class CvController {
     // 이력서 삭제
     @DeleteMapping("/{cv-id}")
     public ResponseEntity<HttpStatus> deleteCv(@PathVariable("cv-id") long cvId) {
+        cvService.deleteCv(cvId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

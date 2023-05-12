@@ -1,12 +1,12 @@
 package com.cv.domain.education.entity;
 
 import com.cv.domain.cv.entity.Cv;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class Education {
@@ -33,6 +33,6 @@ public class Education {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CV_ID", nullable = false)
+    @JoinColumn(name = "CV_ID")
     private Cv cv;
 }

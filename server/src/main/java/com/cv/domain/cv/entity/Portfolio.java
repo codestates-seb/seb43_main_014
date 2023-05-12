@@ -1,6 +1,5 @@
-package com.cv.domain.customSection.entity;
+package com.cv.domain.cv.entity;
 
-import com.cv.domain.cv.entity.Cv;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,16 +8,13 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class CustomSection {
+public class Portfolio {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long customSectionId;
+    private Long portfolioId;
 
-    private String customName;
-
-    @Lob
-    private String customContent;
+    private String portfolioAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CV_ID")

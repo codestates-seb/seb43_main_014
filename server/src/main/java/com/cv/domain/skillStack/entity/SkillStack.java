@@ -23,12 +23,12 @@ public class SkillStack {
 
     private String description;
 
-    @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "skillStack", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<CvSkillStack> cvSkillStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "skillStack", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<ProjectSkillStack> projectSkillStacks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "skillStack", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "skillStack", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<CareerSkillStack> careerSkillStacks = new ArrayList<>();
 }

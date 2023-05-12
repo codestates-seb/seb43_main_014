@@ -90,10 +90,10 @@ public class UserController {
 
 
 
-    // 이력서 페이지네이션
+    //TODO 이력서 페이지네이션
 
 
-    // 이미지 수정
+    //TODO 이미지 수정
 
 
 
