@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const PwModal = ({ openModalHandler }) => {
   const [newPassword, setNewPassword] = useState({
+    password_current: '',
     password: '',
     password_confirm: '',
   });
@@ -19,10 +20,6 @@ const PwModal = ({ openModalHandler }) => {
     password: false,
     password_confirm: false,
   });
-
-  const handleCheck = () => {
-    axios.post(``, {});
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,8 +36,15 @@ const PwModal = ({ openModalHandler }) => {
     console.log(value);
   };
 
-  const handleSubmit = () => {
-    axios.fatch(``, { newPassword });
+  const handleSubmit = (e) => {
+    const { password_current, password, password_confirm } = newPassword;
+    // console.log(newPassword);
+    if (password_current && password && password_confirm) {
+      // axios.fatch(``, { newPassword });
+      console.log('fatch 요청');
+    } else {
+      e.preventDefault();
+    }
   };
 
   const validate = (newPassword) => {
@@ -50,7 +54,7 @@ const PwModal = ({ openModalHandler }) => {
     };
 
     if (newPassword.password.trim() === '') {
-      newErrors.password = '비밀번호를 입력해주세요.';
+      newErrors.password = '비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)';
       setValid((prevValid) => ({ ...prevValid, password: false }));
     } else if (newPassword.password.length < 8) {
       newErrors.password = '비밀번호는 8자리 이상이어야 합니다.';
@@ -60,8 +64,7 @@ const PwModal = ({ openModalHandler }) => {
         newPassword.password,
       )
     ) {
-      newErrors.password =
-        '영문자, 숫자, 특수문자를 포함한 8글자 이상의 비밀번호를 입력해주세요.';
+      newErrors.password = '비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)';
       setValid((prevValid) => ({ ...prevValid, password: false }));
     } else {
       newErrors.password = '올바른 형식입니다.';
@@ -82,6 +85,7 @@ const PwModal = ({ openModalHandler }) => {
     setErrors(newErrors);
   };
 
+  const allTrue = Object.values(valid).every((value) => value === true);
   return (
     <>
       <Modal openModalHandler={openModalHandler}>
@@ -92,7 +96,11 @@ const PwModal = ({ openModalHandler }) => {
           <form>
             <div className={styles.modalChangeInput}>
               <span>현재 비밀번호</span>
-              <input type="password" onChange={handleCheck} />
+              <input
+                type="password"
+                name="password_current"
+                onChange={handleChange}
+              />
               <div>
                 <span className={styles.inputDetail}>
                   비밀번호를 잊으셨나요?{' '}
@@ -105,9 +113,6 @@ const PwModal = ({ openModalHandler }) => {
             <div className={styles.modalChangeInput}>
               <span>비밀번호</span>
               <input type="password" name="password" onChange={handleChange} />
-              <span className={styles.inputDetail}>
-                비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)
-              </span>
               <div
                 className={
                   valid.password ? styles.successMsg : styles.errorsMsg
@@ -139,13 +144,19 @@ const PwModal = ({ openModalHandler }) => {
               >
                 취소
               </button>
-              <button
-                type="submit"
-                className={styles.btn}
-                onClick={handleSubmit}
-              >
-                저장
-              </button>
+              {newPassword.password_current && allTrue ? (
+                <button
+                  type="submit"
+                  className={styles.btn}
+                  onClick={handleSubmit}
+                >
+                  저장
+                </button>
+              ) : (
+                <button disabled className={styles.notBtn}>
+                  저장
+                </button>
+              )}
             </div>
           </form>
         </div>
