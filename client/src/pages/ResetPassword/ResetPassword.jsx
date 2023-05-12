@@ -4,8 +4,14 @@ import Button from '../../components/common/Button/Button';
 import styles from './ResetPassword.module.css';
 import LabelInput from '../../components/common/LabelInput/LabelInput';
 import FormBox from '../../components/common/FormBox/FormBox';
+import { validate } from '../../utils/validate-resetpassword';
 
 export default function ResetPassword() {
+  const password = 'test1234!';
+  const halfLength = Math.ceil(password.length / 2);
+  const maskedPassword =
+    password.substring(0, halfLength) + '*'.repeat(halfLength);
+
   const [form, setForm] = useState({
     phone: '',
   });
@@ -17,28 +23,6 @@ export default function ResetPassword() {
   const [valid, setValid] = useState({
     phone: false,
   });
-
-  const validate = (form) => {
-    const newErrors = {
-      phone: '',
-    };
-
-    if (form.phone.trim() === '') {
-      newErrors.phone = '휴대폰 번호를 입력해주세요.';
-      setValid((prevValid) => ({ ...prevValid, phone: false }));
-    } else if (
-      !/^01([016789]{1}|[5]{1}[0123456789]{1})(\d{3}|\d{4})(\d{4})$/.test(
-        form.phone,
-      )
-    ) {
-      newErrors.phone = '올바른 휴대폰 번호를 입력해주세요.';
-      setValid((prevValid) => ({ ...prevValid, phone: false }));
-    } else {
-      newErrors.phone = '올바른 형식입니다.';
-      setValid((prevValid) => ({ ...prevValid, phone: true }));
-    }
-    setErrors(newErrors);
-  };
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
@@ -59,7 +43,9 @@ export default function ResetPassword() {
       return;
     }
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-    validate({ ...form, [name]: value });
+    const [newErrors, newValid] = validate({ ...form, [name]: value });
+    setErrors(newErrors);
+    setValid(newValid);
   };
 
   return (
@@ -83,6 +69,9 @@ export default function ResetPassword() {
           <div className={valid.phone ? styles.successMsg : styles.errorsMsg}>
             {errors.phone}
           </div>
+          <br />
+          <br />
+          <div>비밀번호 : {maskedPassword}</div>
           <br />
           <br />
           <br />
