@@ -77,12 +77,6 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
             <div>
               <span className={styles.info}>email</span>
               <div className={styles.updataInput}>
-                {/* <input
-                  className={styles.notInput}
-                  type="text"
-                  value={email}
-                  disabled
-                /> */}
                 <span className={styles.notInput}>{email}</span>
               </div>
             </div>
@@ -114,14 +108,20 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
           >
             취소
           </button>
-          <button
-            type="submit"
-            disabled={valid.phone}
-            className={styles.btn}
-            onClick={onSubmit}
-          >
-            저장
-          </button>
+          {valid.phone ? (
+            <button
+              type="submit"
+              disabled={valid.phone}
+              className={styles.btn}
+              onClick={onSubmit}
+            >
+              저장
+            </button>
+          ) : (
+            <button disabled className={styles.notBtn}>
+              저장
+            </button>
+          )}
         </div>
       </div>
     </>
