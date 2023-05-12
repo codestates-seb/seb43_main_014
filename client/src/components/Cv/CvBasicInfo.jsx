@@ -6,6 +6,12 @@ import Select from '@mui/material/Select';
 import { useState } from 'react';
 import styled from 'styled-components';
 import CvSkillInput from './CvCustomInput';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import NavigationIcon from '@mui/icons-material/Navigation';
 
 const days = [
   '일',
@@ -154,7 +160,7 @@ const CvBasicInfo = () => {
         </div>
         <div className="test2">
           <div className="photo">
-            <input type="file" accept="image/*"></input>
+            <img src="https://blog.kakaocdn.net/dn/OZ3vp/btqWW9GQeUf/AscsDSgZbtKRKXxMuw2bPk/img.jpg" />
           </div>
           <div className="name">
             <span>성명</span>
@@ -225,7 +231,7 @@ const CvBasicInfo = () => {
           <div className="develop">
             <span>개발 직무</span>
 
-            <FormControl sx={{ m: 1, width: 170 }}>
+            <FormControl sx={{ m: 1, width: 190 }}>
               <InputLabel id="demo-simple-select-label">직무</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -252,6 +258,15 @@ const CvBasicInfo = () => {
 
         <div className="tag">
           <span>기술스택 태그</span>
+          <Box sx={{ '& > :not(style)': { m: 1 } }}>
+            <Fab color="primary" variant="extended">
+              React
+            </Fab>
+            <Fab color="secondary" variant="extended">
+              Javascript
+            </Fab>
+            <Fab variant="extended">Java</Fab>
+          </Box>
         </div>
         <div className="link">
           <div>
@@ -283,7 +298,7 @@ const Container = styled.div`
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   input {
-    width: 28rem;
+    width: 32rem;
     height: 2.5rem;
     margin: 0 0 1rem 0rem;
     border-radius: 0.2rem;
@@ -296,6 +311,10 @@ const Container = styled.div`
     font-size: 1rem;
     font-weight: bold;
     color: gray;
+  }
+
+  img {
+    width: 16rem;
   }
 
   .name {

@@ -5,8 +5,8 @@ const EventTap = () => {
   return (
     <Container>
       <h3>로켓CV 오픈 기념 이벤트!</h3>
-      <span>로켓CV를 이용하여 취업을 하신 분들의 후기를 들려주세요!</span>
-      <span>추첨을 통해 500만 메소를 드립니다.</span>
+      <Content>로켓CV를 이용하여 취업을 하신 분들의 후기를 들려주세요!</Content>
+      <Content>추첨을 통해 500만 메소를 드립니다.</Content>
       <StyledButton>후기 작성하기</StyledButton>
     </Container>
   );
@@ -25,20 +25,21 @@ const Container = styled.div`
   text-align: center;
   margin: 3rem 0 3rem 0;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  span {
-    font-size: 1rem;
-    color: gray;
-  }
   h3 {
     font-size: 1.3rem;
   }
+`;
+
+const Content = styled.div`
+  font-size: 1rem;
+  color: gray;
 `;
 
 const StyledButton = styled.button`
   width: 10rem;
   height: 3.5rem;
   margin: 1rem 0 1rem 0;
-  font-size: 0, 8rem;
+  font-size: 0.8rem;
   cursor: pointer;
   padding: 1rem;
   border: none;
