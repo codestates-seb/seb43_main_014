@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refreshToken = delegateAccessToken(user);
 
         // JWT token을 response 헤더에 넣어줌
-        response.setHeader("Authorization", "Bear " + accessToken);
+        response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
 
         LinkedHashMap<String, Object> userInfo = new LinkedHashMap<>();

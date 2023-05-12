@@ -106,7 +106,6 @@ public class SecurityConfiguration {
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh")); // 클라이언트에게 노출되는 응답 헤더
         configuration.setAllowCredentials(true); // 클라이언트 요청 헤더에 인증 정보 포함 가능
 
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
