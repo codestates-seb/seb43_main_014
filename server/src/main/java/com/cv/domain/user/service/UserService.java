@@ -32,28 +32,27 @@ public class UserService {
 
 
     //password 변경
-    public void updateUserPassword(User loggedInUser, User user) {
+    public void changePassword(User loggedInUser, User user, String currentPassword, String newPassword) {
         user.checkActiveUser(user);
         User.isMyself(loggedInUser.getUserId(),user.getUserId());
 
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        String encryptedLoggedInUserPassword = loggedInUser.getPassword();
+        String encryptedCurrentPassword = passwordEncoder.encode(currentPassword);
 
-        User findUser = findUser(user.getUserId());
-        findUser.setPassword(encryptedPassword);
-        userRepository.save(findUser);
+        if (encryptedLoggedInUserPassword.equals(encryptedCurrentPassword)) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
     }
+
 
     // repository에 userId를 통해 user객체 return
     public User findUser(Long userId) {
         User foundUser = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         return foundUser;
-    }
-
-    // password 확인
-    public boolean checkPasswordMatch(User user) {
-        User foundUser = findUser(user.getUserId());
-        return passwordEncoder.matches(user.getPassword(), foundUser.getPassword());
     }
 
 
