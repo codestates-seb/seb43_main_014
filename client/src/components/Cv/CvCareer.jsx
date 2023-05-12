@@ -148,7 +148,7 @@ const CvCareerInfo = () => {
         <div className="test2">
           <div className="birth2">
             <span>시작일</span>
-            <FormControl sx={{ m: 1, width: 115, height: 0 }}>
+            <FormControl sx={{ m: 1, width: 135, height: 0 }}>
               <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -165,7 +165,7 @@ const CvCareerInfo = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 170 }}>
+            <FormControl sx={{ m: 1, width: 180 }}>
               <InputLabel id="demo-simple-select-label">년</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -185,7 +185,7 @@ const CvCareerInfo = () => {
           </div>
           <div className="birth2">
             <span>종료일</span>
-            <FormControl sx={{ m: 1, width: 115, height: 0 }}>
+            <FormControl sx={{ m: 1, width: 135, height: 0 }}>
               <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -202,7 +202,7 @@ const CvCareerInfo = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 170 }}>
+            <FormControl sx={{ m: 1, width: 180 }}>
               <InputLabel id="demo-simple-select-label">년</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -254,7 +254,7 @@ const CvCareerInfo = () => {
         <div className="test2">
           <div className="birth2">
             <span>시작일</span>
-            <FormControl sx={{ m: 1, width: 115, height: 0 }}>
+            <FormControl sx={{ m: 1, width: 135, height: 0 }}>
               <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -271,7 +271,7 @@ const CvCareerInfo = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 170 }}>
+            <FormControl sx={{ m: 1, width: 180 }}>
               <InputLabel id="demo-simple-select-label">년</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -291,7 +291,7 @@ const CvCareerInfo = () => {
           </div>
           <div className="birth2">
             <span>종료일</span>
-            <FormControl sx={{ m: 1, width: 115, height: 0 }}>
+            <FormControl sx={{ m: 1, width: 135, height: 0 }}>
               <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -308,7 +308,7 @@ const CvCareerInfo = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 170 }}>
+            <FormControl sx={{ m: 1, width: 180 }}>
               <InputLabel id="demo-simple-select-label">년</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -327,7 +327,6 @@ const CvCareerInfo = () => {
             </FormControl>
           </div>
         </div>
-
         <div className="intro">
           <span>설명</span>
           <input></input>
