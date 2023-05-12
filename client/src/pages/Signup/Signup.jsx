@@ -44,7 +44,7 @@ export default function Signup() {
       console.log('Form data:', form);
       axios
         .post(
-          'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/user',
+          'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user',
           form,
         )
         .then((res) => {
