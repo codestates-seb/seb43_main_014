@@ -23,6 +23,8 @@ public class CareerDto {
 
         private String developmentJob;
 
+        private String description;
+
         private List<CareerSkillStackDto.Add> careerSkillStacks;
     }
 
@@ -30,11 +32,21 @@ public class CareerDto {
     public static class Response {
         private long careerId;
 
+        private String joinYear;
+
+        private String joinMonth;
+
+        private String retirementYear;
+
+        private String retirementMonth;
+
         private String companyName;
 
         private String duty;
 
         private String developmentJob;
+
+        private String description;
 
         private List<CareerSkillStackDto.Response> careerSkillStacks;
     }
