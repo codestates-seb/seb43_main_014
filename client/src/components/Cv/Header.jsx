@@ -19,6 +19,9 @@ const Header = () => {
     axios
       .delete(
         'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/logout',
+        {
+          withCredentials: true,
+        },
       )
       .then((res) => {
         removeCookie('token'); // 쿠키 저장소에서 토큰 제거
