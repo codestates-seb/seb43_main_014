@@ -79,47 +79,91 @@ const years = [
 ];
 
 const CvCareerInfo = () => {
+  const [degree, setDegree] = useState('');
+  const [major, setMajor] = useState('');
+  const [school, setSchool] = useState('');
   const [eduStartMonth, setEduStartMonth] = useState('');
   const [eduStartYear, setEduStartYear] = useState('');
   const [eduEndMonth, setEduEndMonth] = useState('');
   const [eduEndYear, setEduEndYear] = useState('');
+  const [eduDescription, setEduDescription] = useState('');
+
+  const [company, setCompany] = useState('');
+  const [position, setPosition] = useState('');
+  const [developmentJob, setDevelopmentJob] = useState('');
+  const [comStack, setComStack] = useState('');
   const [comStartMonth, setComStartMonth] = useState('');
   const [comStartYear, setComStartYear] = useState('');
   const [comEndMonth, setComEndMonth] = useState('');
   const [comEndYear, setComEndYear] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
+
+  const [projectName, setProjectName] = useState('');
+  const [part, setPart] = useState('');
+  const [proDevelopmentJob, setProDevelopmentJob] = useState('');
+  const [proStack, setProStack] = useState('');
   const [proStartMonth, setProStartMonth] = useState('');
   const [proStartYear, setProStartYear] = useState('');
   const [proEndMonth, setProEndMonth] = useState('');
   const [proEndYear, setProEndYear] = useState('');
+  const [proDescription, setProDescription] = useState('');
 
   const onChange = (event) => {
     const {
       target: { name, value },
     } = event;
-    if (name === 'edu-start-month') {
+    if (name === 'eduStartMonth') {
       setEduStartMonth(value);
-    } else if (name === 'edu-start-year') {
+    } else if (name === 'eduStartYear') {
       setEduStartYear(value);
-    } else if (name === 'edu-end-month') {
+    } else if (name === 'eduEndMonth') {
       setEduEndMonth(value);
-    } else if (name === 'edu-end-year') {
+    } else if (name === 'eduEndYear') {
       setEduEndYear(value);
-    } else if (name === 'com-start-month') {
+    } else if (name === 'comStartMonth') {
       setComStartMonth(value);
-    } else if (name === 'com-start-year') {
+    } else if (name === 'comStartYear') {
       setComStartYear(value);
-    } else if (name === 'com-end-month') {
+    } else if (name === 'comEndMonth') {
       setComEndMonth(value);
-    } else if (name === 'com-end-year') {
+    } else if (name === 'comEndYear') {
       setComEndYear(value);
-    } else if (name === 'pro-start-month') {
+    } else if (name === 'proStartMonth') {
       setProStartMonth(value);
-    } else if (name === 'pro-start-year') {
+    } else if (name === 'proStartYear') {
       setProStartYear(value);
-    } else if (name === 'pro-end-month') {
+    } else if (name === 'proEndMonth') {
       setProEndMonth(value);
-    } else if (name === 'pro-end-year') {
+    } else if (name === 'proEndYear') {
       setProEndYear(value);
+    } else if (name === 'degree') {
+      setDegree(value);
+    } else if (name === 'major') {
+      setMajor(value);
+    } else if (name === 'school') {
+      setSchool(value);
+    } else if (name === 'eduDescription') {
+      setEduDescription(value);
+    } else if (name === 'company') {
+      setCompany(value);
+    } else if (name === 'position') {
+      setPosition(value);
+    } else if (name === 'developmentJob') {
+      setDevelopmentJob(value);
+    } else if (name === 'comStack') {
+      setComStack(value);
+    } else if (name === 'jobDescription') {
+      setJobDescription(value);
+    } else if (name === 'projectName') {
+      setProjectName(value);
+    } else if (name === 'part') {
+      setPart(value);
+    } else if (name === 'proDevelopmentJob') {
+      setProDevelopmentJob(value);
+    } else if (name === 'proStack') {
+      setProStack(value);
+    } else if (name === 'proDescription') {
+      setProDescription(value);
     }
   };
 
@@ -133,17 +177,35 @@ const CvCareerInfo = () => {
         <div className="test2">
           <div className="name1">
             <span>학위</span>
-            <input></input>
+            <input
+              maxLength={30}
+              name="degree"
+              type="text"
+              value={degree}
+              onChange={onChange}
+            ></input>
           </div>
 
           <div className="name2">
             <span>전공</span>
-            <input></input>
+            <input
+              maxLength={30}
+              name="major"
+              type="text"
+              value={major}
+              onChange={onChange}
+            ></input>
           </div>
         </div>
         <div className="school">
           <span>학교</span>
-          <input></input>
+          <input
+            maxLength={30}
+            name="school"
+            type="text"
+            value={school}
+            onChange={onChange}
+          ></input>
         </div>
         <div className="test2">
           <div className="birth2">
@@ -153,7 +215,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="edu-start-month"
+                name="eduStartMonth"
                 value={eduStartMonth}
                 label="Month"
                 onChange={onChange}
@@ -170,7 +232,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="edu-start-year"
+                name="eduStartYear"
                 value={eduStartYear}
                 label="Year"
                 onChange={onChange}
@@ -190,7 +252,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="edu-end-month"
+                name="eduEndMonth"
                 value={eduEndMonth}
                 label="Month"
                 onChange={onChange}
@@ -207,7 +269,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="edu-end-year"
+                name="eduEndYear"
                 value={eduEndYear}
                 label="Year"
                 onChange={onChange}
@@ -224,7 +286,12 @@ const CvCareerInfo = () => {
 
         <div className="intro">
           <span>설명</span>
-          <input></input>
+          <input
+            name="eduDescription"
+            type="text"
+            value={eduDescription}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
@@ -237,19 +304,42 @@ const CvCareerInfo = () => {
         <div className="test2">
           <div className="name1">
             <span>회사명</span>
-            <input></input>
+            <input
+              maxLength={30}
+              name="company"
+              type="text"
+              value={company}
+              onChange={onChange}
+            ></input>
           </div>
 
           <div className="name2">
             <span>직책</span>
-            <input></input>
+            <input
+              maxLength={30}
+              name="position"
+              type="text"
+              value={position}
+              onChange={onChange}
+            ></input>
           </div>
         </div>
         <div className="school">
           <span>개발직무</span>
-          <input></input>
+          <input
+            maxLength={30}
+            name="developmentJob"
+            type="text"
+            value={developmentJob}
+            onChange={onChange}
+          ></input>
           <span>기술스택</span>
-          <input></input>
+          <input
+            name="comStack"
+            type="text"
+            value={comStack}
+            onChange={onChange}
+          ></input>
         </div>
         <div className="test2">
           <div className="birth2">
@@ -259,7 +349,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="com-start-month"
+                name="comStartMonth"
                 value={comStartMonth}
                 label="Month"
                 onChange={onChange}
@@ -276,7 +366,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="com-start-year"
+                name="comStartYear"
                 value={comStartYear}
                 label="Year"
                 onChange={onChange}
@@ -296,7 +386,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="com-end-month"
+                name="comEndMonth"
                 value={comEndMonth}
                 label="Month"
                 onChange={onChange}
@@ -313,7 +403,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="com-end-year"
+                name="comEndYear"
                 value={comEndYear}
                 label="Year"
                 onChange={onChange}
@@ -329,7 +419,12 @@ const CvCareerInfo = () => {
         </div>
         <div className="intro">
           <span>설명</span>
-          <input></input>
+          <input
+            name="jobDescription"
+            type="text"
+            value={jobDescription}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
@@ -342,19 +437,42 @@ const CvCareerInfo = () => {
         <div className="test2">
           <div className="name1">
             <span>프로젝트 명</span>
-            <input></input>
+            <input
+              maxLength={30}
+              name="projectName"
+              type="text"
+              value={projectName}
+              onChange={onChange}
+            ></input>
           </div>
 
           <div className="name2">
             <span>역할</span>
-            <input></input>
+            <input
+              maxLength={30}
+              name="part"
+              type="text"
+              value={part}
+              onChange={onChange}
+            ></input>
           </div>
         </div>
         <div className="school">
           <span>개발직무</span>
-          <input></input>
+          <input
+            maxLength={30}
+            name="proDevelopmentJob"
+            type="text"
+            value={proDevelopmentJob}
+            onChange={onChange}
+          ></input>
           <span>기술스택</span>
-          <input></input>
+          <input
+            name="proStack"
+            type="text"
+            value={proStack}
+            onChange={onChange}
+          ></input>
         </div>
         <div className="test2">
           <div className="birth2">
@@ -364,7 +482,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="pro-start-month"
+                name="proStartMonth"
                 value={proStartMonth}
                 label="Month"
                 onChange={onChange}
@@ -381,7 +499,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="pro-start-year"
+                name="proStartYear"
                 value={proStartYear}
                 label="Year"
                 onChange={onChange}
@@ -401,7 +519,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="pro-end-month"
+                name="proEndMonth"
                 value={proEndMonth}
                 label="Month"
                 onChange={onChange}
@@ -418,7 +536,7 @@ const CvCareerInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="pro-end-year"
+                name="proEndYear"
                 value={proEndYear}
                 label="Year"
                 onChange={onChange}
@@ -435,7 +553,12 @@ const CvCareerInfo = () => {
 
         <div className="intro">
           <span>설명</span>
-          <input></input>
+          <input
+            name="proDescription"
+            type="text"
+            value={proDescription}
+            onChange={onChange}
+          ></input>
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>

@@ -5,13 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState } from 'react';
 import styled from 'styled-components';
-import CvSkillInput from './CvCustomInput';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import NavigationIcon from '@mui/icons-material/Navigation';
 
 const days = [
   '일',
@@ -134,6 +129,17 @@ const CvBasicInfo = () => {
   const [day, setDay] = useState('');
   const [year, setYear] = useState('');
   const [job, setJob] = useState('');
+  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [adress, setAdress] = useState('');
+  const [intro, setIntro] = useState('');
+  const [stackTags, setStackTags] = useState('');
+  const [url1, setUrl1] = useState('');
+  const [url2, setUrl2] = useState('');
+  const [url3, setUrl3] = useState('');
+  const [url4, setUrl4] = useState('');
 
   const onChange = (event) => {
     const {
@@ -147,15 +153,44 @@ const CvBasicInfo = () => {
       setYear(value);
     } else if (name === 'job') {
       setJob(value);
-    }
-    console.log(value);
-  };
+    } else if (name === 'title') {
+      setTitle(value);
+    } else if (name === 'name') {
+      setName(value);
+    } else if (name === 'mail') {
+      setEmail(value);
+    } else if (name === 'number') {
+      setPhoneNumber(value);
+    } else if (name === 'adress') {
+      setAdress(value);
+    } else if (name === 'intro') {
+      setIntro(value);
+    } else if (name === 'tag') {
+      setStackTags(value);
+    } else if (name === 'gitLink') {
+      setUrl1(value);
+    } else if (name === 'notionLink') {
+      setUrl2(value);
+    } else if (name === 'blogLink') {
+      setUrl3(value);
+    } else if (name === 'ptpLink') {
+      setUrl4(value);
 
+      console.log(value);
+    }
+  };
   return (
     <Container>
       <div className="body">
         <div className="title">
-          <input placeholder="이력서 제목"></input>
+          <input
+            maxLength={20}
+            name="title"
+            type="text"
+            value={title}
+            onChange={onChange}
+            placeholder="이력서 제목을 입력하세요."
+          ></input>
           <hr></hr>
         </div>
         <div className="test2">
@@ -164,13 +199,38 @@ const CvBasicInfo = () => {
           </div>
           <div className="name">
             <span>성명</span>
-            <input></input>
+            <input
+              name="name"
+              type="text"
+              value={name}
+              onChange={onChange}
+              maxLength={10}
+            ></input>
             <span>이메일 주소</span>
-            <input></input>
+            <input
+              name="email"
+              type="text"
+              value={email}
+              onChange={onChange}
+              maxLength={30}
+            ></input>
             <span>전화번호</span>
-            <input></input>
+            <input
+              name="phoneNumber"
+              type="text"
+              value={phoneNumber}
+              placeholder="하이픈(-)을 뺀 형식으로 입력해주세요."
+              onChange={onChange}
+              maxLength={11}
+            ></input>
             <span>주소</span>
-            <input></input>
+            <input
+              name="adress"
+              type="text"
+              value={adress}
+              onChange={onChange}
+              maxLength={50}
+            ></input>
           </div>
         </div>
         <div className="test2">
@@ -253,7 +313,12 @@ const CvBasicInfo = () => {
 
         <div className="intro">
           <span>자기소개</span>
-          <input></input>
+          <input
+            name="intro"
+            type="text"
+            value={intro}
+            onChange={onChange}
+          ></input>
         </div>
 
         <div className="tag">
@@ -273,14 +338,47 @@ const CvBasicInfo = () => {
             <span>링크</span>
           </div>
           <div>
-            <input></input>
-            <input></input>
-            <input></input>
+            <span>Git hub</span>
           </div>
+          <input
+            name="url1"
+            type="text"
+            value={url1}
+            placeholder="URL을 입력해주세요."
+            onChange={onChange}
+          ></input>
+
+          <div>
+            <span>Notion</span>
+          </div>
+          <input
+            name="url2"
+            type="text"
+            value={url2}
+            placeholder="URL을 입력해주세요."
+            onChange={onChange}
+          ></input>
+
+          <div>
+            <span>Blog</span>
+          </div>
+          <input
+            name="url3"
+            type="text"
+            value={url3}
+            placeholder="URL을 입력해주세요."
+            onChange={onChange}
+          ></input>
         </div>
         <div className="port">
           <span>포트폴리오</span>
-          <input></input>
+          <input
+            name="url4"
+            type="text"
+            value={url4}
+            placeholder="URL을 입력해주세요."
+            onChange={onChange}
+          ></input>
         </div>
       </div>
     </Container>
@@ -347,12 +445,19 @@ const Container = styled.div`
       height: 20rem;
     }
   }
+  .link {
+    margin-top: 2rem;
+  }
   .port {
     width: 20rem;
   }
   .title {
     input {
+      width: 16rem;
       margin: 0;
     }
+  }
+  .tag {
+    margin-top: 1rem;
   }
 `;
