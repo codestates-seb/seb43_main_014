@@ -11,6 +11,7 @@ import { isLoginSelector, tokenState } from '../../recoil/TokenAtom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { validate } from '../../utils/validate-login';
+import Alert from '../../components/common/Alert/Alert';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ export default function Login() {
     password: false,
   });
 
+  const [showAlert, setShowAlert] = useState(false);
+
   const allTrue = Object.values(valid).every((value) => value === true);
 
   const handleSubmit = (e) => {
@@ -58,7 +61,7 @@ export default function Login() {
           const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
           setToken(token); // 토큰을 리코일 상태에 저장
           console.log(Tokenvalue);
-          setCookie('token', token, { path: '/' }); // 토큰을 쿠키에 저장
+          setCookie('jwt_token', token, { path: '/' }); // 토큰을 쿠키에 저장 // document.cookie
           alert('로그인 성공!');
           navigate('/');
         })
@@ -71,7 +74,7 @@ export default function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      alert('공백은 입력할 수 없습니다.');
+      setShowAlert(true);
       e.preventDefault(); // 입력 막기
       return;
     }
@@ -86,6 +89,11 @@ export default function Login() {
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
+        {showAlert && (
+          <Alert setShowAlert={setShowAlert}>
+            <div>공백은 입력할 수 없습니다.</div>
+          </Alert>
+        )}
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.tapMenu}>
             <Link to="/login" className={styles.login}>

@@ -5,6 +5,7 @@ import styles from './ResetPassword.module.css';
 import LabelInput from '../../components/common/LabelInput/LabelInput';
 import FormBox from '../../components/common/FormBox/FormBox';
 import { validate } from '../../utils/validate-resetpassword';
+import Alert from '../../components/common/Alert/Alert';
 
 export default function ResetPassword() {
   const password = 'test1234!';
@@ -24,12 +25,13 @@ export default function ResetPassword() {
     phone: false,
   });
 
+  const [showAlert, setShowAlert] = useState(false);
+
   const allTrue = Object.values(valid).every((value) => value === true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (allTrue) {
-      // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
     }
   };
@@ -37,9 +39,8 @@ export default function ResetPassword() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      // 공백이 포함되어 있다면
-      alert('공백은 입력할 수 없습니다.');
-      e.preventDefault(); // 입력 막기
+      setShowAlert(true);
+      e.preventDefault();
       return;
     }
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
@@ -52,6 +53,11 @@ export default function ResetPassword() {
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
+        {showAlert && (
+          <Alert setShowAlert={setShowAlert}>
+            <div>공백은 입력할 수 없습니다.</div>
+          </Alert>
+        )}
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.title}>비밀번호 재설정</div>
           <div className={styles.explanation}>
