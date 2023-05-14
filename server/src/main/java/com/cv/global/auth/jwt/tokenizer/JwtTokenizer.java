@@ -1,4 +1,4 @@
-package com.cv.global.auth.jwt;
+package com.cv.global.auth.jwt.tokenizer;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

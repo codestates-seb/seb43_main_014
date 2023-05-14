@@ -1,4 +1,4 @@
-package com.cv.global.auth.userdetails;
+package com.cv.global.auth.jwt.service;
 
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;

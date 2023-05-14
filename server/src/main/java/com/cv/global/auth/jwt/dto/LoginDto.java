@@ -1,4 +1,4 @@
-package com.cv.global.auth.dto;
+package com.cv.global.auth.jwt.dto;
 
 import lombok.Getter;
 
