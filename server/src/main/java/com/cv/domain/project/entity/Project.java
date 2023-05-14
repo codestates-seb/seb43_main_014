@@ -38,4 +38,8 @@ public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectSkillStack> projectSkillStacks = new ArrayList<>();
+
+    public Project(Long projectId) {
+        this.projectId = projectId;
+    }
 }
