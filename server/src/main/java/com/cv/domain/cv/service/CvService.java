@@ -263,7 +263,7 @@ public class CvService {
         }
     }
 
-    private static void IsCvValid(Cv findCv) {
+    private void IsCvValid(Cv findCv) {
         if (findCv.getIsDelete()) {
             throw new BusinessLogicException(ExceptionCode.RESUME_WAS_DELETED);
         }
