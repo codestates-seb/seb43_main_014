@@ -1,6 +1,7 @@
 package com.cv.domain.user.controller;
 
 import com.cv.domain.cv.entity.Cv;
+import com.cv.domain.cv.service.CvService;
 import com.cv.domain.user.dto.UserDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.mapper.UserMapper;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -30,6 +33,7 @@ import javax.validation.constraints.Positive;
 public class UserController {
     private final UserService userService;
     private final UserMapper mapper;
+    private final CvService cvService;
 
     // 회원등록
     @PostMapping
@@ -72,30 +76,26 @@ public class UserController {
     }
 
     // 마이페이지 조회
-//    @GetMapping("/mypage/{userId}")
-//    @PreAuthorize("#userId == authentication.principal.userId")
-//    public ResponseEntity myPage(@PathVariable("userId") @Positive Long userId,
-//                                 @RequestParam(name = "page", defaultValue = "1") int page){
-//        User foundUser = userService.findUser(userId);
-//        if(foundUser == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
-//        //Page<Cv> cv = //해당 유저희 최신 이력서 3개씩 페이지네이션 된 목록을 가져옴
-//        return new ResponseEntity
-//    }
+    @GetMapping("/mypage/{userId}")
+    @PreAuthorize("#userId == authentication.principal.userId")
+    public ResponseEntity myPage(@PathVariable("userId") @Positive Long userId,
+                                 @RequestParam(name = "page", defaultValue = "1") int page){
+        User foundUser = userService.findUser(userId);
+        if(foundUser == null) {
+            return ResponseEntity.notFound().build();
+        }
 
+        Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
+        Page<Cv> cv = cvService.findLatestCvsByUser(userId, pageable);//해당 유저의 최신 이력서 3개씩 페이지네이션 된 목록을 가져옴
 
-
-
-
-    //TODO 이력서 페이지네이션
-
+        Map<String, Object> result = new HashMap<>();
+        result.put("profileImage", foundUser.getProfileImage());
+        result.put("name", foundUser.getName());
+        result.put("email",foundUser.getEmail());
+        result.put("phone", foundUser.getPhone());
+        result.put("cvs",cv);
+        return ResponseEntity.ok(result);
+    }
 
     //TODO 이미지 수정
-
-
-
-
 }

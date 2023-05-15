@@ -56,16 +56,16 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
-                        .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/user/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.POST, "/cv").hasRole("USER")
-                        .antMatchers(HttpMethod.PATCH, "/cv").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/cv").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET, "/cv/**").hasAnyRole("USER", "ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
+//                        .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.DELETE, "/user/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.POST, "/cv").hasRole("USER")
+//                        .antMatchers(HttpMethod.PATCH, "/cv").hasRole("USER")
+//                        .antMatchers(HttpMethod.GET, "/cv").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/cv/**").hasAnyRole("USER", "ADMIN")
+//                        .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated() // 인증되지 않은 요청은 보호되는 리소스에 접근할 수 없음(모든 요청에 대해 인증 요구)
                 )
                 .oauth2Login(oauth2 -> oauth2
