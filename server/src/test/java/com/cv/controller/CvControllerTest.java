@@ -102,7 +102,6 @@ public class CvControllerTest {
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자").ignored(),
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자").optional(),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름").optional(),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일").optional(),
@@ -158,7 +157,7 @@ public class CvControllerTest {
                         ),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자"),
+                                        fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자").ignored(),
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일"),
