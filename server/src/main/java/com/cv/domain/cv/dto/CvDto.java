@@ -13,9 +13,6 @@ public class CvDto {
 
     @Data
     public static class Post {
-        @Transient
-        private long cvId;  // 테스트용
-
         private long userId;
 
         private String name;
