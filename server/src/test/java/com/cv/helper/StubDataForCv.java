@@ -38,7 +38,6 @@ public class StubDataForCv {
         post.setBirthYear("2003년");
         post.setSelfIntroduction("자기소개");
         post.setDevelopmentJob("개발 직무");
-        post.setIsDelete(false);
         post.setCvSkillStacks(getCvSkillStackAdds());
         post.setLinks(getLinkAdds());
         post.setEducations(getEducationAdds());
