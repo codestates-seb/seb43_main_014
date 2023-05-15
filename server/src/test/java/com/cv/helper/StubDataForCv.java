@@ -48,6 +48,52 @@ public class StubDataForCv {
         return post;
     }
 
+    public static CvDto.Patch getCvPatch(){
+        CvDto.Patch patch = new CvDto.Patch();
+        patch.setCvId(1L);
+        patch.setName("유성영");
+        patch.setEmail("tkfkdgowksel@gmail.com");
+        patch.setPhone("010-0000-1111");
+        patch.setAddress("변경된 주소");
+        patch.setBirthDay("25일");
+        patch.setBirthMonth("1월");
+        patch.setBirthYear("1997년");
+        patch.setSelfIntroduction("변경된 자기소개");
+        patch.setDevelopmentJob("변경된 개발 직무");
+        patch.setCvSkillStacks(getCvSkillStackAdds());
+        patch.setLinks(getLinkAdds());
+        patch.setEducations(getEducationAdds());
+        patch.setCareers(getCareerAdds());
+        patch.setProjects(getProjectAdds());
+        patch.setCustomSections(getCustomSectionAdds());
+
+        return patch;
+    }
+
+    public static CvDto.Response getCvPatchResponse(){
+        CvDto.Response response = new CvDto.Response();
+        response.setCvId(1L);
+        response.setUserId(1L);
+        response.setName("유성영");
+        response.setEmail("tkfkdgowksel@gmail.com");
+        response.setPhone("010-0000-1111");
+        response.setAddress("변경된 주소");
+        response.setBirthDay("25일");
+        response.setBirthMonth("1월");
+        response.setBirthYear("1997년");
+        response.setSelfIntroduction("변경된 자기소개");
+        response.setDevelopmentJob("변경된 개발 직무");
+        response.setIsDelete(false);
+        response.setCvSkillStacks(getCvSkillStackResponses());
+        response.setLinks(getLinkResponses());
+        response.setEducations(getEducationResponses());
+        response.setCareers(getCareerResponses());
+        response.setProjects(getProjectResponses());
+        response.setCustomSections(getCustomSectionResponses());
+
+        return response;
+    }
+
     public static CvDto.Response getCvResponse() {
         CvDto.Response response = new CvDto.Response();
         response.setCvId(1L);
