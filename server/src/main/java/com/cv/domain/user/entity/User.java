@@ -47,8 +47,8 @@ public class User extends Auditable {
     private String profileImage;
 
     // 기술스택
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<UserSkillStack> tagNames = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+//    private List<UserSkillStack> tagNames = new ArrayList<>();
 
     // 삭제여부
     @Column
@@ -69,11 +69,6 @@ public class User extends Auditable {
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
     }
 
-    // 이미 존재하는 멤버가 있는지 확인
-    public static void checkExistUser(User user){
-        if(user != null)
-            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
-    }
 
     // 회원정보를 수정,삭제요청 하는 user가 자신인지 확인
     public static boolean isMyself(long authenticatedUserId,Long userId) {

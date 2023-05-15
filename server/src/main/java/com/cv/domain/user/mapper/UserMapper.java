@@ -11,7 +11,6 @@ public interface UserMapper {
     UserDto.SignUpResponse userPostToSignUpResponse(User user);
     User userPostDtoToUser(UserDto.Post userPostDto);
     User userPasswordPatchDtoToUser(UserDto.PasswordPatch userPasswordPatchDto);
-    User userPasswordPostDtoToUser(UserDto.PasswordPost userPasswordPostDto);
 
     User userPatchDtoToUser(UserDto.Patch userPatchDto);
 

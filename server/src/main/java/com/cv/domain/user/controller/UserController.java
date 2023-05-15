@@ -1,11 +1,16 @@
 package com.cv.domain.user.controller;
 
+import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.user.dto.UserDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.mapper.UserMapper;
 import com.cv.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,19 +43,13 @@ public class UserController {
     public void passwordPatch(Authentication authentication,
                                         @PathVariable("userId") @Positive Long userId,
                                         @Valid @RequestBody UserDto.PasswordPatch userPasswordPatchDto){
-        User user = mapper.userPasswordPatchDtoToUser(userPasswordPatchDto);
-        user.setUserId(userId);
-        User loggedInUser = (User)authentication.getPrincipal(); // 로그인된 회원의 엔티티 객체가 저장되어있음
-        userService.updateUserPassword(loggedInUser, user);
-    }
+        String currentPassword = userPasswordPatchDto.getCurrentPassword();
+        String newPassword = userPasswordPatchDto.getNewPassword();
 
-    // 현재 비밀번호 확인
-    @PostMapping("/password/{userId}")
-    public boolean verifyCurrentPassword(@PathVariable("userId") @Positive Long userId,
-                                        @Valid @RequestBody UserDto.PasswordPost userPasswordPostDto){
-        User user = mapper.userPasswordPostDtoToUser(userPasswordPostDto);
-        user.setUserId(userId);
-        return userService.checkPasswordMatch(user);
+        User user = userService.findUser(userId);
+        User loggedInUser = (User)authentication.getPrincipal(); // 로그인된 회원의 엔티티 객체가 저장되어있음
+
+        userService.changePassword(loggedInUser, user, currentPassword, newPassword);
     }
 
     // 이름, 휴대번호 변경
@@ -72,9 +71,29 @@ public class UserController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // 이력서 페이지네이션
-    // 마이페이지 전체화면 get
-    // 이미지 수정
+    // 마이페이지 조회
+//    @GetMapping("/mypage/{userId}")
+//    @PreAuthorize("#userId == authentication.principal.userId")
+//    public ResponseEntity myPage(@PathVariable("userId") @Positive Long userId,
+//                                 @RequestParam(name = "page", defaultValue = "1") int page){
+//        User foundUser = userService.findUser(userId);
+//        if(foundUser == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
+//        //Page<Cv> cv = //해당 유저희 최신 이력서 3개씩 페이지네이션 된 목록을 가져옴
+//        return new ResponseEntity
+//    }
+
+
+
+
+
+    //TODO 이력서 페이지네이션
+
+
+    //TODO 이미지 수정
 
 
 
