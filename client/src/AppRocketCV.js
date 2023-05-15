@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './pages/Root';
 import NotFound from './pages/NotFound';
@@ -9,6 +9,9 @@ import Signup from './pages/Signup/Signup';
 import Main from './pages/Main';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import CvPage from './components/Cv/CvPage';
+import { isLoginState } from './recoil/TokenAtom';
+import { userState } from './recoil/userAtom';
+import { useRecoilState } from 'recoil';
 
 const router = createBrowserRouter([
   {
@@ -48,6 +51,18 @@ const router = createBrowserRouter([
 ]);
 
 function AppRocKetCV() {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+
+  useEffect(() => {
+    // 앱이 로드될 때 로컬 스토리지에서 토큰을 확인하여 로그인 상태를 복원
+    const token = localStorage.getItem('jwt_token');
+    const userData = localStorage.getItem('user_info');
+    if (token && userData) {
+      setUserInfo(JSON.parse(userData));
+      setIsLogin(true);
+    }
+  }, []);
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
