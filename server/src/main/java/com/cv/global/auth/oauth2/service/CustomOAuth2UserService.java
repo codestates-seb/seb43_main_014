@@ -45,7 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")), // 사용자가 갖는 권한 TODO : 관리자 권한은 어떻게 처리를 해야할 지
                 userAttribute, // OAuth2 공급자로부터 받은 사용자 정보를 담고 잇는 Map 객체
-                userNameAttributeName //사용자의 식별자를 나타내는 속성 key값
+                "id" //사용자의 식별자를 나타내는 속성 key값
         );
     }
 }
