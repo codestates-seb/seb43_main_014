@@ -40,4 +40,8 @@ public class Career {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CV_ID")
     private Cv cv;
+
+    public Career(Long careerId) {
+        this.careerId = careerId;
+    }
 }
