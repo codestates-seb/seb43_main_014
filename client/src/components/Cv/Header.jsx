@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logo from '../../images/rocket.png';
-import { isLoginState } from '../../recoil/TokenAtom';
-import { userState } from '../../recoil/userAtom';
+import { isLoginState, userState } from '../../recoil/AuthAtom';
 import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,7 +10,6 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  console.log(isLogin);
 
   const handleLogout = () => {
     localStorage.removeItem('jwt_token');

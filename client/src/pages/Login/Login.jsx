@@ -7,8 +7,7 @@ import LabelInput from '../../components/common/LabelInput/LabelInput';
 import { Link, useNavigate } from 'react-router-dom';
 import Oauth from '../../components/common/Oauth/Oauth';
 import { useRecoilState } from 'recoil';
-import { isLoginState, tokenState } from '../../recoil/TokenAtom';
-import { userState } from '../../recoil/userAtom';
+import { isLoginState, tokenState, userState } from '../../recoil/AuthAtom';
 import axios from 'axios';
 import { validate } from '../../utils/validate-login';
 import Alert from '../../components/common/Alert/Alert';
@@ -19,8 +18,6 @@ export default function Login() {
   const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  console.log(isLogin); // 로그인시 : false -> true
-  console.log('userInfo : ', userInfo);
 
   // InputValueState
   const [form, setForm] = useState({
