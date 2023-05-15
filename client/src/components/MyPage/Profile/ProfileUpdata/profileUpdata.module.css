@@ -41,7 +41,9 @@
 .profilePic div:active {
   background-color: darkgreen;
 }
-
+.imgAdd {
+  display: none;
+}
 /* 유저 정보(이름, 이메일, 번호)*/
 .proInfo {
   display: flex;

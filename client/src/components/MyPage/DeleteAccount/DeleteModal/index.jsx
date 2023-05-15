@@ -7,13 +7,16 @@ import Modal from '../../../common/Modal';
 const DeleteModal = ({ openModalHandler, inputs }) => {
   const [check, setCheck] = useState(false);
   const { name, email } = inputs;
-  const onSubmit = () => {
+
+  const onDelete = () => {
     axios.delete(``);
     console.log('btn');
   };
+
   const onCheck = () => {
     setCheck(!check);
   };
+
   return (
     <>
       <Modal openModalHandler={openModalHandler}>
@@ -47,7 +50,7 @@ const DeleteModal = ({ openModalHandler, inputs }) => {
                 className={styles.deleteBtn}
                 type="submit"
                 disabled={!check}
-                onClick={onSubmit}
+                onClick={onDelete}
               >
                 계정 삭제하기
               </button>
