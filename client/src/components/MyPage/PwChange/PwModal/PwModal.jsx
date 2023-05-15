@@ -40,7 +40,10 @@ const PwModal = ({ openModalHandler }) => {
     const { password_current, password, password_confirm } = newPassword;
     // console.log(newPassword);
     if (password_current && password && password_confirm) {
-      // axios.fatch(``, { newPassword });
+      axios.patch(``, {
+        currentPassword: password_current,
+        newPassword: password,
+      });
       console.log('fatch 요청');
     } else {
       e.preventDefault();
