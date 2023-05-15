@@ -2,35 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logo from '../../images/rocket.png';
-import { isLoginSelector, tokenState } from '../../recoil/TokenAtom';
+import { isLoginState, userState } from '../../recoil/AuthAtom';
 import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginSelector);
-  const [token, setToken] = useRecoilState(tokenState);
-  console.log(isLogin);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
 
   const handleLogout = () => {
-    axios
-      .delete(
-        'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/logout',
-        {
-          withCredentials: true,
-        },
-      )
-      .then((res) => {
-        removeCookie('token'); // 쿠키 저장소에서 토큰 제거
-        setToken(''); // 리코일 토큰 상태 초기화
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    localStorage.removeItem('jwt_token');
+    localStorage.removeItem('user_info');
+    setIsLogin(false);
+    navigate('/');
   };
   if (isLogin) {
     return (
@@ -51,7 +36,7 @@ const Header = () => {
           <div className="auth_menu">
             <Link to="/mypage">
               {/* <AccountCircleIcon className="mypage" /> */}
-              마이페이지
+              {userInfo.name}님
             </Link>
             <span onClick={handleLogout}>로그아웃</span>
           </div>
