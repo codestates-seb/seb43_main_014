@@ -15,19 +15,30 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.cv.util.ApiDocumentUtils.getRequestPreProcessor;
 import static com.cv.util.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,7 +62,7 @@ public class CvControllerTest {
 
     @WithMockUser
     @Test
-    public void postCvTest() throws Exception {
+    void postCvTest() throws Exception {
 
         // given
         CvDto.Post post = StubDataForCv.getCvPost();
@@ -216,5 +227,132 @@ public class CvControllerTest {
                                         )
                         )
                 ));
+    }
+
+    @WithMockUser
+    @Test
+    void getCvTest() throws Exception {
+
+        // given
+        long cvId = 1L;
+        CvDto.Response response = StubDataForCv.getCvResponse();
+
+        given(cvService.getCv(Mockito.anyLong()))
+                .willReturn(new Cv());
+        given(mapper.cvToCvResponse(Mockito.any(Cv.class)))
+                .willReturn(response);
+
+        // when
+        ResultActions getActions =
+                mockMvc.perform(RestDocumentationRequestBuilders.get("/cv/{cvId}", cvId)
+                        .accept(MediaType.APPLICATION_JSON));
+
+        // then
+        getActions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId").value(response.getUserId()))
+                .andExpect(jsonPath("$.name").value(response.getName()))
+                .andExpect(jsonPath("$.email").value(response.getEmail()))
+                .andExpect(jsonPath("$.phone").value(response.getPhone()))
+                .andExpect(jsonPath("$.address").value(response.getAddress()))
+                .andExpect(jsonPath("$.birthDay").value(response.getBirthDay()))
+                .andExpect(jsonPath("$.birthMonth").value(response.getBirthMonth()))
+                .andExpect(jsonPath("$.birthYear").value(response.getBirthYear()))
+                .andExpect(jsonPath("$.selfIntroduction").value(response.getSelfIntroduction()))
+                .andExpect(jsonPath("$.developmentJob").value(response.getDevelopmentJob()))
+                .andExpect(jsonPath("$.cvSkillStacks[0].skillStackId").value(response.getCvSkillStacks().get(0).getSkillStackId()))
+                .andExpect(jsonPath("$.cvSkillStacks[1].skillStackId").value(response.getCvSkillStacks().get(1).getSkillStackId()))
+                .andExpect(jsonPath("$.educations[0].description").value(response.getEducations().get(0).getDescription()))
+                .andExpect(jsonPath("$.careers[0].description").value(response.getCareers().get(0).getDescription()))
+                .andExpect(jsonPath("$.customSections[0].customContent").value(response.getCustomSections().get(0).getCustomContent()))
+                .andExpect(jsonPath("$.projects[0].description").value(response.getProjects().get(0).getDescription()))
+                .andExpect(jsonPath("$.links[0].linkAddress").value(response.getLinks().get(0).getLinkAddress()))
+                .andDo(document("get-cv",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(List.of(parameterWithName("cvId").description("이력서 식별자"))),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자").ignored(),
+                                        fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름"),
+                                        fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일"),
+                                        fieldWithPath("phone").type(JsonFieldType.STRING).description("이력서에 작성할 연락처"),
+                                        fieldWithPath("address").type(JsonFieldType.STRING).description("이력서에 작성할 주소"),
+                                        fieldWithPath("birthDay").type(JsonFieldType.STRING).description("이력서에 작성할 태어난 일"),
+                                        fieldWithPath("birthMonth").type(JsonFieldType.STRING).description("이력서에 작성할 태어난 월"),
+                                        fieldWithPath("birthYear").type(JsonFieldType.STRING).description("이력서에 작성할 태어난 연도"),
+                                        fieldWithPath("selfIntroduction").type(JsonFieldType.STRING).description("이력서에 작성할 자기소개"),
+                                        fieldWithPath("developmentJob").type(JsonFieldType.STRING).description("이력서에 작성할 개발 직무"),
+                                        fieldWithPath("isDelete").type(JsonFieldType.BOOLEAN).description("이력서 상태 정보").optional(),
+                                        fieldWithPath("cvSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("기술 스택 식별자").optional(),
+                                        fieldWithPath("cvSkillStacks[].skillName").type(JsonFieldType.STRING).description("기술 스택").optional(),
+                                        fieldWithPath("educations[].educationId").type(JsonFieldType.NUMBER).description("교육 사항 식별자").optional(),
+                                        fieldWithPath("educations[].degree").type(JsonFieldType.STRING).description("학위").optional(),
+                                        fieldWithPath("educations[].major").type(JsonFieldType.STRING).description("전공").optional(),
+                                        fieldWithPath("educations[].schoolName").type(JsonFieldType.STRING).description("학교명").optional(),
+                                        fieldWithPath("educations[].admissionMonth").type(JsonFieldType.STRING).description("입학 월").optional(),
+                                        fieldWithPath("educations[].admissionYear").type(JsonFieldType.STRING).description("입학 연도").optional(),
+                                        fieldWithPath("educations[].graduationMonth").type(JsonFieldType.STRING).description("졸업 월").optional(),
+                                        fieldWithPath("educations[].graduationYear").type(JsonFieldType.STRING).description("졸업 연도").optional(),
+                                        fieldWithPath("educations[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("careers[].careerId").type(JsonFieldType.NUMBER).description("교육 사항 식별자").optional(),
+                                        fieldWithPath("careers[].joinMonth").type(JsonFieldType.STRING).description("입사 월").optional(),
+                                        fieldWithPath("careers[].joinYear").type(JsonFieldType.STRING).description("입사 연도").optional(),
+                                        fieldWithPath("careers[].retirementMonth").type(JsonFieldType.STRING).description("퇴사 월").optional(),
+                                        fieldWithPath("careers[].retirementYear").type(JsonFieldType.STRING).description("퇴사 연도").optional(),
+                                        fieldWithPath("careers[].companyName").type(JsonFieldType.STRING).description("회사 이름").optional(),
+                                        fieldWithPath("careers[].duty").type(JsonFieldType.STRING).description("직책").optional(),
+                                        fieldWithPath("careers[].developmentJob").type(JsonFieldType.STRING).description("개발 직무").optional(),
+                                        fieldWithPath("careers[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("careers[].careerSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("경력 사항에 작성할 기술 스택 식별자").optional(),
+                                        fieldWithPath("careers[].careerSkillStacks[].skillName").type(JsonFieldType.STRING).description("경력 사항에 작성할 기술 스택").optional(),
+                                        fieldWithPath("customSections[].customSectionId").type(JsonFieldType.NUMBER).description("사용자 정의 사항 식별자").optional(),
+                                        fieldWithPath("customSections[].customName").type(JsonFieldType.STRING).description("사용자 정의 이름").optional(),
+                                        fieldWithPath("customSections[].customContent").type(JsonFieldType.STRING).description("사용자 정의 내용").optional(),
+                                        fieldWithPath("projects[].projectId").type(JsonFieldType.NUMBER).description("프로젝트 식별자").optional(),
+                                        fieldWithPath("projects[].startMonth").type(JsonFieldType.STRING).description("시작 월").optional(),
+                                        fieldWithPath("projects[].startYear").type(JsonFieldType.STRING).description("시작 연도").optional(),
+                                        fieldWithPath("projects[].endMonth").type(JsonFieldType.STRING).description("종료 월").optional(),
+                                        fieldWithPath("projects[].endYear").type(JsonFieldType.STRING).description("종료 연도").optional(),
+                                        fieldWithPath("projects[].projectSubject").type(JsonFieldType.STRING).description("프로젝트 제목").optional(),
+                                        fieldWithPath("projects[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("projects[].link").type(JsonFieldType.STRING).description("프로젝트 링크").optional(),
+                                        fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
+                                        fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
+                                        fieldWithPath("links[].linkId").type(JsonFieldType.NUMBER).description("링크 식별자").optional(),
+                                        fieldWithPath("links[].linkName").type(JsonFieldType.STRING).description("링크 출처").optional(),
+                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional()
+                                )
+                        )
+                ));
+    }
+
+    @WithMockUser
+    @Test
+    void deleteCvTest() throws Exception {
+
+        // given
+        long cvId = 1L;
+        doNothing().when(cvService).deleteCv(Mockito.anyLong());
+
+        // when
+        ResultActions actions =
+                mockMvc.perform(
+                        delete("/cv/{cvId}", cvId)
+                                .with(csrf()));
+
+        // then
+        actions.andExpect(status().isNoContent())
+                .andDo(
+                        document(
+                                "delete-cv",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
+                                pathParameters(
+                                        List.of(parameterWithName("cvId").description("이력서 식별자"))
+                                )
+                        )
+                );
     }
 }
