@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 
 // JWT 토큰을 저장하는 역할
 export const tokenState = atom({
@@ -6,7 +6,12 @@ export const tokenState = atom({
   default: '',
 });
 
-export const isLoginSelector = selector({
-  key: 'isLoginSelector',
-  get: ({ get }) => !!get(tokenState),
+export const isLoginState = atom({
+  key: 'isLoginState',
+  default: false,
+});
+
+export const userState = atom({
+  key: 'userState',
+  default: {},
 });
