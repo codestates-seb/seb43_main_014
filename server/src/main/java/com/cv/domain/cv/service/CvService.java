@@ -91,48 +91,61 @@ public class CvService {
             findCv.setEducations(null);
         }
 
+        if(cv.getCustomSections() != null){
+            for(int i = 0; i < cv.getCustomSections().size(); i++){
+                findCv.getCustomSections().get(i).setCustomName(cv.getCustomSections().get(i).getCustomName());
+                findCv.getCustomSections().get(i).setCustomContent(cv.getCustomSections().get(i).getCustomContent());
+            }
 
-        //        if (!findCv.getCvSkillStacks().isEmpty()) {
-//            findCv.getCvSkillStacks().clear();
-//            findCv.getCvSkillStacks().addAll(cv.getCvSkillStacks());
-//        } else {
-//            cv.getCvSkillStacks().clear();
-//        }
-//
-//        if (!findCv.getLinks().isEmpty()) {
-//            findCv.getLinks().clear();
-//            findCv.getLinks().addAll(cv.getLinks());
-//        } else {
-//            cv.getLinks().clear();
-//        }
-//
-//        if (!findCv.getPortfolios().isEmpty()) {
-//            findCv.getPortfolios().clear();
-//            findCv.getPortfolios().addAll(cv.getPortfolios());
-//        } else {
-//            cv.getPortfolios().clear();
-//        }
-//
-//        if (!findCv.getEducations().isEmpty()) {
-//            findCv.getEducations().clear();
-//            findCv.getEducations().addAll(cv.getEducations());
-//        } else {
-//            cv.getEducations().clear();
-//        }
-//
-//        if (!findCv.getCareers().isEmpty()) {
-//            findCv.getCareers().clear();
-//            findCv.getCareers().addAll(cv.getCareers());
-//        } else {
-//            cv.getCareers().clear();
-//        }
-//
-//        if (!findCv.getProjects().isEmpty()) {
-//            findCv.getProjects().clear();
-//            findCv.getProjects().addAll(cv.getProjects());
-//        } else {
-//            cv.getProjects().clear();
-//        }
+            if(cv.getCustomSections().size() < findCv.getCustomSections().size()){
+                for(int i = cv.getCustomSections().size(); i < findCv.getCustomSections().size(); i++){
+                    findCv.getCustomSections().remove(i);
+                }
+            }
+        }   else{
+            findCv.setCustomSections(null);
+        }
+
+        if(cv.getCareers() != null){
+            for (int i = 0; i < cv.getCareers().size(); i++){
+                findCv.getCareers().get(i).setJoinMonth(cv.getCareers().get(i).getJoinMonth());
+                findCv.getCareers().get(i).setJoinYear(cv.getCareers().get(i).getJoinYear());
+                findCv.getCareers().get(i).setDescription(cv.getCareers().get(i).getDescription());
+                findCv.getCareers().get(i).setDuty(cv.getCareers().get(i).getDuty());
+                findCv.getCareers().get(i).setRetirementMonth(cv.getCareers().get(i).getRetirementMonth());
+                findCv.getCareers().get(i).setRetirementYear(cv.getCareers().get(i).getRetirementYear());
+                findCv.getCareers().get(i).setCompanyName(cv.getCareers().get(i).getCompanyName());
+                findCv.getCareers().get(i).setDevelopmentJob(cv.getCareers().get(i).getDevelopmentJob());
+            }
+
+            if(cv.getCareers().size() < findCv.getCareers().size()){
+                for (int i = cv.getCareers().size(); i < findCv.getCareers().size(); i++){
+                    findCv.getCareers().remove(i);
+                }
+            }
+        }   else{
+            findCv.setCareers(null);
+        }
+
+        if(cv.getProjects() != null){
+            for(int i = 0; i < cv.getProjects().size(); i++){
+                findCv.getProjects().get(i).setStartMonth(cv.getProjects().get(i).getStartMonth());
+                findCv.getProjects().get(i).setStartYear(cv.getProjects().get(i).getStartYear());
+                findCv.getProjects().get(i).setEndYear(cv.getProjects().get(i).getEndYear());
+                findCv.getProjects().get(i).setEndMonth(cv.getProjects().get(i).getEndMonth());
+                findCv.getProjects().get(i).setProjectSubject(cv.getProjects().get(i).getProjectSubject());
+                findCv.getProjects().get(i).setDescription(cv.getProjects().get(i).getDescription());
+                findCv.getProjects().get(i).setLink(cv.getProjects().get(i).getLink());
+            }
+
+            if(cv.getProjects().size() < findCv.getProjects().size()){
+                for(int i = cv.getProjects().size(); i < findCv.getCareers().size(); i++){
+                    findCv.getProjects().remove(i);
+                }
+            }
+        }   else {
+            findCv.setProjects(null);
+        }
 
         return cvRepository.save(findCv);
     }
