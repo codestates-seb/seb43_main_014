@@ -13,9 +13,6 @@ public class CvDto {
 
     @Data
     public static class Post {
-        @Transient
-        private long cvId;  // 테스트용
-
         private long userId;
 
         private String name;
@@ -35,8 +32,6 @@ public class CvDto {
         private String selfIntroduction;
 
         private String developmentJob;
-
-        private Boolean isDelete;
 
         private List<CvSkillStackDto.Add> cvSkillStacks;
 
