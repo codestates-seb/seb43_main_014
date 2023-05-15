@@ -40,6 +40,7 @@
 .duplicate {
   margin-top: 3rem;
   color: mediumblue;
+  cursor: pointer;
 }
 
 .center {
