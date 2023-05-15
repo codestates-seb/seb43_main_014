@@ -47,13 +47,16 @@ export default function Login() {
           form,
         )
         .then((res) => {
-          // 토큰 값을 Recoil 상태로 업데이트합니다.
+          console.log(res.headers.refresh);
           const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
+          const userData = res.data;
+
+          // 토큰 값을 Recoil 상태로 업데이트합니다.
           setToken(token); // 토큰을 리코일 상태에 저장
           setIsLogin(true); // 로그인 상태 리코일 상태에 저장
-          setUserInfo(res.data); // 유저 데이터 리코일 상태에 저장
+          setUserInfo(userData); // 유저 데이터 리코일 상태에 저장
+
           localStorage.setItem('jwt_token', token);
-          const userData = res.data;
           localStorage.setItem('user_info', JSON.stringify(userData));
           navigate('/');
         })
