@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './profileUpdata.module.css';
 import axios from 'axios';
 import Fab from '@mui/material/Fab';
@@ -9,12 +9,12 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
   const [errors, setErrors] = useState({
     phone: '',
   });
-
   const [valid, setValid] = useState({
     phone: false,
   });
+
   const onSubmit = () => {
-    axios.patch(``, { inputs });
+    axios.patch(``, { name: inputs.name, phone: inputs.phone });
     console.log('asd');
   };
 
@@ -47,20 +47,58 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
     console.log(e.target);
     console.log(value);
   };
+
+  const [imgBase64, setImgBase64] = useState(null); // url
+  const onFileChange = (e) => {
+    const { files } = e.target;
+    const theFile = files[0]; // file 하나만 받기.
+    const reader = new FileReader(); // reader   web api
+
+    if (!files.length) {
+      return;
+    } else {
+      reader.onloadend = () => {
+        const { result } = reader; // reader === e.currentTatget   ??
+        setImgBase64(result);
+        console.log(result);
+      };
+      reader.readAsDataURL(theFile);
+    }
+  };
+
+  const fileInputRef = useRef(null);
+
+  const onAddClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <>
       <div className={styles.proCard}>
         <div className={styles.userInfo}>
           <div className={styles.profilePic}>
-            <img
+            {/* <img
               className={styles.pic}
-              src="https://mediaim.expedia.com/localexpert/1391601/fe50a3dc-b95f-4815-a331-05cbbc16d855.jpg?impolicy=resizecrop&rw=1005&rh=565"
-            />
+              src="https://mediaim.expedia.com/localexpert/1391601/fe50a3dc-b95f-4815-a331-05cbbc16d855.jpg?impolicy=resizecrop&rw=1005&rh=565"  alt="profileImg" 
+            /> */}
+            <img className={styles.pic} src={imgBase64} alt="profileImg" />
             <div>
-              <Fab size="small" color="primary" aria-label="add">
+              <Fab
+                size="small"
+                color="primary"
+                aria-label="add"
+                onClick={onAddClick}
+              >
                 <AddIcon />
               </Fab>
             </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+              ref={fileInputRef}
+              className={styles.imgAdd}
+            />
           </div>
           <div className={styles.proInfo}>
             <div>
