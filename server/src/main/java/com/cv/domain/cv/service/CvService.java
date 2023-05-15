@@ -57,6 +57,8 @@ public class CvService {
     public Cv updateCv(Cv cv) {
         Cv findCv = findVerifiedCv(cv.getCvId());
 
+        IsCvValid(findCv);  // 이력서 상태가 IsDelete 인지 확인
+
         Optional.ofNullable(cv.getName())
                 .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
         Optional.ofNullable(cv.getEmail())
@@ -205,12 +207,16 @@ public class CvService {
     }
 
     public Cv getCv(long cvId) {
+        Cv cv = findVerifiedCv(cvId);
 
-        return findVerifiedCv(cvId);
+        IsCvValid(cv);
+
+        return cv;
     }
 
     public void deleteCv(long cvId) {
         Cv findCv = findVerifiedCv(cvId);
+        IsCvValid(findCv);
         findCv.setIsDelete(true);
         cvRepository.save(findCv);
     }
@@ -254,6 +260,12 @@ public class CvService {
                 projectSkillStack.setProject(project);
                 projectSkillStackRepository.save(projectSkillStack);
             }
+        }
+    }
+
+    private static void IsCvValid(Cv findCv) {
+        if (findCv.getIsDelete()) {
+            throw new BusinessLogicException(ExceptionCode.RESUME_WAS_DELETED);
         }
     }
 }
