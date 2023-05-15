@@ -48,9 +48,6 @@ export default function Login() {
         .post(
           'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
           form,
-          {
-            withCredentials: true,
-          },
         )
         .then((res) => {
           // 토큰 값을 Recoil 상태로 업데이트합니다.
