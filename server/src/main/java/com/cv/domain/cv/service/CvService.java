@@ -193,6 +193,6 @@ public class CvService {
     }
 
     public Page<Cv> findLatestCvsByUser(Long userId, Pageable pageable) {
-        return cvRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
+        return cvRepository.findByUserIdFromRecently(userId, pageable); // (2)
     }
 }

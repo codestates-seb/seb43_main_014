@@ -36,10 +36,9 @@ public class UserService {
         user.checkActiveUser(user);
         User.isMyself(loggedInUser.getUserId(),user.getUserId());
 
-        String encryptedLoggedInUserPassword = loggedInUser.getPassword();
-        String encryptedCurrentPassword = passwordEncoder.encode(currentPassword);
+        String loggedInUserPassword = loggedInUser.getPassword();
 
-        if (encryptedLoggedInUserPassword.equals(encryptedCurrentPassword)) {
+        if (passwordEncoder.matches(currentPassword,loggedInUserPassword)) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
         } else {
@@ -75,6 +74,11 @@ public class UserService {
         foundUser.setUserStatus(User.UserStatus.USER_WITHDRAWN);
         foundUser.setDelete(true);
         userRepository.save(foundUser);
+    }
+
+    public User foundEmail(String email) {
+        User loginUser = userRepository.findByEmail(email);
+        return loginUser;
     }
 }
 

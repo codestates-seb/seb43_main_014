@@ -7,6 +7,8 @@ import com.cv.domain.project.entity.Project;
 import com.cv.domain.user.entity.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.cv.global.audit.Auditable;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-public class Cv {
+public class Cv extends Auditable {
 
     //    TODO : profileImage 추가 -> 검색
     @GeneratedValue(strategy = GenerationType.IDENTITY)
