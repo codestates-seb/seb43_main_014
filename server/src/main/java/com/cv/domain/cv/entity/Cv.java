@@ -24,6 +24,8 @@ public class Cv extends Auditable {
     @Id
     private Long cvId;
 
+    private String title;
+
     private String email;
 
     private String name;
@@ -37,6 +39,7 @@ public class Cv extends Auditable {
 
     private String developmentJob;
 
+    @Lob
     private String imageUrl;
 
     private String birthYear;

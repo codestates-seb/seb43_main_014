@@ -11,6 +11,4 @@ public interface SkillStackMapper {
 
     SkillStack skillStackPostToSkillStack(SkillStackDto.Add add);
     SkillStackDto.Response skillStackToSkillStackResponse(SkillStack skillStack);
-    List<SkillStack> skillStackAddsToSkillStacks(List<SkillStackDto.Add> SkillStackAdds);
-    List<SkillStackDto.Response> skillStacksToSkillStackResponses(List<SkillStack> skillStacks);
 }

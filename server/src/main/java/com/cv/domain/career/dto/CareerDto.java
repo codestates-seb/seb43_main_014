@@ -1,7 +1,6 @@
 package com.cv.domain.career.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.List;
 
