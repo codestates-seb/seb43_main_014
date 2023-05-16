@@ -18,7 +18,7 @@
 }
 
 .alert_background {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   left: 0;
   right: 0;
