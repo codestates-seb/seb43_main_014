@@ -59,9 +59,9 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         // 최초 로그인
         if (findUser == null) {
             createUser.setEmail((String)attributes.get("email"));
-            createUser.setPassword("");  // FIXME : User의 password가 nullable -> false임
+            createUser.setPassword("");
             createUser.setName((String)attributes.get("name"));
-            createUser.setPhone("");  // FIXME : User의 phone이 nullable -> false, unique -> true임
+            createUser.setPhone(null);
             createUser.setRoles(authorityUtils.createRoles((String)attributes.get("email")));
             createUser.setProfileImage((String)attributes.get("picture"));
 
