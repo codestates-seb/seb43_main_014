@@ -30,7 +30,7 @@ public class User extends Auditable {
     @Column(length = 10, nullable = false)
     private String name;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(unique = true)
     private String phone;
 
     // 역할

@@ -1,14 +1,19 @@
 package com.cv.global.config;
 
 import com.cv.domain.user.service.UserService;
-import com.cv.global.auth.filter.JwtAuthenticationFilter;
-import com.cv.global.auth.filter.JwtVerificationFilter;
-import com.cv.global.auth.handler.*;
-import com.cv.global.auth.jwt.JwtTokenizer;
+import com.cv.global.auth.jwt.filter.JwtAuthenticationFilter;
+import com.cv.global.auth.jwt.filter.JwtVerificationFilter;
+import com.cv.global.auth.jwt.handler.UserAccessDeniedHandler;
+import com.cv.global.auth.jwt.handler.UserAuthenticationEntryPoint;
+import com.cv.global.auth.jwt.handler.UserAuthenticationFailureHandler;
+import com.cv.global.auth.jwt.handler.UserAuthenticationSuccessHandler;
+import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
+import com.cv.global.auth.oauth2.handler.OAuth2UserSuccessHandler;
+import com.cv.global.auth.oauth2.service.CustomOAuth2UserService;
 import com.cv.global.auth.utils.UserAuthorityUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,17 +31,13 @@ import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.*;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final UserAuthorityUtils authorityUtils;
-    private final UserService userService;
-
-    public SecurityConfiguration(@Lazy JwtTokenizer jwtTokenizer, @Lazy UserAuthorityUtils authorityUtils, @Lazy UserService userService) {
-        this.jwtTokenizer = jwtTokenizer;
-        this.authorityUtils = authorityUtils;
-        this.userService = userService;
-    }
+    private final OAuth2UserSuccessHandler oAuth2UserSuccessHandler;
+    private final CustomOAuth2UserService oAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -57,6 +58,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
+                        .antMatchers(HttpMethod.POST, "/user/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/user/**").hasAnyRole("USER", "ADMIN")
@@ -66,10 +68,13 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/cv").hasRole("ADMIN")
                         .antMatchers(HttpMethod.GET, "/cv/**").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().authenticated() // 인증되지 않은 요청은 보호되는 리소스에 접근할 수 없음(모든 요청에 대해 인증 요구)
+                        .antMatchers(HttpMethod.POST, "/oauth2/phone").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().permitAll()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, authorityUtils, userService)));
+                .oauth2Login()
+                .successHandler(oAuth2UserSuccessHandler) // OAuth2 로그인 성공 시 실행되는 handler 설정 (access & refresh token과 함께 redirect 시킬 목적)
+                .userInfoEndpoint() // OAuth2 Provider로부터 사용자 정보를 가져오는 엔드포인트 지정
+                .userService(oAuth2UserService); // OAuth2 로그인 성공 시 사용자 정보를 처리하기 위한 OAuth2UserService
 
         return http.build();
     }
@@ -100,7 +105,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // TODO : 프론트 단의 origin으로 제한 설정해야함
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com")); // 프론트 단의 로컬, 운영 origin으로 제한 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // 허용된 HTTP 메서드
         configuration.setAllowedHeaders(Arrays.asList("*")); // 모든 헤더 허용
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh")); // 클라이언트에게 노출되는 응답 헤더

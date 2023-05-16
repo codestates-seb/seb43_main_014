@@ -1,8 +1,8 @@
-package com.cv.global.auth.filter;
+package com.cv.global.auth.jwt.filter;
 
 import com.cv.domain.user.entity.User;
-import com.cv.global.auth.dto.LoginDto;
-import com.cv.global.auth.jwt.JwtTokenizer;
+import com.cv.global.auth.jwt.dto.LoginDto;
+import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.SneakyThrows;

@@ -4,6 +4,7 @@ import com.cv.domain.cv.dto.CvDto;
 import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.service.CvService;
+import com.cv.domain.user.dto.MailDto;
 import com.cv.domain.user.dto.UserDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.mapper.UserMapper;
@@ -131,7 +132,14 @@ public class UserController {
         return ResponseEntity.ok(latestCvDto);
     }
 
+    //TODO 이미지 수정
 
-    // 이미지 수정
+    // 비밀번호 찾기
+    @PostMapping("/forgot-password")
+    public ResponseEntity postUser(Authentication authentication){
+        MailDto mailDto = userService.createMailAndChangePassword((String) authentication.getPrincipal());
+        userService.sendMail(mailDto);
 
+        return ResponseEntity.ok().build();
+    }
 }

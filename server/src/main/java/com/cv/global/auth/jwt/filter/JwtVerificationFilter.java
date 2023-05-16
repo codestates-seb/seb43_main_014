@@ -1,6 +1,6 @@
-package com.cv.global.auth.filter;
+package com.cv.global.auth.jwt.filter;
 
-import com.cv.global.auth.jwt.JwtTokenizer;
+import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.cv.global.auth.utils.UserAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
