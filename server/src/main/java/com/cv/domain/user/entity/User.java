@@ -42,7 +42,7 @@ public class User extends Auditable {
     @Column(length = 20, nullable = false)
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
 
-    // 프로필사진 //TODO path를 저장?
+    // 프로필사진
     @Column(name = "profileImage")
     private String profileImage;
 
