@@ -92,6 +92,8 @@ public class CvControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.userId").value(post.getUserId()))
                 .andExpect(jsonPath("$.name").value(post.getName()))
+                .andExpect(jsonPath("$.title").value(post.getTitle()))
+                .andExpect(jsonPath("$.imageUrl").value(post.getImageUrl()))
                 .andExpect(jsonPath("$.email").value(post.getEmail()))
                 .andExpect(jsonPath("$.phone").value(post.getPhone()))
                 .andExpect(jsonPath("$.address").value(post.getAddress()))
@@ -114,6 +116,8 @@ public class CvControllerTest {
                         requestFields(
                                 List.of(
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자").optional(),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("이력서에 작성할 제목").optional(),
+                                        fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이력서에 기입할 이미지 url 링크").optional(),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름").optional(),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일").optional(),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("이력서에 작성할 연락처").optional(),
@@ -158,6 +162,7 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].endYear").type(JsonFieldType.STRING).description("종료 연도").optional(),
                                         fieldWithPath("projects[].projectSubject").type(JsonFieldType.STRING).description("프로젝트 제목").optional(),
                                         fieldWithPath("projects[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("projects[].part").type(JsonFieldType.STRING).description("역할").optional(),
                                         fieldWithPath("projects[].link").type(JsonFieldType.STRING).description("프로젝트 링크").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
@@ -172,6 +177,8 @@ public class CvControllerTest {
                                         fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자").ignored(),
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름"),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("이력서에 작성할 제목").optional(),
+                                        fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이력서에 기입할 이미지 url 링크").optional(),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("이력서에 작성할 연락처"),
                                         fieldWithPath("address").type(JsonFieldType.STRING).description("이력서에 작성할 주소"),
@@ -218,6 +225,7 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].endYear").type(JsonFieldType.STRING).description("종료 연도").optional(),
                                         fieldWithPath("projects[].projectSubject").type(JsonFieldType.STRING).description("프로젝트 제목").optional(),
                                         fieldWithPath("projects[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("projects[].part").type(JsonFieldType.STRING).description("역할").optional(),
                                         fieldWithPath("projects[].link").type(JsonFieldType.STRING).description("프로젝트 링크").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
@@ -273,6 +281,8 @@ public class CvControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.cvId").value(patch.getCvId()))
                 .andExpect(jsonPath("$.name").value(patch.getName()))
+                .andExpect(jsonPath("$.title").value(patch.getTitle()))
+                .andExpect(jsonPath("$.imageUrl").value(patch.getImageUrl()))
                 .andExpect(jsonPath("$.email").value(patch.getEmail()))
                 .andExpect(jsonPath("$.phone").value(patch.getPhone()))
                 .andExpect(jsonPath("$.address").value(patch.getAddress()))
@@ -296,6 +306,8 @@ public class CvControllerTest {
                                 List.of(
                                         fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자").optional(),
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자").optional(),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("이력서에 작성할 제목").optional(),
+                                        fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이력서에 기입할 이미지 url 링크").optional(),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름").optional(),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일").optional(),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("이력서에 작성할 연락처").optional(),
@@ -335,6 +347,7 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].endYear").type(JsonFieldType.STRING).description("종료 연도").optional(),
                                         fieldWithPath("projects[].projectSubject").type(JsonFieldType.STRING).description("프로젝트 제목").optional(),
                                         fieldWithPath("projects[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("projects[].part").type(JsonFieldType.STRING).description("역할").optional(),
                                         fieldWithPath("projects[].link").type(JsonFieldType.STRING).description("프로젝트 링크").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
@@ -347,6 +360,8 @@ public class CvControllerTest {
                                 List.of(
                                         fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자"),
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("이력서에 작성할 제목").optional(),
+                                        fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이력서에 기입할 이미지 url 링크").optional(),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("이력서에 작성할 연락처"),
@@ -389,6 +404,7 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].endYear").type(JsonFieldType.STRING).description("종료 연도").optional(),
                                         fieldWithPath("projects[].projectSubject").type(JsonFieldType.STRING).description("프로젝트 제목").optional(),
                                         fieldWithPath("projects[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("projects[].part").type(JsonFieldType.STRING).description("역할").optional(),
                                         fieldWithPath("projects[].link").type(JsonFieldType.STRING).description("프로젝트 링크").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
@@ -425,6 +441,8 @@ public class CvControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.userId").value(response.getUserId()))
                 .andExpect(jsonPath("$.name").value(response.getName()))
+                .andExpect(jsonPath("$.title").value(response.getTitle()))
+                .andExpect(jsonPath("$.imageUrl").value(response.getImageUrl()))
                 .andExpect(jsonPath("$.email").value(response.getEmail()))
                 .andExpect(jsonPath("$.phone").value(response.getPhone()))
                 .andExpect(jsonPath("$.address").value(response.getAddress()))
@@ -448,6 +466,8 @@ public class CvControllerTest {
                                 List.of(
                                         fieldWithPath("cvId").type(JsonFieldType.NUMBER).description("이력서 식별자").ignored(),
                                         fieldWithPath("userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("이력서에 작성할 제목").optional(),
+                                        fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("이력서에 기입할 이미지 url 링크").optional(),
                                         fieldWithPath("name").type(JsonFieldType.STRING).description("이력서에 작성할 이름"),
                                         fieldWithPath("email").type(JsonFieldType.STRING).description("이력서에 작성할 이메일"),
                                         fieldWithPath("phone").type(JsonFieldType.STRING).description("이력서에 작성할 연락처"),
@@ -490,6 +510,7 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].endYear").type(JsonFieldType.STRING).description("종료 연도").optional(),
                                         fieldWithPath("projects[].projectSubject").type(JsonFieldType.STRING).description("프로젝트 제목").optional(),
                                         fieldWithPath("projects[].description").type(JsonFieldType.STRING).description("설명").optional(),
+                                        fieldWithPath("projects[].part").type(JsonFieldType.STRING).description("역할").optional(),
                                         fieldWithPath("projects[].link").type(JsonFieldType.STRING).description("프로젝트 링크").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),

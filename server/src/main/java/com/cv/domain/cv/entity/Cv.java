@@ -16,11 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Cv {
-
-    //    TODO : profileImage 추가 -> 검색
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long cvId;
+
+    private String title;
 
     private String email;
 
@@ -35,6 +35,7 @@ public class Cv {
 
     private String developmentJob;
 
+    @Lob
     private String imageUrl;
 
     private String birthYear;

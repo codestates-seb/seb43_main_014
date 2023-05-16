@@ -17,6 +17,8 @@ public class Project {
     @Id
     private Long projectId;
 
+    private String part;
+
     private String startYear;
 
     private String startMonth;

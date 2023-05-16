@@ -64,6 +64,10 @@ public class CvService {
 
         Optional.ofNullable(cv.getName())
                 .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
+        Optional.ofNullable(cv.getTitle())
+                .ifPresentOrElse(findCv::setTitle, () -> findCv.setTitle(null));
+        Optional.ofNullable(cv.getImageUrl())
+                .ifPresentOrElse(findCv::setImageUrl, () -> findCv.setImageUrl(null));
         Optional.ofNullable(cv.getEmail())
                 .ifPresentOrElse(findCv::setEmail, () -> findCv.setEmail(null));
         Optional.ofNullable(cv.getPhone())
@@ -205,6 +209,7 @@ public class CvService {
             }
 
             for(int i = 0; i < cv.getProjects().size(); i++){
+                findCv.getProjects().get(i).setPart(cv.getProjects().get(i).getPart());
                 findCv.getProjects().get(i).setStartMonth(cv.getProjects().get(i).getStartMonth());
                 findCv.getProjects().get(i).setStartYear(cv.getProjects().get(i).getStartYear());
                 findCv.getProjects().get(i).setEndYear(cv.getProjects().get(i).getEndYear());

@@ -14,11 +14,15 @@ public class CvDto {
     public static class Post {
         private long userId;
 
+        private String title;
+
         private String name;
 
         private String email;
 
         private String phone;
+
+        private String imageUrl;
 
         private String address;
 
@@ -51,11 +55,15 @@ public class CvDto {
     public static class Patch {
         private long cvId;
 
+        private String title;
+
         private String name;
 
         private String email;
 
         private String phone;
+
+        private String imageUrl;
 
         private String address;
 
@@ -88,11 +96,15 @@ public class CvDto {
     public static class Response {
         private Long cvId;
 
+        private String title;
+
         private long userId;
 
         private String name;
 
         private String email;
+
+        private String imageUrl;
 
         private String phone;
 
