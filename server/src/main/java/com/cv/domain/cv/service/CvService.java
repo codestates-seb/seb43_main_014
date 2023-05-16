@@ -25,6 +25,8 @@ import com.cv.domain.user.service.UserService;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -298,5 +300,9 @@ public class CvService {
         if (findCv.getIsDelete()) {
             throw new BusinessLogicException(ExceptionCode.RESUME_WAS_DELETED);
         }
+    }
+
+    public Page<Cv> findLatestCvsByUser(Long userId, Pageable pageable) {
+        return cvRepository.findByUserIdFromRecently(userId, pageable); // (2)
     }
 }
