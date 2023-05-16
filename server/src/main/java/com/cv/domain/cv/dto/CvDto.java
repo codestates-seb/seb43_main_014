@@ -43,6 +43,8 @@ public class CvDto {
         private List<ProjectDto.Add> projects;
 
         private List<LinkDto.Add> links;
+
+        private List<PortfolioDto.Add> portfolios;
     }
 
     @Data
@@ -78,6 +80,8 @@ public class CvDto {
         private List<ProjectDto.Add> projects;
 
         private List<LinkDto.Add> links;
+
+        private List<PortfolioDto.Add> portfolios;
     }
 
     @Data
@@ -117,5 +121,7 @@ public class CvDto {
         private List<ProjectDto.Response> projects;
 
         private List<LinkDto.Response> links;
+
+        private List<PortfolioDto.Response> portfolios;
     }
 }

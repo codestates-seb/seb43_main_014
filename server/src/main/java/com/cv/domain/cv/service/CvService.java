@@ -8,9 +8,11 @@ import com.cv.domain.customSection.entity.CustomSection;
 import com.cv.domain.customSection.repository.CustomSectionRepository;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
+import com.cv.domain.cv.entity.Portfolio;
 import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.repository.CvSkillStackRepository;
 import com.cv.domain.cv.repository.LinkRepository;
+import com.cv.domain.cv.repository.PortfolioRepository;
 import com.cv.domain.education.entity.Education;
 import com.cv.domain.education.repository.EducationRepository;
 import com.cv.domain.project.entity.Project;
@@ -43,6 +45,7 @@ public class CvService {
     private final ProjectRepository projectRepository;
     private final CustomSectionRepository customSectionRepository;
     private final CareerRepository careerRepository;
+    private final PortfolioRepository portfolioRepository;
 
 
 
@@ -106,6 +109,29 @@ public class CvService {
             }
         } else {
             findCv.setEducations(null);
+        }
+
+        if (cv.getPortfolios() != null) {
+            if(cv.getPortfolios().size() > findCv.getPortfolios().size()){
+                for (int i = 0; i < cv.getPortfolios().size() - findCv.getPortfolios().size(); i++) {
+                    Portfolio portfolio = new Portfolio();
+                    portfolio.setCv(findCv);
+                    portfolioRepository.save(portfolio);
+                    findCv.getPortfolios().add(portfolio);
+                }
+            }
+
+            for (int i = 0; i < cv.getPortfolios().size(); i++) {
+                findCv.getPortfolios().get(i).setPortfolioAddress(cv.getPortfolios().get(i).getPortfolioAddress());
+            }
+
+            if (cv.getPortfolios().size() < findCv.getPortfolios().size()) {
+                for (int i = cv.getPortfolios().size(); i < findCv.getPortfolios().size(); i++) {
+                    findCv.getPortfolios().remove(i);
+                }
+            }
+        } else {
+            findCv.setPortfolios(null);
         }
 
         if(cv.getCustomSections() != null){
