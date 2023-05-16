@@ -1,4 +1,4 @@
-package com.cv.global.auth.handler;
+package com.cv.global.auth.jwt.handler;
 
 import com.cv.global.response.ErrorResponse;
 import com.google.gson.Gson;

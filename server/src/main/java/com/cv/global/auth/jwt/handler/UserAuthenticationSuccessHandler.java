@@ -1,4 +1,4 @@
-package com.cv.global.auth.handler;
+package com.cv.global.auth.jwt.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
