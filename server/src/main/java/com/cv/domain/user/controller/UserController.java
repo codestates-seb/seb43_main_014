@@ -124,6 +124,7 @@ public class UserController {
 
     // 이력서 페이지네이션
     @GetMapping("/mypage/{userId}/cvs")
+    @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity<?> getLatestCvsByUser(@PathVariable Long userId,
                                                 @RequestParam(name = "page", defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
@@ -132,7 +133,20 @@ public class UserController {
         return ResponseEntity.ok(latestCvDto);
     }
 
-    //TODO 이미지 수정
+    // 프로필이미지 등록
+    @PostMapping("/{userId}/profile-image")
+    @PreAuthorize("#userId == authentication.principal.userId")
+    public ResponseEntity uploadProfileImage(@PathVariable Long userId, @RequestParam("imagePath") String imagePath,
+                                     @RequestParam(name = "profileImage") String profileImage,
+                                     Authentication authentication) {
+        String email = (String) authentication.getPrincipal();
+        userService.verifyUserEmail(email,userId);
+
+        User user = userService.findUser(userId);
+        user.setUserId(userId);
+        User updatedUser = userService.uploadProfile(user,profileImage);
+        return new ResponseEntity(mapper.userPatchToResponse(updatedUser), HttpStatus.OK);
+    }
 
     // 비밀번호 찾기
     @PostMapping("/forgot-password")
