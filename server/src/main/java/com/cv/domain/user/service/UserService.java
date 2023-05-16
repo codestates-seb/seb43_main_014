@@ -66,7 +66,6 @@ public class UserService {
         return userRepository.save(foundUser);
     }
 
-
     // 멤버의 활동상태를 회원탈퇴 상태로 변경
     public void deleteUser(Long userId) {
         User foundUser = findUser(userId);
@@ -76,15 +75,18 @@ public class UserService {
         userRepository.save(foundUser);
     }
 
-    public User foundEmail(String email) {
-        User loginUser = userRepository.findByEmail(email);
-        return loginUser;
+    // 이메일로 user찾기
+    public User findUserByEmail(String email) {
+        User foundUser = userRepository.findByEmail(email);
+        if (foundUser == null) {
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
+        return foundUser;
     }
 
-    public void isUserEmailCheck(String email, Long userId) {
-        // 현재 로그인 사용자와 마이페이지를 조회하려는 사용자가 같은지 이메일로 검증
-        User loginUser = foundEmail(email);
-        if (loginUser.getUserId() != userId) {
+    public void verifyUserEmail(String email, Long userId) {
+        User logginUser = findUserByEmail(email);
+        if (!logginUser.getUserId().equals(userId)) {
             throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
         }
     }

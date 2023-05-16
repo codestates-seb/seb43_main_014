@@ -55,14 +55,14 @@ public class UserController {
 
         //fixme principal.userId가 커스텀 가능하면 아래 2줄 검증로직은 없어져도 됨
         String email = (String) authentication.getPrincipal();
-        userService.isUserEmailCheck(email,userId);
+        userService.verifyUserEmail(email,userId);
 
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
         String newPassword = userPasswordPatchDto.getNewPassword();
 
         User user = userService.findUser(userId);
 
-        User loggedInUser = userService.foundEmail(email);
+        User loggedInUser = userService.findUserByEmail(email);
         userService.changePassword(loggedInUser, user, currentPassword, newPassword);
     }
 
@@ -74,7 +74,7 @@ public class UserController {
                                     Authentication authentication){
 
         String email = (String) authentication.getPrincipal();
-        userService.isUserEmailCheck(email,userId);
+        userService.verifyUserEmail(email,userId);
 
         User user = mapper.userPatchDtoToUser(userPatchDto); //TODO 리팩토링 : (멘토링)user객체로 변환할 이유가 없음
         user.setUserId(userId);
@@ -89,8 +89,7 @@ public class UserController {
                                      Authentication authentication){
 
         String email = (String) authentication.getPrincipal();
-        userService.isUserEmailCheck(email,userId);
-
+        userService.verifyUserEmail(email,userId);
 
         userService.deleteUser(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -104,12 +103,9 @@ public class UserController {
                                  Authentication authentication){
 
         String email = (String) authentication.getPrincipal();
-        userService.isUserEmailCheck(email,userId);
+        userService.verifyUserEmail(email,userId);
 
         User foundUser = userService.findUser(userId);
-        if(foundUser == null) {
-            return ResponseEntity.notFound().build();
-        }
 
         Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
         Page<Cv> cvPage = cvService.findLatestCvsByUser(userId, pageable); //해당 유저의 최신 이력서 3개씩 페이지네이션 된 목록을 가져옴
@@ -121,6 +117,7 @@ public class UserController {
         result.put("email",foundUser.getEmail());
         result.put("phone", foundUser.getPhone());
         result.put("cvs",latestCvDto);
+
         return ResponseEntity.ok(result);
     }
 

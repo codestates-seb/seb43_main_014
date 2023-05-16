@@ -1,7 +1,6 @@
 package com.cv.domain.cv.dto;
 
 import com.cv.domain.cv.entity.Cv;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +12,9 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class PageLatestCvDto {
-    protected List<LatestCv> latestCvs;
+    private List<LatestCv> latestCvs;
     private int totalPages;
     private long totalElements;
-
 
     public PageLatestCvDto(Page<Cv> cvPage) {
         this.latestCvs = cvPage.getContent().stream()
@@ -29,7 +27,13 @@ public class PageLatestCvDto {
     @Data
     private static class LatestCv {
         private String title;
-        private LocalDateTime createdAt;
         private String developmentJob;
+        private LocalDateTime createdAt;
+
+        public LatestCv(String title, LocalDateTime createdAt, String developmentJob) {
+            this.title = title;
+            this.createdAt = createdAt;
+            this.developmentJob = developmentJob;
+        }
     }
 }
