@@ -17,6 +17,8 @@ public class Project {
     @Id
     private Long projectId;
 
+    private String part;
+
     private String startYear;
 
     private String startMonth;
@@ -38,8 +40,4 @@ public class Project {
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectSkillStack> projectSkillStacks = new ArrayList<>();
-
-    public Project(Long projectId) {
-        this.projectId = projectId;
-    }
 }

@@ -1,7 +1,6 @@
 package com.cv.domain.customSection.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 public class CustomSectionDto {
 

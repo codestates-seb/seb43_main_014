@@ -1,7 +1,6 @@
 package com.cv.domain.project.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.List;
 
@@ -9,6 +8,8 @@ public class ProjectDto {
 
     @Data
     public static class Add {
+        private String part;
+
         private String startYear;
 
         private String startMonth;
@@ -29,6 +30,8 @@ public class ProjectDto {
     @Data
     public static class Response {
         private long projectId;
+
+        private String part;
 
         private String startYear;
 
