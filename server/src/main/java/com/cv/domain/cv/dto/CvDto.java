@@ -136,4 +136,5 @@ public class CvDto {
 
         private List<PortfolioDto.Response> portfolios;
     }
+
 }

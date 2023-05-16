@@ -3,7 +3,6 @@ package com.cv.domain.user.dto;
 import com.cv.domain.user.validator.ValidEmail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
