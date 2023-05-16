@@ -107,6 +107,7 @@ public class CvControllerTest {
                 .andExpect(jsonPath("$.customSections[0].customContent").value(post.getCustomSections().get(0).getCustomContent()))
                 .andExpect(jsonPath("$.projects[0].description").value(post.getProjects().get(0).getDescription()))
                 .andExpect(jsonPath("$.links[0].linkAddress").value(post.getLinks().get(0).getLinkAddress()))
+                .andExpect(jsonPath("$.portfolios[0].portfolioAddress").value(post.getPortfolios().get(0).getPortfolioAddress()))
                 .andDo(document("post-cv",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
@@ -162,7 +163,8 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
 //                                        fieldWithPath("links").type(JsonFieldType.ARRAY).description("이력서에 작성할 개인 사이트(깃허브, 블로그 등) 리스트").optional()
                                         fieldWithPath("links[].linkName").type(JsonFieldType.STRING).description("링크 출처").optional(),
-                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional()
+                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional(),
+                                        fieldWithPath("portfolios[].portfolioAddress").type(JsonFieldType.STRING).description("포트폴리오 주소").optional()
                                         )
                         ),
                         responseFields(
@@ -222,8 +224,10 @@ public class CvControllerTest {
 //                                        fieldWithPath("links").type(JsonFieldType.ARRAY).description("이력서에 작성할 개인 사이트(깃허브, 블로그 등) 리스트")
                                         fieldWithPath("links[].linkId").type(JsonFieldType.NUMBER).description("링크 식별자").optional(),
                                         fieldWithPath("links[].linkName").type(JsonFieldType.STRING).description("링크 출처").optional(),
-                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional()
-                                        )
+                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional(),
+                                        fieldWithPath("portfolios[].portfolioId").type(JsonFieldType.NUMBER).description("포트폴리오 식별자").optional(),
+                                        fieldWithPath("portfolios[].portfolioAddress").type(JsonFieldType.STRING).description("포트폴리오 주소").optional()
+                                )
                         )
                 ));
     }
@@ -335,7 +339,8 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].projectSkillStacks[].skillStackId").type(JsonFieldType.NUMBER).description("프로젝트에 사용한 기술 스택 식별자").optional(),
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
                                         fieldWithPath("links[].linkName").type(JsonFieldType.STRING).description("링크 출처").optional(),
-                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional()
+                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional(),
+                                        fieldWithPath("portfolios[].portfolioAddress").type(JsonFieldType.STRING).description("포트폴리오 주소").optional()
                                 )
                         ),
                         responseFields(
@@ -389,7 +394,9 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
                                         fieldWithPath("links[].linkId").type(JsonFieldType.NUMBER).description("링크 식별자").optional(),
                                         fieldWithPath("links[].linkName").type(JsonFieldType.STRING).description("링크 출처").optional(),
-                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional()
+                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional(),
+                                        fieldWithPath("portfolios[].portfolioId").type(JsonFieldType.NUMBER).description("포트폴리오 식별자").optional(),
+                                        fieldWithPath("portfolios[].portfolioAddress").type(JsonFieldType.STRING).description("포트폴리오 주소").optional()
                                 )
                         )
                 ));
@@ -488,7 +495,9 @@ public class CvControllerTest {
                                         fieldWithPath("projects[].projectSkillStacks[].skillName").type(JsonFieldType.STRING).description("프로젝트에 사용한 기술 스택").optional(),
                                         fieldWithPath("links[].linkId").type(JsonFieldType.NUMBER).description("링크 식별자").optional(),
                                         fieldWithPath("links[].linkName").type(JsonFieldType.STRING).description("링크 출처").optional(),
-                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional()
+                                        fieldWithPath("links[].linkAddress").type(JsonFieldType.STRING).description("링크 주소").optional(),
+                                        fieldWithPath("portfolios[].portfolioId").type(JsonFieldType.NUMBER).description("포트폴리오 식별자").optional(),
+                                        fieldWithPath("portfolios[].portfolioAddress").type(JsonFieldType.STRING).description("포트폴리오 주소").optional()
                                 )
                         )
                 ));

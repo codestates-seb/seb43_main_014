@@ -6,6 +6,7 @@ import com.cv.domain.customSection.dto.CustomSectionDto;
 import com.cv.domain.cv.dto.CvDto;
 import com.cv.domain.cv.dto.CvSkillStackDto;
 import com.cv.domain.cv.dto.LinkDto;
+import com.cv.domain.cv.dto.PortfolioDto;
 import com.cv.domain.cv.entity.Link;
 import com.cv.domain.education.dto.EducationDto;
 import com.cv.domain.project.dto.ProjectDto;
@@ -44,6 +45,7 @@ public class StubDataForCv {
         post.setCareers(getCareerAdds());
         post.setProjects(getProjectAdds());
         post.setCustomSections(getCustomSectionAdds());
+        post.setPortfolios(getPortfolioAdds());
 
         return post;
     }
@@ -66,6 +68,7 @@ public class StubDataForCv {
         patch.setCareers(getCareerAdds());
         patch.setProjects(getProjectAdds());
         patch.setCustomSections(getCustomSectionAdds());
+        patch.setPortfolios(getPortfolioAdds());
 
         return patch;
     }
@@ -90,6 +93,7 @@ public class StubDataForCv {
         response.setCareers(getCareerResponses());
         response.setProjects(getProjectResponses());
         response.setCustomSections(getCustomSectionResponses());
+        response.setPortfolios(getPortfolioResponses());
 
         return response;
     }
@@ -114,6 +118,7 @@ public class StubDataForCv {
         response.setCareers(getCareerResponses());
         response.setProjects(getProjectResponses());
         response.setCustomSections(getCustomSectionResponses());
+        response.setPortfolios(getPortfolioResponses());
 
         return response;
     }
@@ -346,5 +351,26 @@ public class StubDataForCv {
         links.add(link2);
 
         return links;
+    }
+
+    public static List<PortfolioDto.Add> getPortfolioAdds() {
+        PortfolioDto.Add portfolio1 = new PortfolioDto.Add();
+        portfolio1.setPortfolioAddress("포트폴리오 주소");
+
+        List<PortfolioDto.Add> portfolios = new ArrayList<>();
+        portfolios.add(portfolio1);
+
+        return portfolios;
+    }
+
+    public static List<PortfolioDto.Response> getPortfolioResponses() {
+        PortfolioDto.Response portfolio1 = new PortfolioDto.Response();
+        portfolio1.setPortfolioId(1L);
+        portfolio1.setPortfolioAddress("포트폴리오 주소");
+
+        List<PortfolioDto.Response> portfolios = new ArrayList<>();
+        portfolios.add(portfolio1);
+
+        return portfolios;
     }
 }
