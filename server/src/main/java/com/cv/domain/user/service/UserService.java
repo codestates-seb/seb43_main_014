@@ -80,6 +80,14 @@ public class UserService {
         User loginUser = userRepository.findByEmail(email);
         return loginUser;
     }
+
+    public void isUserEmailCheck(String email, Long userId) {
+        // 현재 로그인 사용자와 마이페이지를 조회하려는 사용자가 같은지 이메일로 검증
+        User loginUser = foundEmail(email);
+        if (loginUser.getUserId() != userId) {
+            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
+        }
+    }
 }
 
 

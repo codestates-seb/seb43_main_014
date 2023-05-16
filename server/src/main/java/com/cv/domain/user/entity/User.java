@@ -70,10 +70,10 @@ public class User extends Auditable {
     }
 
 
-    // 회원정보를 수정,삭제요청 하는 user가 자신인지 확인
+    // 회원정보를 수정,삭제요청 하는 user가 Id로 자신인지 확인
     public static boolean isMyself(long authenticatedUserId,Long userId) {
         if(userId != authenticatedUserId){
-            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
         }
         return true;
     }

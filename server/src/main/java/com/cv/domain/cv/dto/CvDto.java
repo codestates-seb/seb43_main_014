@@ -118,4 +118,5 @@ public class CvDto {
 
         private List<LinkDto.Response> links;
     }
+
 }
