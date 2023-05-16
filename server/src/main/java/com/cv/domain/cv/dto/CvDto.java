@@ -14,11 +14,15 @@ public class CvDto {
     public static class Post {
         private long userId;
 
+        private String title;
+
         private String name;
 
         private String email;
 
         private String phone;
+
+        private String imageUrl;
 
         private String address;
 
@@ -43,17 +47,23 @@ public class CvDto {
         private List<ProjectDto.Add> projects;
 
         private List<LinkDto.Add> links;
+
+        private List<PortfolioDto.Add> portfolios;
     }
 
     @Data
     public static class Patch {
         private long cvId;
 
+        private String title;
+
         private String name;
 
         private String email;
 
         private String phone;
+
+        private String imageUrl;
 
         private String address;
 
@@ -78,17 +88,23 @@ public class CvDto {
         private List<ProjectDto.Add> projects;
 
         private List<LinkDto.Add> links;
+
+        private List<PortfolioDto.Add> portfolios;
     }
 
     @Data
     public static class Response {
         private Long cvId;
 
+        private String title;
+
         private long userId;
 
         private String name;
 
         private String email;
+
+        private String imageUrl;
 
         private String phone;
 
@@ -117,5 +133,7 @@ public class CvDto {
         private List<ProjectDto.Response> projects;
 
         private List<LinkDto.Response> links;
+
+        private List<PortfolioDto.Response> portfolios;
     }
 }
