@@ -48,7 +48,7 @@ public class UserController {
     }
 
     // 비밀번호 변경
-    @PatchMapping("/password/{userId}")
+    @PatchMapping("/mypage/password/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public void passwordPatch(Authentication authentication,
                             @PathVariable("userId") @Positive Long userId,
@@ -68,7 +68,7 @@ public class UserController {
     }
 
     // 이름, 휴대번호 변경
-    @PatchMapping("/{userId}")
+    @PatchMapping("/mypage/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId") // 로그인한 사용자가 자신의 계정이아닌 다른계정을 삭제할 수 없도록 보안을 강화
     public ResponseEntity patchUser(@PathVariable("userId") @Positive Long userId,
                                     @Valid @RequestBody UserDto.Patch userPatchDto,
@@ -84,7 +84,7 @@ public class UserController {
     }
 
     // 계정삭제
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/mypage/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity deleteUser(@PathVariable("userId") @Positive Long userId,
                                      Authentication authentication){
@@ -134,17 +134,16 @@ public class UserController {
     }
 
     // 프로필이미지 등록
-    @PostMapping("/{userId}/profile-image")
+    @PostMapping("/mypage/{userId}/profile-image")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity uploadProfileImage(@PathVariable Long userId, @RequestParam("imagePath") String imagePath,
-                                     @RequestParam(name = "profileImage") String profileImage,
                                      Authentication authentication) {
         String email = (String) authentication.getPrincipal();
         userService.verifyUserEmail(email,userId);
 
         User user = userService.findUser(userId);
         user.setUserId(userId);
-        User updatedUser = userService.uploadProfile(user,profileImage);
+        User updatedUser = userService.uploadProfile(user,imagePath);
         return new ResponseEntity(mapper.userPatchToResponse(updatedUser), HttpStatus.OK);
     }
 
