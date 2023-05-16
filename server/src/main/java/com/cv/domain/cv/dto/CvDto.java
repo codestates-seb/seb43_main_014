@@ -6,7 +6,6 @@ import com.cv.domain.career.dto.CareerDto;
 import com.cv.domain.project.dto.ProjectDto;
 import lombok.Data;
 
-import javax.persistence.Transient;
 import java.util.List;
 
 public class CvDto {
