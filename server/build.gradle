@@ -36,6 +36,7 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.9.0'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
