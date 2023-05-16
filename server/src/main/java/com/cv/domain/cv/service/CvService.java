@@ -22,6 +22,8 @@ import com.cv.domain.user.service.UserService;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -188,5 +190,9 @@ public class CvService {
                 projectSkillStackRepository.save(projectSkillStack);
             }
         }
+    }
+
+    public Page<Cv> findLatestCvsByUser(Long userId, Pageable pageable) {
+        return cvRepository.findByUserIdFromRecently(userId, pageable); // (2)
     }
 }
