@@ -52,6 +52,11 @@ public class UserDto {
     }
 
     @Data
+    public static class PasswordGet {
+        private String email;
+    }
+
+    @Data
     public static class SignUpResponse{
         private Long userId;
     }
