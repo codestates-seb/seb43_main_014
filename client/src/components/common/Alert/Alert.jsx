@@ -8,19 +8,19 @@ export default function Alert({ children, setShowAlert }) {
     setShowAlert(false);
   };
 
-  const handleBackGround = (e) => {
+  const handleClickAlert = (e) => {
     e.stopPropagation();
   };
 
   return (
     <div className={styles.alert_background} onClick={handleCloseAlert}>
-      <div className={styles.alert} onClick={handleBackGround}>
+      <div className={styles.alert} onClick={handleClickAlert}>
         <div className={styles.errorIcon}>
           <ErrorOutlineIcon sx={{ fontSize: 150 }} />
         </div>
         <div className={styles.text}>{children}</div>
         <div className={styles.close} onClick={handleCloseAlert}>
-          <CloseIcon sx={{ fontSize: 40, color: 'red' }} />
+          <CloseIcon sx={{ fontSize: 30, color: 'red' }} />
         </div>
       </div>
     </div>
