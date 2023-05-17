@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 public class UserDto {
     @AllArgsConstructor
@@ -66,6 +67,12 @@ public class UserDto {
         private String name;
         private String email;
         private String phone;
+        private String profileImage;
+        private LocalDateTime modifiedAt;
+    }
+
+    @Data
+    public static class ProfileImage{
         private String profileImage;
     }
 }
