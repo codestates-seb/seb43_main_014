@@ -149,8 +149,8 @@ public class UserController {
 
     // 비밀번호 찾기
     @PostMapping("/forgot-password")
-    public ResponseEntity postUser(Authentication authentication){
-        MailDto mailDto = userService.createMailAndChangePassword((String) authentication.getPrincipal());
+    public ResponseEntity postUser(@RequestBody UserDto.PasswordGet passwordGet){
+        MailDto mailDto = userService.createMailAndChangePassword(passwordGet.getEmail());
         userService.sendMail(mailDto);
 
         return ResponseEntity.ok().build();
