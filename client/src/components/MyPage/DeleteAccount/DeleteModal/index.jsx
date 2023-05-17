@@ -2,15 +2,37 @@ import { React, useState } from 'react';
 import styles from './deleteModal.module.css';
 import axios from 'axios';
 import Modal from '../../../common/Modal';
+import { useRecoilState } from 'recoil';
+import { isLoginState, userState } from '../../../../recoil/AuthAtom';
+import { useNavigate } from 'react-router-dom';
 // role: 'dialog',
 
-const DeleteModal = ({ openModalHandler, inputs }) => {
+const DeleteModal = ({ openModalHandler }) => {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [check, setCheck] = useState(false);
-  const { name, email } = inputs;
-
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const token = localStorage.getItem('jwt_token');
+  const navigate = useNavigate();
   const onDelete = () => {
-    axios.delete(``);
-    console.log('btn');
+    axios
+      .delete(
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userInfo.userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        console.log('res', res);
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('user_info');
+        setIsLogin(false);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onCheck = () => {
@@ -23,7 +45,7 @@ const DeleteModal = ({ openModalHandler, inputs }) => {
         <div>
           <h4>계정 삭제</h4>
           <div className={styles.modalGuide}>
-            {name} 님({email})의 계정 삭제를 선택 하였습니다.
+            {userInfo.name} 님({userInfo.email})의 계정 삭제를 선택 하였습니다.
           </div>
           <span>프로필 정보</span>
           <div className={styles.modalGuideList}>
@@ -49,7 +71,6 @@ const DeleteModal = ({ openModalHandler, inputs }) => {
               <button
                 className={styles.deleteBtn}
                 type="submit"
-                disabled={!check}
                 onClick={onDelete}
               >
                 계정 삭제하기
