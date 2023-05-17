@@ -164,6 +164,12 @@ public class UserService {
 
         return passwordBuilder.toString();
     }
+
+    // 이미지 경로 저장하기
+    public User uploadProfile(User user,String profileImage) {
+        user.setProfileImage(profileImage);
+        return userRepository.save(user);
+    }
 }
 
 
