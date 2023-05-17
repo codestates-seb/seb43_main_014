@@ -136,13 +136,16 @@ public class UserController {
     // 프로필이미지 등록
     @PostMapping("/mypage/{userId}/profile-image")
     @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity uploadProfileImage(@PathVariable Long userId, @RequestParam("imagePath") String imagePath,
-                                     Authentication authentication) {
+    public ResponseEntity uploadProfileImage(@PathVariable Long userId,
+                                            @RequestBody UserDto.ProfileImage profileImageDto,
+                                            Authentication authentication) {
         String email = (String) authentication.getPrincipal();
         userService.verifyUserEmail(email,userId);
 
         User user = userService.findUser(userId);
         user.setUserId(userId);
+
+        String imagePath = profileImageDto.getProfileImage();
         User updatedUser = userService.uploadProfile(user,imagePath);
         return new ResponseEntity(mapper.userPatchToResponse(updatedUser), HttpStatus.OK);
     }
