@@ -19,7 +19,6 @@ export default function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
 
-  // InputValueState
   const [form, setForm] = useState({
     username: '',
     password: '',
@@ -47,11 +46,10 @@ export default function Login() {
           form,
         )
         .then((res) => {
-          console.log(res.headers.refresh);
+          console.log('리프레쉬 토큰', res.headers.refresh);
           const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
           const userData = res.data;
 
-          // 토큰 값을 Recoil 상태로 업데이트합니다.
           setToken(token); // 토큰을 리코일 상태에 저장
           setIsLogin(true); // 로그인 상태 리코일 상태에 저장
           setUserInfo(userData); // 유저 데이터 리코일 상태에 저장
@@ -60,8 +58,9 @@ export default function Login() {
           localStorage.setItem('user_info', JSON.stringify(userData));
           navigate('/');
         })
-        .catch(() => {
+        .catch((error) => {
           alert('로그인 실패!');
+          console.log(error);
         });
     }
   };
@@ -73,7 +72,6 @@ export default function Login() {
       e.preventDefault(); // 입력 막기
       return;
     }
-    console.log({ ...form, [name]: value });
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     const [newErrors, newValid] = validate({ ...form, [name]: value });
     setErrors(newErrors);
