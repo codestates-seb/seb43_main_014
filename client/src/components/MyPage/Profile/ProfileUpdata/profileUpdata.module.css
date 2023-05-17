@@ -91,8 +91,12 @@
   color: #ababab;
   cursor: not-allowed;
   width: 46rem;
+  font-size: 1.3rem;
 }
-
+.uInfo {
+  width: 46rem;
+  font-size: 1.3rem;
+}
 /** 유저 정보 수정 버튼*/
 .updata {
   display: flex;

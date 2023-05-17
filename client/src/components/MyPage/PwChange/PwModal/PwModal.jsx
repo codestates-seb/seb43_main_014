@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const PwModal = ({ openModalHandler }) => {
+  const token = localStorage.getItem('jwt_token');
+  const user = localStorage.getItem('user_info');
+  const { userId } = JSON.parse(user);
   const [newPassword, setNewPassword] = useState({
     password_current: '',
     password: '',
@@ -35,18 +38,34 @@ const PwModal = ({ openModalHandler }) => {
     console.log(e.target);
     console.log(value);
   };
-
   const handleSubmit = (e) => {
     const { password_current, password, password_confirm } = newPassword;
-    // console.log(newPassword);
+    e.preventDefault();
+
     if (password_current && password && password_confirm) {
-      axios.patch(``, {
-        currentPassword: password_current,
-        newPassword: password,
-      });
-      console.log('fatch 요청');
-    } else {
-      e.preventDefault();
+      axios
+        .patch(
+          `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/password/${userId}`,
+          {
+            currentPassword: password_current,
+            newPassword: password,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        )
+        .then((res) => {
+          console.log('res', res);
+          // setIsOpen(false); // 성공했을때 200을 받고 밑에 에러에 있는 alert 실행
+          // console.log(setIsOpen);
+          openModalHandler();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('현재 비밀번호가 틀렸습니다.');
+        });
     }
   };
 
