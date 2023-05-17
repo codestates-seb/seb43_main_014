@@ -7,6 +7,7 @@ import com.cv.global.auth.jwt.handler.UserAccessDeniedHandler;
 import com.cv.global.auth.jwt.handler.UserAuthenticationEntryPoint;
 import com.cv.global.auth.jwt.handler.UserAuthenticationFailureHandler;
 import com.cv.global.auth.jwt.handler.UserAuthenticationSuccessHandler;
+import com.cv.global.auth.jwt.service.UserDetailsService;
 import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.cv.global.auth.oauth2.handler.OAuth2UserSuccessHandler;
 import com.cv.global.auth.oauth2.service.CustomOAuth2UserService;
@@ -38,6 +39,7 @@ public class SecurityConfiguration {
     private final UserAuthorityUtils authorityUtils;
     private final OAuth2UserSuccessHandler oAuth2UserSuccessHandler;
     private final CustomOAuth2UserService oAuth2UserService;
+    private final UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -90,7 +92,7 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, userDetailsService);
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
