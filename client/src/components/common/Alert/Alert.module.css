@@ -15,6 +15,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 700;
 }
 
 .alert_background {
@@ -34,6 +35,6 @@
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   text-align: center;
-  padding: 5rem 10rem;
+  padding: 3rem 3rem;
   border-radius: 1rem;
 }
