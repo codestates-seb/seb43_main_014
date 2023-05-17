@@ -3,21 +3,49 @@ import styles from './profileUpdata.module.css';
 import axios from 'axios';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../../../recoil/AuthAtom';
 
-const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
-  const { name, email, phone } = inputs;
+const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
+  const { name, email, phone } = userData;
+  const [inputs, setInputs] = useState({
+    name: name,
+    email: email,
+    phone: phone,
+  });
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const { userId } = userInfo;
+  const token = localStorage.getItem('jwt_token');
   const [errors, setErrors] = useState({
     phone: '',
   });
   const [valid, setValid] = useState({
     phone: false,
   });
+  const [isEdit, setIsEdit] = useState(false);
 
-  const onSubmit = () => {
-    axios.patch(``, { name: inputs.name, phone: inputs.phone });
-    console.log('asd');
+  const handleSubmit = () => {
+    axios
+      .patch(
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}`,
+        { name: inputs.name, phone: inputs.phone },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        const getData = JSON.parse(localStorage.getItem('user_info'));
+        getData.name = res.data.name;
+        localStorage.setItem('user_info', JSON.stringify(getData));
+        setUserData(res.data);
+        setInfoUpdata(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
   const validate = (inputs) => {
     const newErrors = {
       phone: '',
@@ -44,8 +72,6 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
     });
     validate({ ...inputs, [name]: value });
     console.log({ ...inputs, [name]: value });
-    console.log(e.target);
-    console.log(value);
   };
 
   const [imgBase64, setImgBase64] = useState(null); // url
@@ -60,7 +86,23 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
       reader.onloadend = () => {
         const { result } = reader; // reader === e.currentTatget   ??
         setImgBase64(result);
-        console.log(result);
+        axios
+          .post(
+            `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
+            {
+              profileImage: imgBase64,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          )
+          .then((response) => console.log(response.data))
+          .catch((error) => {
+            console.log(error);
+          });
+        console.log(imgBase64);
       };
       reader.readAsDataURL(theFile);
     }
@@ -104,12 +146,21 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
             <div>
               <span className={styles.info}>이름</span>
               <div className={styles.updataInput}>
-                <input
-                  name="name"
-                  type="text"
-                  value={name}
-                  onChange={onChange}
-                />
+                {isEdit ? (
+                  <input
+                    name="name"
+                    type="text"
+                    value={inputs.name}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <span
+                    className={styles.uInfo}
+                    onClick={() => setIsEdit(true)}
+                  >
+                    {name}
+                  </span>
+                )}
               </div>
             </div>
             <div>
@@ -121,12 +172,21 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
             <div>
               <span className={styles.info}>휴대폰 번호</span>
               <div className={`${styles.updataInput} ${styles.phoneNum}`}>
-                <input
-                  name="phone"
-                  type="text"
-                  value={phone}
-                  onChange={onChange}
-                />
+                {isEdit ? (
+                  <input
+                    name="phone"
+                    type="text"
+                    value={inputs.phone}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <span
+                    className={styles.uInfo}
+                    onClick={() => setIsEdit(true)}
+                  >
+                    {phone}
+                  </span>
+                )}
               </div>
               <div className={styles.message}>
                 <div
@@ -147,12 +207,7 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
             취소
           </button>
           {valid.phone ? (
-            <button
-              type="submit"
-              disabled={valid.phone}
-              className={styles.btn}
-              onClick={onSubmit}
-            >
+            <button type="submit" className={styles.btn} onClick={handleSubmit}>
               저장
             </button>
           ) : (

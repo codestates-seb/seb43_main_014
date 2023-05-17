@@ -60,17 +60,19 @@ function AppRocKetCV() {
   console.log(isLogin); // 로그인시 : false -> true
   console.log('userInfo : ', userInfo);
 
+  const token = localStorage.getItem('jwt_token');
+  const userData = localStorage.getItem('user_info');
+
   useEffect(() => {
     // 앱이 로드될 때 로컬 스토리지에서 토큰을 확인하여 로그인 상태를 복원
-    const token = localStorage.getItem('jwt_token');
-    const userData = localStorage.getItem('user_info');
     console.log('액세스토큰 :', token);
     console.log(userData);
+
     if (token && userData) {
       setUserInfo(JSON.parse(userData));
       setIsLogin(true);
     }
-  }, []);
+  }, [userData]);
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
