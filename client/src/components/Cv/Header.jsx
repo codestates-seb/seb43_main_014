@@ -128,8 +128,11 @@ const BasicHeader = styled.header`
   }
 
   .auth_menu * {
-    margin-left: 1rem;
     font-size: 1rem;
+  }
+
+  .auth_menu a {
+    margin-right: 1rem;
   }
 
   .logo_img {
