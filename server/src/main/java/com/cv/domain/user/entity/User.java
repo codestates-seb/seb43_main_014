@@ -65,7 +65,7 @@ public class User extends Auditable {
 
     // User가 탈퇴상태인지 확인하는 메서드
     public void checkActiveUser(User user){
-        if(this.getUserStatus() == UserStatus.USER_WITHDRAWN)
+        if(user.getUserStatus() == UserStatus.USER_WITHDRAWN)
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
     }
 
