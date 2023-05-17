@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from '../../images/rocket.png';
 import { useRecoilState } from 'recoil';
-import { isLoginState, userState } from '../../recoil/AuthAtom';
+import { isLoginState, tokenState, userState } from '../../recoil/AuthAtom';
 import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/Confirm/Confirm';
 
 const Header = () => {
   const navigate = useNavigate();
+  const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
   const userData = JSON.parse(localStorage.getItem('user_info'));
@@ -19,7 +20,9 @@ const Header = () => {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('user_info');
     setIsLogin(false);
+    setToken(null);
     setUserInfo(null);
+    setIsOpenConfirm(false);
     navigate('/');
   };
   if (isLogin) {
