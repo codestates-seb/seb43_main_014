@@ -2,7 +2,7 @@ package com.cv.global.auth.handler;
 
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.UserService;
-import com.cv.global.auth.jwt.JwtTokenizer;
+import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.cv.global.auth.utils.UserAuthorityUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;

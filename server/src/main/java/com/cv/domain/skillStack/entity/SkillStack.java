@@ -21,8 +21,6 @@ public class SkillStack {
 
     private String skillName;
 
-    private String description;
-
     @OneToMany(mappedBy = "skillStack", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<CvSkillStack> cvSkillStacks = new ArrayList<>();
 

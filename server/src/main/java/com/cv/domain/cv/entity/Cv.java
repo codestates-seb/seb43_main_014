@@ -19,11 +19,11 @@ import java.util.List;
 @Entity
 public class Cv extends Auditable {
 
-    //    TODO : profileImage 추가 -> 검색
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long cvId;
 
+    @Column(nullable = false)
     private String title;
 
     private String email;
