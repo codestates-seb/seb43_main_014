@@ -54,7 +54,8 @@ export default function Signup() {
           alert('회원가입에 성공하셨습니다.');
           navigate('/login');
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           alert('회원가입에 실패하였습니다.');
         });
     }
@@ -67,7 +68,6 @@ export default function Signup() {
       e.preventDefault();
       return;
     }
-    console.log({ ...form, [name]: value });
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     // 문제발생: 최신 form value를 전달받지 못함(setState가 비동기로 동작)
     // 해결방법: form value를 업데이트해서 전달
