@@ -7,6 +7,7 @@ import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @Table(name = "member")
 @NoArgsConstructor
+@Component
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
