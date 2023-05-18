@@ -56,9 +56,8 @@ public class UserService {
 
     // repository에 userId를 통해 user객체 return
     public User findUser(Long userId) {
-        User foundUser = userRepository.findById(userId)
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-        return foundUser;
     }
 
 

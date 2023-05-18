@@ -7,8 +7,6 @@ public class SkillStackDto {
     @Data
     public static class Add {
         private String skillName;
-
-        private String description;
     }
 
     @Data
@@ -16,7 +14,5 @@ public class SkillStackDto {
         private long skillStackId;
 
         private String skillName;
-
-        private String description;
     }
 }

@@ -48,7 +48,8 @@ public class UserController {
         return new ResponseEntity(mapper.userPostToSignUpResponse(createdUser), HttpStatus.CREATED);
     }
 
-    // 비밀번호 변경
+    // 비밀번호 변경 //user파싸드? user트랜잭셔널 클래스를 만들어서 하나의 @트랜잭셔널만 사용할 수 있도록 서비스로직을 분류하는 게 좋음, 업데이트 서비스랑 리드온리 서비스를 만들어라
+    // 레이어가 추가될 필요는 있음
     @PatchMapping("/mypage/password/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public LocalDateTime passwordPatch(Authentication authentication,
@@ -59,8 +60,8 @@ public class UserController {
 
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
         String newPassword = userPasswordPatchDto.getNewPassword();
-        User user = userService.findUser(userId);
-        userService.changePassword(loggedInUser, user, currentPassword, newPassword);
+        User user = userService.findUser(userId); //(1) 1과2가 하나의 트랜잭션 안에서 동작할 수 있도록 해야함
+        userService.changePassword(loggedInUser, user, currentPassword, newPassword); //(2)
         return user.getModifiedAt();
     }
 
@@ -128,7 +129,7 @@ public class UserController {
                                             @RequestBody UserDto.ProfileImage profileImageDto,
                                             Authentication authentication) {
         User user = userService.findUser(userId);
-        user.setUserId(userId);
+//        user.setUserId(userId);
 
         String imagePath = profileImageDto.getProfileImage();
         User updatedUser = userService.uploadProfile(user,imagePath);

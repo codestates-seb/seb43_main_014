@@ -6,6 +6,9 @@ import com.cv.domain.career.dto.CareerDto;
 import com.cv.domain.project.dto.ProjectDto;
 import lombok.Data;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class CvDto {
@@ -14,6 +17,7 @@ public class CvDto {
     public static class Post {
         private long userId;
 
+        @Size(min = 1, message = "제목은 필수 작성 사항입니다.")
         private String title;
 
         private String name;

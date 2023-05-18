@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,14 +57,90 @@ public class CvService {
         userService.findUser(cv.getUser().getUserId());
         return cvRepository.save(cv);
     }
-    public void injectLowDomain(Cv cv){
-        findExistSkillStack(cv);
-    }
+    
     public Cv updateCv(Cv cv) {
         Cv findCv = findVerifiedCv(cv.getCvId());
 
         IsCvValid(findCv);  // 이력서 상태가 IsDelete 인지 확인
+        editResume(cv, findCv); // 이력서 수정
 
+        return cvRepository.save(findCv);
+    }
+
+    @Transactional(readOnly = true)
+    public Cv getCv(long cvId) {
+        Cv cv = findVerifiedCv(cvId);
+
+        IsCvValid(cv);
+
+        return cv;
+    }
+
+    public void deleteCv(long cvId) {
+        Cv findCv = findVerifiedCv(cvId);
+        IsCvValid(findCv);
+        findCv.setIsDelete(true);
+        cvRepository.save(findCv);
+    }
+
+    private Cv findVerifiedCv(long cvId) {
+        Optional<Cv> optionalCv = cvRepository.findById(cvId);
+
+        return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
+    }
+
+    private void findExistSkillStack(Cv cv) {
+        if(cv.getCvSkillStacks() != null)
+            for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
+                SkillStack findSkillStack = skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
+                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+                cvSkillStack.setSkillStack(findSkillStack);
+            }
+
+        if(cv.getCareers() != null)
+            for (Career career : cv.getCareers()) {
+                for (CareerSkillStack careerSkillStack : career.getCareerSkillStacks()) {
+                    SkillStack findSkillStack = skillStackRepository.findById(careerSkillStack.getSkillStack().getSkillStackId())
+                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+                    careerSkillStack.setSkillStack(findSkillStack);
+
+                    careerSkillStack.setCareer(career);
+                    careerSkillStackRepository.save(careerSkillStack);
+                }
+            }
+
+        if(cv.getProjects() != null)
+            for (Project project : cv.getProjects()) {
+                for (ProjectSkillStack projectSkillStack : project.getProjectSkillStacks()) {
+                    SkillStack findSkillStack = skillStackRepository.findById(projectSkillStack.getSkillStack().getSkillStackId())
+                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+
+                projectSkillStack.setSkillStack(findSkillStack);
+
+                projectSkillStack.setProject(project);
+                projectSkillStackRepository.save(projectSkillStack);
+            }
+        }
+    }
+
+    private void IsCvValid(Cv findCv) {
+        if (findCv.getIsDelete()) {
+            throw new BusinessLogicException(ExceptionCode.RESUME_WAS_DELETED);
+        }
+    }
+
+    public Page<Cv> findLatestCvsByUser(Long userId, Pageable pageable) {
+        return cvRepository.findByUserIdFromRecently(userId, pageable); // (2)
+    }
+    
+    public void injectLowDomain(Cv cv){
+        findExistSkillStack(cv);
+    }
+
+
+    private void editResume(Cv cv, Cv findCv) {
         Optional.ofNullable(cv.getName())
                 .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
         Optional.ofNullable(cv.getTitle())
@@ -235,74 +312,5 @@ public class CvService {
         }   else {
             findCv.setProjects(null);
         }
-
-        return cvRepository.save(findCv);
-    }
-
-    public Cv getCv(long cvId) {
-        Cv cv = findVerifiedCv(cvId);
-
-        IsCvValid(cv);
-
-        return cv;
-    }
-
-    public void deleteCv(long cvId) {
-        Cv findCv = findVerifiedCv(cvId);
-        IsCvValid(findCv);
-        findCv.setIsDelete(true);
-        cvRepository.save(findCv);
-    }
-
-    private Cv findVerifiedCv(long cvId) {
-        Optional<Cv> optionalCv = cvRepository.findById(cvId);
-
-        return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
-    }
-
-    private void findExistSkillStack(Cv cv) {
-        if(cv.getCvSkillStacks() != null)
-            for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
-                SkillStack findSkillStack = skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
-                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
-
-                cvSkillStack.setSkillStack(findSkillStack);
-            }
-
-        if(cv.getCareers() != null)
-            for (Career career : cv.getCareers()) {
-                for (CareerSkillStack careerSkillStack : career.getCareerSkillStacks()) {
-                    SkillStack findSkillStack = skillStackRepository.findById(careerSkillStack.getSkillStack().getSkillStackId())
-                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
-
-                    careerSkillStack.setSkillStack(findSkillStack);
-
-                    careerSkillStack.setCareer(career);
-                    careerSkillStackRepository.save(careerSkillStack);
-                }
-            }
-
-        if(cv.getProjects() != null)
-            for (Project project : cv.getProjects()) {
-                for (ProjectSkillStack projectSkillStack : project.getProjectSkillStacks()) {
-                    SkillStack findSkillStack = skillStackRepository.findById(projectSkillStack.getSkillStack().getSkillStackId())
-                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
-
-                projectSkillStack.setSkillStack(findSkillStack);
-
-                projectSkillStack.setProject(project);
-                projectSkillStackRepository.save(projectSkillStack);
-            }
-        }
-    }
-
-    private void IsCvValid(Cv findCv) {
-        if (findCv.getIsDelete()) {
-            throw new BusinessLogicException(ExceptionCode.RESUME_WAS_DELETED);
-        }
-    }
-
-    public Page<Cv> findLatestCvsByUser(Long userId, Pageable pageable) {
-        return cvRepository.findByUserIdFromRecently(userId, pageable); // (2)
     }
 }
