@@ -10,9 +10,15 @@ import CvCareer from './CvCareer';
 import CvSkillInput from './CvCustomInput';
 import CompletePage from './CompletePage';
 import CvTemplate from './CvTemplate';
+import axios from 'axios';
+import { CvContentAtom } from '../../recoil/CvContentAtom';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 
 export default function CvPage() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
+  const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
   const steps = ['기본 정보', '경력 및 프로젝트', '작성 완료'];
   const getStepContent = (stepNumber) => {
     switch (stepNumber) {
@@ -25,6 +31,11 @@ export default function CvPage() {
         return <CompletePage />;
     }
   };
+  const handleClickSave = () => {
+    alert('이력서 저장이 완료되었습니다.');
+    navigate(`/`);
+  };
+  console.log('최종 이력서 데이터', cvContent);
   const handleNext = () => {
     setActiveStep((preActiveStep) => preActiveStep + 1);
   };
@@ -66,7 +77,9 @@ export default function CvPage() {
           ) : (
             <>
               <div className="test">
-                <StyledSaveButton>이력서 저장하기</StyledSaveButton>
+                <StyledSaveButton name="submit" onClick={handleClickSave}>
+                  이력서 저장하기
+                </StyledSaveButton>
                 <StyledResetButton onClick={handleReset}>
                   다시 작성하기
                 </StyledResetButton>
