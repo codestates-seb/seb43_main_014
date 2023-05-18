@@ -72,7 +72,7 @@ function AppRocKetCV() {
       setUserInfo(JSON.parse(userData));
       setIsLogin(true);
     }
-  }, [userData]);
+  }, [setUserInfo]);
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
