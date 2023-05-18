@@ -143,7 +143,7 @@ public class UserService {
     private String getTempPassword() {
         String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         String number = "0123456789";
-        String specialChar = "!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+        String specialChar = "!@#$%^&";
 
         SecureRandom random = new SecureRandom();
         StringBuilder passwordBuilder = new StringBuilder();
