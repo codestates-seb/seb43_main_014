@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './profileCard.module.css';
 
 const ProfileCard = ({ userData, setInfoUpdata }) => {
-  const { name, email, phone, profieImage } = userData;
+  const { name, email, phone, profileImage } = userData;
 
   return (
     <>
       <div className={styles.proCard}>
         <div className={styles.userInfo}>
           <div className={styles.profilePic}>
-            <img className={styles.pic} src={profieImage} alt="profileImg" />
+            <img className={styles.pic} src={profileImage} alt="profileImg" />
           </div>
           <div className={styles.proInfo}>
             <span className={styles.info}>{name}</span>

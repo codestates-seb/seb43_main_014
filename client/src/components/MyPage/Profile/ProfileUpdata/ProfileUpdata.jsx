@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './profileUpdata.module.css';
 import axios from 'axios';
 import Fab from '@mui/material/Fab';
@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../../../recoil/AuthAtom';
 
 const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
-  const { name, email, phone, profieImage } = userData;
+  const { name, email, phone, profileImage } = userData;
   const [inputs, setInputs] = useState({
     name: name,
     email: email,
@@ -75,7 +75,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
     console.log({ ...inputs, [name]: value });
   };
 
-  const [imgBase64, setImgBase64] = useState(null); // url
+  const [imgBase64, setImgBase64] = useState(''); // url
   const onFileChange = (e) => {
     const { files } = e.target;
     const theFile = files[0]; // file 하나만 받기.
@@ -87,27 +87,29 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
       reader.onloadend = () => {
         const { result } = reader; // reader === e.currentTatget   ??
         setImgBase64(result);
-        axios
-          .post(
-            `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
-            {
-              profileImage: imgBase64,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          )
-          .then((response) => console.log(response.data))
-          .catch((error) => {
-            console.log(error);
-            console.log(imgBase64);
-          });
+        console.log('result', typeof result);
       };
       reader.readAsDataURL(theFile);
     }
   };
+  useEffect(() => {
+    axios
+      .post(
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
+        {
+          profileImage: imgBase64,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((response) => console.log(response.data))
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [imgBase64]);
 
   const fileInputRef = useRef(null);
 
@@ -122,7 +124,8 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
           <div className={styles.profilePic}>
             <img
               className={styles.pic}
-              src={imgBase64 ? imgBase64 : profieImage}
+              src={imgBase64 ? imgBase64 : profileImage}
+              // src={imgBase64}
               alt="profileImg"
             />
             <div>
