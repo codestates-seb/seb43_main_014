@@ -1,5 +1,6 @@
 package com.cv.domain.user.validator;
 
+import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

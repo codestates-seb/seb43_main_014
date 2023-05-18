@@ -1,6 +1,5 @@
 package com.cv.domain.user.validator;
 
-import com.cv.domain.user.validator.UserValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

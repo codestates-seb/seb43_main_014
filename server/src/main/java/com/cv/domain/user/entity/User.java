@@ -7,6 +7,7 @@ import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @Table(name = "member")
 @NoArgsConstructor
+@Component
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,7 +67,7 @@ public class User extends Auditable {
 
     // User가 탈퇴상태인지 확인하는 메서드
     public void checkActiveUser(User user){
-        if(this.getUserStatus() == UserStatus.USER_WITHDRAWN)
+        if(user.getUserStatus() == UserStatus.USER_WITHDRAWN)
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
     }
 

@@ -16,18 +16,25 @@ import java.util.Optional;
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     private final UserRepository userRepository;
     private final UserAuthorityUtils authorityUtils;
+    private final User user;
 
-    public UserDetailsService(UserRepository userRepository, UserAuthorityUtils authorityUtils) {
+    public UserDetailsService(UserRepository userRepository, UserAuthorityUtils authorityUtils, User user) {
         this.userRepository = userRepository;
         this.authorityUtils = authorityUtils;
+        this.user = user;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User findUser = userRepository.findByEmail(username);
+
+        // DB에 정보가 없는 회원일 경우, 로그인 실패
         if (findUser == null) {
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
+
+        // DB에 정보는 있지만, 탈퇴 상태를 갖고 있는 회원일 경우, 로그인 실패
+        user.checkActiveUser(findUser);
 
         return new UserDetails(findUser);
     }
