@@ -45,6 +45,7 @@ public class User extends Auditable {
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
 
     // 프로필사진
+    @Lob
     @Column(name = "profileImage")
     private String profileImage;
 
