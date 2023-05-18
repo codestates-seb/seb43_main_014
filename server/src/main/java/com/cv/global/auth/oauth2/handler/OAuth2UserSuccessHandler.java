@@ -49,6 +49,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         // OAuth2User의 속성들을 토대로 우리 DB에 User 객체를 create하거나 update
         User user = createOrUpdateUser(attributes);
+
         redirect(request, response, user);
     }
 
@@ -81,8 +82,13 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private void redirect(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
+        boolean relogin  = true; // 재로그인
 
-        String uri = createURI(accessToken, refreshToken).toString();
+        if (user.getPhone() == null) {
+            relogin = false; // 처음 로그인
+        }
+
+        String uri = createURI(accessToken, refreshToken, relogin).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
@@ -111,10 +117,19 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken) {
+    private URI createURI(String accessToken, String refreshToken, Boolean relogin) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("accessToken", "Bearer " + accessToken);
         queryParams.add("refreshToken", refreshToken);
+
+        // 재로그인 여부에 따라 redirect uri를 분기
+        String path;
+        if (relogin) {
+            path = "/login/oauth2/already";
+        }
+        else {
+            path = "/login/oauth2";
+        }
 
         // FIXME: 배포 시, 웹 서버 호스팅 도메인으로 바꿔야함
         return UriComponentsBuilder
@@ -122,7 +137,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .scheme("http")
                 .host("localhost")
                 .port(3000)
-                .path("/receive-token.html")
+                .path(path)
                 .queryParams(queryParams)
                 .build()
                 .toUri();
