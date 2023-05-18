@@ -34,8 +34,7 @@ public class UserService {
         user.setPassword(encryptedPassword);
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
-        User savedUser = userRepository.save(user);
-        return savedUser;
+        return userRepository.save(user);
     }
 
 
