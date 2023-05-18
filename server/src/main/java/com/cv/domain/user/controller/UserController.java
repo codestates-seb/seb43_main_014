@@ -54,28 +54,22 @@ public class UserController {
                             @PathVariable("userId") @Positive Long userId,
                             @Valid @RequestBody UserDto.PasswordPatch userPasswordPatchDto){
 
-        //fixme principal.userId가 커스텀 가능하면 아래 2줄 검증로직은 없어져도 됨
-        String email = (String) authentication.getPrincipal();
-        userService.verifyUserEmail(email,userId);
+        User loggedInUser = (User) authentication.getPrincipal();
 
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
         String newPassword = userPasswordPatchDto.getNewPassword();
-
         User user = userService.findUser(userId);
-
-        User loggedInUser = userService.findUserByEmail(email);
         userService.changePassword(loggedInUser, user, currentPassword, newPassword);
     }
 
     // 이름, 휴대번호 변경
     @PatchMapping("/mypage/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId") // 로그인한 사용자가 자신의 계정이아닌 다른계정을 삭제할 수 없도록 보안을 강화
+    @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity patchUser(@PathVariable("userId") @Positive Long userId,
                                     @Valid @RequestBody UserDto.Patch userPatchDto,
                                     Authentication authentication){
-
-        String email = (String) authentication.getPrincipal();
-        userService.verifyUserEmail(email,userId);
+//        String email = (String) authentication.getPrincipal();
+//        userService.verifyUserEmail(email,userId);
 
         User user = mapper.userPatchDtoToUser(userPatchDto); //TODO 리팩토링 : (멘토링)user객체로 변환할 이유가 없음
         user.setUserId(userId);
