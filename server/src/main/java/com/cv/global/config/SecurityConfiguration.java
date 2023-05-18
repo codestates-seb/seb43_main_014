@@ -58,6 +58,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
+                        .antMatchers(HttpMethod.POST, "/user/forgot-password").permitAll()
                         .antMatchers(HttpMethod.POST, "/user/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")

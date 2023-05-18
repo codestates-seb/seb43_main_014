@@ -52,6 +52,11 @@ public class UserDto {
     }
 
     @Data
+    public static class PasswordGet {
+        private String email;
+    }
+
+    @Data
     public static class SignUpResponse{
         private Long userId;
     }
@@ -61,5 +66,6 @@ public class UserDto {
         private String name;
         private String email;
         private String phone;
+        private String profileImage;
     }
 }
