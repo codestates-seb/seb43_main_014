@@ -27,9 +27,9 @@ public class OAuthController {
                                     @Valid @RequestBody OAuthPhoneDto phoneDto) {
         // FIXME : 현재 OAuth2 인증이니까 Authentication의 Principal이 OAuth2User인 게 정상
         // Authentication 구성 : Principal(username) / Crendentials / Collection<GrantedAuthority>
-        String username = (String) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
 
-        User findUser = userRepository.findByEmail(username);
+        User findUser = userRepository.findByEmail(user.getEmail());
         findUser.setPhone(phoneDto.getPhone());
         userRepository.save(findUser);
 
