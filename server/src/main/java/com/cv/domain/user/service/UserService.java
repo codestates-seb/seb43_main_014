@@ -91,12 +91,13 @@ public class UserService {
         return foundUser;
     }
 
-    public void verifyUserEmail(String email, Long userId) {
-        User logginUser = findUserByEmail(email);
-        if (!logginUser.getUserId().equals(userId)) {
-            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
-        }
-    }
+
+//    public void verifyUserEmail(String email, Long userId) {
+//        User logginUser = findUserByEmail(email);
+//        if (!logginUser.getUserId().equals(userId)) {
+//            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
+//        }
+//    }
 
     // 비밀번호 찾기
     public MailDto createMailAndChangePassword(String userEmail) {

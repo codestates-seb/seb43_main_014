@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,9 +51,9 @@ public class UserController {
     // 비밀번호 변경
     @PatchMapping("/mypage/password/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
-    public void passwordPatch(Authentication authentication,
-                            @PathVariable("userId") @Positive Long userId,
-                            @Valid @RequestBody UserDto.PasswordPatch userPasswordPatchDto){
+    public LocalDateTime passwordPatch(Authentication authentication,
+                                       @PathVariable("userId") @Positive Long userId,
+                                       @Valid @RequestBody UserDto.PasswordPatch userPasswordPatchDto){
 
         User loggedInUser = (User) authentication.getPrincipal();
 
@@ -60,6 +61,7 @@ public class UserController {
         String newPassword = userPasswordPatchDto.getNewPassword();
         User user = userService.findUser(userId);
         userService.changePassword(loggedInUser, user, currentPassword, newPassword);
+        return user.getModifiedAt();
     }
 
     // 이름, 휴대번호 변경
@@ -68,8 +70,6 @@ public class UserController {
     public ResponseEntity patchUser(@PathVariable("userId") @Positive Long userId,
                                     @Valid @RequestBody UserDto.Patch userPatchDto,
                                     Authentication authentication){
-//        String email = (String) authentication.getPrincipal();
-//        userService.verifyUserEmail(email,userId);
 
         User user = mapper.userPatchDtoToUser(userPatchDto); //TODO 리팩토링 : (멘토링)user객체로 변환할 이유가 없음
         user.setUserId(userId);
@@ -83,9 +83,6 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable("userId") @Positive Long userId,
                                      Authentication authentication){
 
-        String email = (String) authentication.getPrincipal();
-        userService.verifyUserEmail(email,userId);
-
         userService.deleteUser(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -96,9 +93,6 @@ public class UserController {
     public ResponseEntity myPage(@PathVariable("userId") @Positive Long userId,
                                  @RequestParam(name = "page", defaultValue = "1") int page,
                                  Authentication authentication){
-
-        String email = (String) authentication.getPrincipal();
-        userService.verifyUserEmail(email,userId);
 
         User foundUser = userService.findUser(userId);
 
@@ -133,9 +127,6 @@ public class UserController {
     public ResponseEntity uploadProfileImage(@PathVariable Long userId,
                                             @RequestBody UserDto.ProfileImage profileImageDto,
                                             Authentication authentication) {
-        String email = (String) authentication.getPrincipal();
-        userService.verifyUserEmail(email,userId);
-
         User user = userService.findUser(userId);
         user.setUserId(userId);
 
