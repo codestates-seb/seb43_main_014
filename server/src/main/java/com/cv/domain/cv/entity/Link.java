@@ -26,7 +26,8 @@ public class Link {
     public enum LinkName {
         LINK_GITHUB("깃허브 주소"),
         LINK_NOTION("노션 주소"),
-        LINK_BLOG("블로그 주소");
+        LINK_BLOG("블로그 주소"),
+        LINK_PORTFOLIO("포트폴리오 주소");
 
         @Getter
         private String linkSource;
