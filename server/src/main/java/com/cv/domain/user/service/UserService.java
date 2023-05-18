@@ -34,8 +34,7 @@ public class UserService {
         user.setPassword(encryptedPassword);
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
-        User savedUser = userRepository.save(user);
-        return savedUser;
+        return userRepository.save(user);
     }
 
 
@@ -92,12 +91,13 @@ public class UserService {
         return foundUser;
     }
 
-    public void verifyUserEmail(String email, Long userId) {
-        User logginUser = findUserByEmail(email);
-        if (!logginUser.getUserId().equals(userId)) {
-            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
-        }
-    }
+
+//    public void verifyUserEmail(String email, Long userId) {
+//        User logginUser = findUserByEmail(email);
+//        if (!logginUser.getUserId().equals(userId)) {
+//            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
+//        }
+//    }
 
     // 비밀번호 찾기
     public MailDto createMailAndChangePassword(String userEmail) {
