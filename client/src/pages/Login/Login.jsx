@@ -44,7 +44,7 @@ export default function Login() {
       console.log('Form data:', form);
       axios
         .post(
-          'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
+          'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
           form,
           {
             withCredentials: true,
