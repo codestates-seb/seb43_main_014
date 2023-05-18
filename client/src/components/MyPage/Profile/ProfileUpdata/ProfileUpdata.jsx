@@ -1,23 +1,51 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './profileUpdata.module.css';
 import axios from 'axios';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../../../recoil/AuthAtom';
 
-const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
-  const { name, email, phone } = inputs;
+const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
+  const { name, email, phone } = userData;
+  const [inputs, setInputs] = useState({
+    name: name,
+    email: email,
+    phone: phone,
+  });
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const { userId } = userInfo;
+  const token = localStorage.getItem('jwt_token');
   const [errors, setErrors] = useState({
     phone: '',
   });
-
   const [valid, setValid] = useState({
     phone: false,
   });
-  const onSubmit = () => {
-    axios.patch(``, { inputs });
-    console.log('asd');
-  };
+  const [isEdit, setIsEdit] = useState(false);
 
+  const handleSubmit = () => {
+    axios
+      .patch(
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}`,
+        { name: inputs.name, phone: inputs.phone },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((res) => {
+        const getData = JSON.parse(localStorage.getItem('user_info'));
+        getData.name = res.data.name;
+        localStorage.setItem('user_info', JSON.stringify(getData));
+        setUserData(res.data);
+        setInfoUpdata(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const validate = (inputs) => {
     const newErrors = {
       phone: '',
@@ -44,57 +72,121 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
     });
     validate({ ...inputs, [name]: value });
     console.log({ ...inputs, [name]: value });
-    console.log(e.target);
-    console.log(value);
   };
+
+  const [imgBase64, setImgBase64] = useState(null); // url
+  const onFileChange = (e) => {
+    const { files } = e.target;
+    const theFile = files[0]; // file 하나만 받기.
+    const reader = new FileReader(); // reader   web api
+
+    if (!files.length) {
+      return;
+    } else {
+      reader.onloadend = () => {
+        const { result } = reader; // reader === e.currentTatget   ??
+        setImgBase64(result);
+        axios
+          .post(
+            `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
+            {
+              profileImage: imgBase64,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          )
+          .then((response) => console.log(response.data))
+          .catch((error) => {
+            console.log(error);
+          });
+        console.log(imgBase64);
+      };
+      reader.readAsDataURL(theFile);
+    }
+  };
+
+  const fileInputRef = useRef(null);
+
+  const onAddClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <>
       <div className={styles.proCard}>
         <div className={styles.userInfo}>
           <div className={styles.profilePic}>
-            <img
+            {/* <img
               className={styles.pic}
-              src="https://mediaim.expedia.com/localexpert/1391601/fe50a3dc-b95f-4815-a331-05cbbc16d855.jpg?impolicy=resizecrop&rw=1005&rh=565"
-            />
+              src="https://mediaim.expedia.com/localexpert/1391601/fe50a3dc-b95f-4815-a331-05cbbc16d855.jpg?impolicy=resizecrop&rw=1005&rh=565"  alt="profileImg" 
+            /> */}
+            <img className={styles.pic} src={imgBase64} alt="profileImg" />
             <div>
-              <Fab size="small" color="primary" aria-label="add">
+              <Fab
+                size="small"
+                color="primary"
+                aria-label="add"
+                onClick={onAddClick}
+              >
                 <AddIcon />
               </Fab>
             </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+              ref={fileInputRef}
+              className={styles.imgAdd}
+            />
           </div>
           <div className={styles.proInfo}>
             <div>
               <span className={styles.info}>이름</span>
               <div className={styles.updataInput}>
-                <input
-                  name="name"
-                  type="text"
-                  value={name}
-                  onChange={onChange}
-                />
+                {isEdit ? (
+                  <input
+                    name="name"
+                    type="text"
+                    value={inputs.name}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <span
+                    className={styles.uInfo}
+                    onClick={() => setIsEdit(true)}
+                  >
+                    {name}
+                  </span>
+                )}
               </div>
             </div>
             <div>
               <span className={styles.info}>email</span>
               <div className={styles.updataInput}>
-                {/* <input
-                  className={styles.notInput}
-                  type="text"
-                  value={email}
-                  disabled
-                /> */}
                 <span className={styles.notInput}>{email}</span>
               </div>
             </div>
             <div>
               <span className={styles.info}>휴대폰 번호</span>
               <div className={`${styles.updataInput} ${styles.phoneNum}`}>
-                <input
-                  name="phone"
-                  type="text"
-                  value={phone}
-                  onChange={onChange}
-                />
+                {isEdit ? (
+                  <input
+                    name="phone"
+                    type="text"
+                    value={inputs.phone}
+                    onChange={onChange}
+                  />
+                ) : (
+                  <span
+                    className={styles.uInfo}
+                    onClick={() => setIsEdit(true)}
+                  >
+                    {phone}
+                  </span>
+                )}
               </div>
               <div className={styles.message}>
                 <div
@@ -114,14 +206,15 @@ const ProfileUpdata = ({ inputs, setInputs, setInfoUpdata }) => {
           >
             취소
           </button>
-          <button
-            type="submit"
-            disabled={valid.phone}
-            className={styles.btn}
-            onClick={onSubmit}
-          >
-            저장
-          </button>
+          {valid.phone ? (
+            <button type="submit" className={styles.btn} onClick={handleSubmit}>
+              저장
+            </button>
+          ) : (
+            <button disabled className={styles.notBtn}>
+              저장
+            </button>
+          )}
         </div>
       </div>
     </>

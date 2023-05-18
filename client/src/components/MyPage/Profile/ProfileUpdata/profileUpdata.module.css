@@ -41,7 +41,9 @@
 .profilePic div:active {
   background-color: darkgreen;
 }
-
+.imgAdd {
+  display: none;
+}
 /* 유저 정보(이름, 이메일, 번호)*/
 .proInfo {
   display: flex;
@@ -89,8 +91,12 @@
   color: #ababab;
   cursor: not-allowed;
   width: 46rem;
+  font-size: 1.3rem;
 }
-
+.uInfo {
+  width: 46rem;
+  font-size: 1.3rem;
+}
 /** 유저 정보 수정 버튼*/
 .updata {
   display: flex;
@@ -128,4 +134,19 @@
 
 .successMsg {
   color: blue;
+}
+.notBtn {
+  background-color: rgb(204, 204, 204);
+  border: 0.5px solid lightgray;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: 0.2rem;
+  color: rgb(255 255 255);
+  width: 6rem;
+  height: 3rem;
+  cursor: not-allowed;
+}
+.notBtn:hover {
+  background-color: rgb(180, 180, 180);
 }

@@ -8,6 +8,7 @@ import Oauth from '../../components/common/Oauth/Oauth';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { validate } from '../../utils/validate-signup';
+import Alert from '../../components/common/Alert/Alert';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -35,12 +36,13 @@ export default function Signup() {
     password_confirm: false,
   });
 
+  const [showAlert, setShowAlert] = useState(false);
+
   const allTrue = Object.values(valid).every((value) => value === true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (allTrue) {
-      // 유효성 검사에 성공하면 폼 데이터를 서버로 보냅니다.
       console.log('Form data:', form);
       axios
         .post(
@@ -52,7 +54,8 @@ export default function Signup() {
           alert('회원가입에 성공하셨습니다.');
           navigate('/login');
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           alert('회원가입에 실패하였습니다.');
         });
     }
@@ -61,12 +64,10 @@ export default function Signup() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      // 공백이 포함되어 있다면
-      alert('공백은 입력할 수 없습니다.');
-      e.preventDefault(); // 입력 막기
+      setShowAlert(true);
+      e.preventDefault();
       return;
     }
-    console.log({ ...form, [name]: value });
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
     // 문제발생: 최신 form value를 전달받지 못함(setState가 비동기로 동작)
     // 해결방법: form value를 업데이트해서 전달
@@ -79,6 +80,11 @@ export default function Signup() {
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
+        {showAlert && (
+          <Alert setShowAlert={setShowAlert}>
+            <div>공백은 입력할 수 없습니다.</div>
+          </Alert>
+        )}
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.tapMenu}>
             <Link to="/login" className={styles.login}>

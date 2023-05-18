@@ -15,12 +15,12 @@ export default function LabelInput({
   value,
   handleChange,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const valid = false;
 
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
+  const handleClickModal = () => {
+    setIsOpenModal((prev) => !prev);
   };
   // 라벨없는 인풋창! (ex.비밀번호 확인)
   if (isNoLabel) {
@@ -52,13 +52,13 @@ export default function LabelInput({
           </Link>
         )}
         {duplicate && (
-          <div className={styles.duplicate} onClick={openModalHandler}>
+          <div className={styles.duplicate} onClick={handleClickModal}>
             중복확인
           </div>
         )}
       </div>
-      {isOpen && (
-        <Modal openModalHandler={openModalHandler}>
+      {isOpenModal && (
+        <Modal openModalHandler={handleClickModal}>
           {valid ? (
             <div className={styles.center}>
               <p>사용 가능한 이메일입니다.</p>

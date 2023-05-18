@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const PwModal = ({ openModalHandler }) => {
+  const token = localStorage.getItem('jwt_token');
+  const user = localStorage.getItem('user_info');
+  const { userId } = JSON.parse(user);
   const [newPassword, setNewPassword] = useState({
+    password_current: '',
     password: '',
     password_confirm: '',
   });
@@ -19,10 +23,6 @@ const PwModal = ({ openModalHandler }) => {
     password: false,
     password_confirm: false,
   });
-
-  const handleCheck = () => {
-    axios.post(``, {});
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,9 +38,35 @@ const PwModal = ({ openModalHandler }) => {
     console.log(e.target);
     console.log(value);
   };
+  const handleSubmit = (e) => {
+    const { password_current, password, password_confirm } = newPassword;
+    e.preventDefault();
 
-  const handleSubmit = () => {
-    axios.fatch(``, { newPassword });
+    if (password_current && password && password_confirm) {
+      axios
+        .patch(
+          `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/password/${userId}`,
+          {
+            currentPassword: password_current,
+            newPassword: password,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        )
+        .then((res) => {
+          console.log('res', res);
+          // setIsOpen(false); // 성공했을때 200을 받고 밑에 에러에 있는 alert 실행
+          // console.log(setIsOpen);
+          openModalHandler();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('현재 비밀번호가 틀렸습니다.');
+        });
+    }
   };
 
   const validate = (newPassword) => {
@@ -50,7 +76,7 @@ const PwModal = ({ openModalHandler }) => {
     };
 
     if (newPassword.password.trim() === '') {
-      newErrors.password = '비밀번호를 입력해주세요.';
+      newErrors.password = '비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)';
       setValid((prevValid) => ({ ...prevValid, password: false }));
     } else if (newPassword.password.length < 8) {
       newErrors.password = '비밀번호는 8자리 이상이어야 합니다.';
@@ -60,8 +86,7 @@ const PwModal = ({ openModalHandler }) => {
         newPassword.password,
       )
     ) {
-      newErrors.password =
-        '영문자, 숫자, 특수문자를 포함한 8글자 이상의 비밀번호를 입력해주세요.';
+      newErrors.password = '비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)';
       setValid((prevValid) => ({ ...prevValid, password: false }));
     } else {
       newErrors.password = '올바른 형식입니다.';
@@ -82,6 +107,7 @@ const PwModal = ({ openModalHandler }) => {
     setErrors(newErrors);
   };
 
+  const allTrue = Object.values(valid).every((value) => value === true);
   return (
     <>
       <Modal openModalHandler={openModalHandler}>
@@ -92,7 +118,11 @@ const PwModal = ({ openModalHandler }) => {
           <form>
             <div className={styles.modalChangeInput}>
               <span>현재 비밀번호</span>
-              <input type="password" onChange={handleCheck} />
+              <input
+                type="password"
+                name="password_current"
+                onChange={handleChange}
+              />
               <div>
                 <span className={styles.inputDetail}>
                   비밀번호를 잊으셨나요?{' '}
@@ -105,9 +135,6 @@ const PwModal = ({ openModalHandler }) => {
             <div className={styles.modalChangeInput}>
               <span>비밀번호</span>
               <input type="password" name="password" onChange={handleChange} />
-              <span className={styles.inputDetail}>
-                비밀번호 (영문자, 숫자, 특수문자 포함 최소 8~20자)
-              </span>
               <div
                 className={
                   valid.password ? styles.successMsg : styles.errorsMsg
@@ -139,13 +166,19 @@ const PwModal = ({ openModalHandler }) => {
               >
                 취소
               </button>
-              <button
-                type="submit"
-                className={styles.btn}
-                onClick={handleSubmit}
-              >
-                저장
-              </button>
+              {newPassword.password_current && allTrue ? (
+                <button
+                  type="submit"
+                  className={styles.btn}
+                  onClick={handleSubmit}
+                >
+                  저장
+                </button>
+              ) : (
+                <button disabled className={styles.notBtn}>
+                  저장
+                </button>
+              )}
             </div>
           </form>
         </div>

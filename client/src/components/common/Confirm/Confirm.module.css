@@ -1,0 +1,27 @@
+.modalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.modalBackdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalView {
+  background-color: white;
+  width: 30rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  padding: 2rem 2rem;
+}

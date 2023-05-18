@@ -11,10 +11,19 @@ h4 {
   margin-bottom: 0.3rem;
 }
 .inputDetail {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: lightslategrey;
 }
+.successMsg {
+  font-size: 0.8rem;
+  color: blue;
+}
+.errorsMsg {
+  font-size: 0.8rem;
+  color: red;
+}
 .resetLink {
+  font-size: 0.8rem;
   color: blue;
 }
 a:hover {
@@ -58,4 +67,19 @@ a:hover {
 }
 #cancel:hover {
   background-color: whitesmoke;
+}
+.notBtn {
+  border: 0.5px solid var(--bgColor);
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: 0.2rem;
+  color: rgb(255 255 255);
+  width: 6rem;
+  height: 3rem;
+  cursor: not-allowed;
+  background-color: rgb(204, 204, 204);
+}
+.notBtn:hover {
+  background-color: rgb(180, 180, 180);
 }

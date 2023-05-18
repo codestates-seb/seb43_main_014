@@ -1,33 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Logo from '../../images/rocket.png';
-import { isLoginSelector, tokenState } from '../../recoil/TokenAtom';
 import { useRecoilState } from 'recoil';
+import { isLoginState, userState } from '../../recoil/AuthAtom';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
+import Confirm from '../common/Confirm/Confirm';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginSelector);
-  const [token, setToken] = useRecoilState(tokenState);
-  console.log(isLogin);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const userData = JSON.parse(localStorage.getItem('user_info'));
+
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  console.log(isOpenConfirm);
 
   const handleLogout = () => {
-    axios
-      .delete(
-        'http://ec2-13-125-71-49.ap-northeast-2.compute.amazonaws.com:8080/logout',
-      )
-      .then((res) => {
-        removeCookie('token'); // 쿠키 저장소에서 토큰 제거
-        setToken(''); // 리코일 토큰 상태 초기화
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    localStorage.removeItem('jwt_token');
+    localStorage.removeItem('user_info');
+    setIsLogin(false);
+    setUserInfo(null);
+    navigate('/');
   };
   if (isLogin) {
     return (
@@ -46,11 +39,22 @@ const Header = () => {
             <Link to="/team">문의 하기</Link>
           </div>
           <div className="auth_menu">
-            <Link to="/mypage">
-              {/* <AccountCircleIcon className="mypage" /> */}
-              마이페이지
-            </Link>
-            <span onClick={handleLogout}>로그아웃</span>
+            <Link to="/mypage">{userData.name}님</Link>
+            <span
+              onClick={() => {
+                setIsOpenConfirm(true);
+              }}
+            >
+              로그아웃
+            </span>
+            {isOpenConfirm && (
+              <Confirm
+                setIsOpenConfirm={setIsOpenConfirm}
+                handleLogout={handleLogout}
+              >
+                <p>정말 로그아웃 하시겠습니까?</p>
+              </Confirm>
+            )}
           </div>
         </div>
       </BasicHeader>
