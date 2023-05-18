@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '../../../../recoil/AuthAtom';
 
 const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
-  const { name, email, phone } = userData;
+  const { name, email, phone, profieImage } = userData;
   const [inputs, setInputs] = useState({
     name: name,
     email: email,
@@ -39,6 +39,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
         const getData = JSON.parse(localStorage.getItem('user_info'));
         getData.name = res.data.name;
         localStorage.setItem('user_info', JSON.stringify(getData));
+        setUserInfo({ ...userInfo, name: res.data.name });
         setUserData(res.data);
         setInfoUpdata(false);
       })
@@ -101,8 +102,8 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
           .then((response) => console.log(response.data))
           .catch((error) => {
             console.log(error);
+            console.log(imgBase64);
           });
-        console.log(imgBase64);
       };
       reader.readAsDataURL(theFile);
     }
@@ -119,11 +120,11 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
       <div className={styles.proCard}>
         <div className={styles.userInfo}>
           <div className={styles.profilePic}>
-            {/* <img
+            <img
               className={styles.pic}
-              src="https://mediaim.expedia.com/localexpert/1391601/fe50a3dc-b95f-4815-a331-05cbbc16d855.jpg?impolicy=resizecrop&rw=1005&rh=565"  alt="profileImg" 
-            /> */}
-            <img className={styles.pic} src={imgBase64} alt="profileImg" />
+              src={imgBase64 ? imgBase64 : profieImage}
+              alt="profileImg"
+            />
             <div>
               <Fab
                 size="small"
