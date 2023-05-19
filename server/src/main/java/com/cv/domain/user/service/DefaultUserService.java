@@ -172,4 +172,14 @@ public class DefaultUserService implements UserServiceInter{
         }
         return passwordBuilder.toString();
     }
+
+    public boolean isEmailDuplicated(UserDto.Email userEmailDto) {
+        boolean isDuplicated = userRepository.existsByEmail(userEmailDto.getEmail());
+        return !isDuplicated;
+    }
+
+    public boolean isPhoneDuplicated(UserDto.Phone userPhoneDto) {
+        boolean isDuplicated = userRepository.existsByPhone(userPhoneDto.getPhone());
+        return !isDuplicated;
+    }
 }
