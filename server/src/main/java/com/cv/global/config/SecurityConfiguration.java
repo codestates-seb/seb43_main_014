@@ -1,6 +1,5 @@
 package com.cv.global.config;
 
-import com.cv.domain.user.service.UserService;
 import com.cv.global.auth.jwt.filter.JwtAuthenticationFilter;
 import com.cv.global.auth.jwt.filter.JwtVerificationFilter;
 import com.cv.global.auth.jwt.handler.UserAccessDeniedHandler;
