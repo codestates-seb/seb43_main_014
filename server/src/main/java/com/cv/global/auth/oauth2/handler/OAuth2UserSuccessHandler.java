@@ -2,7 +2,6 @@ package com.cv.global.auth.oauth2.handler;
 
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;
-import com.cv.domain.user.service.UserService;
 import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.cv.global.auth.utils.UserAuthorityUtils;
 import lombok.RequiredArgsConstructor;
