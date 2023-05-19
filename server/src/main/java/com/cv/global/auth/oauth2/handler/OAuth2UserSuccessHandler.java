@@ -9,15 +9,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,7 +88,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             relogin = false; // 처음 로그인
         }
 
-        String uri = createURI(accessToken, refreshToken, relogin).toString();
+        String uri = createURI(accessToken, refreshToken, relogin, user).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
@@ -116,29 +117,42 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken, Boolean relogin) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("accessToken", "Bearer " + accessToken);
-        queryParams.add("refreshToken", refreshToken);
-
+    private URI createURI(String accessToken, String refreshToken, Boolean relogin, User user) {
         // 재로그인 여부에 따라 redirect uri를 분기
         String path;
+        UriComponents uriComponents;
         if (relogin) {
-            path = "/login/oauth2/already";
-        }
-        else {
+            path = "/login/oauth2/already"; // 재로그인
+
+            // UTF_8 인코딩(URL 인코딩) -> URI는 아스키 문자만 포함 가능
+            String encodedUserId = UriUtils.encode(String.valueOf(user.getUserId()), StandardCharsets.UTF_8);
+            String encodedName = UriUtils.encode(user.getName(), StandardCharsets.UTF_8);
+
+            uriComponents = UriComponentsBuilder
+                    .newInstance()
+                    .scheme("http")
+                    .host("localhost") // FIXME: 배포 시, 웹 서버 호스팅 도메인으로 바꿔야함
+                    .port(3000)
+                    .path(path)
+                    .queryParam("accessToken", "Bearer " + accessToken)
+                    .queryParam("refreshToken", refreshToken)
+                    .queryParam("userId", encodedUserId)
+                    .queryParam("name", encodedName)
+                    .build();
+        } else {
             path = "/login/oauth2";
+
+            uriComponents = UriComponentsBuilder
+                    .newInstance()
+                    .scheme("http")
+                    .host("localhost")
+                    .port(3000)
+                    .path(path)
+                    .queryParam("accessToken", "Bearer " + accessToken)
+                    .queryParam("refreshToken", refreshToken)
+                    .build();
         }
 
-        // FIXME: 배포 시, 웹 서버 호스팅 도메인으로 바꿔야함
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path(path)
-                .queryParams(queryParams)
-                .build()
-                .toUri();
+        return uriComponents.toUri();
     }
 }
