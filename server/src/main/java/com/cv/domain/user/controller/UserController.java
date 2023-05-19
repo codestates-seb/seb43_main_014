@@ -118,4 +118,17 @@ public class UserController {
         defaultUserService.createMailAndChangePassword(passwordGet.getEmail());
         return ResponseEntity.ok().build();
     }
+
+    // email 중복확인
+    @PostMapping("/sign/email")
+    public boolean isEmailDuplicated(@RequestBody UserDto.Email userEmailDto){
+        return defaultUserService.isEmailDuplicated(userEmailDto);
+    }
+
+    // 휴대폰번호 중복확인
+    @PostMapping("/sign/phone")
+    public boolean isPhoneDuplicated(@RequestBody UserDto.Phone userPhoneDto){
+        return defaultUserService.isPhoneDuplicated(userPhoneDto);
+
+    }
 }

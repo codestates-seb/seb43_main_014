@@ -15,4 +15,6 @@ public interface UserServiceInter {
     void createMailAndChangePassword(String userEmail);
     void sendMail(MailDto mailDto);
     UserDto.UserPatchResponse uploadProfile(Long userId, UserDto.ProfileImage profileImageDto);
+    boolean isEmailDuplicated(UserDto.Email userEmailDto);
+    boolean isPhoneDuplicated(UserDto.Phone userPhoneDto)
 }
