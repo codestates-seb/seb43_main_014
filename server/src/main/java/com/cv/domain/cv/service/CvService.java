@@ -100,27 +100,31 @@ public class CvService {
 
         if(cv.getCareers() != null)
             for (Career career : cv.getCareers()) {
-                for (CareerSkillStack careerSkillStack : career.getCareerSkillStacks()) {
-                    SkillStack findSkillStack = skillStackRepository.findById(careerSkillStack.getSkillStack().getSkillStackId())
-                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+                if (!career.getCareerSkillStacks().isEmpty()) {
+                    for (CareerSkillStack careerSkillStack : career.getCareerSkillStacks()) {
+                        SkillStack findSkillStack = skillStackRepository.findById(careerSkillStack.getSkillStack().getSkillStackId())
+                                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
 
-                    careerSkillStack.setSkillStack(findSkillStack);
+                        careerSkillStack.setSkillStack(findSkillStack);
 
-                    careerSkillStack.setCareer(career);
-                    careerSkillStackRepository.save(careerSkillStack);
+                        careerSkillStack.setCareer(career);
+                        careerSkillStackRepository.save(careerSkillStack);
+                    }
                 }
             }
 
         if(cv.getProjects() != null)
             for (Project project : cv.getProjects()) {
-                for (ProjectSkillStack projectSkillStack : project.getProjectSkillStacks()) {
+                if (!project.getProjectSkillStacks().isEmpty()) {
+                    for (ProjectSkillStack projectSkillStack : project.getProjectSkillStacks()) {
                     SkillStack findSkillStack = skillStackRepository.findById(projectSkillStack.getSkillStack().getSkillStackId())
                             .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
 
-                projectSkillStack.setSkillStack(findSkillStack);
+                    projectSkillStack.setSkillStack(findSkillStack);
 
-                projectSkillStack.setProject(project);
-                projectSkillStackRepository.save(projectSkillStack);
+                    projectSkillStack.setProject(project);
+                    projectSkillStackRepository.save(projectSkillStack);
+                }
             }
         }
     }
@@ -251,7 +255,7 @@ public class CvService {
                 }
             }
 
-            for (int i = 0; i < cv.getCareers().size(); i++){
+            for (int i = 0; i < cv.getCareers().size(); i++) {
                 findCv.getCareers().get(i).setJoinMonth(cv.getCareers().get(i).getJoinMonth());
                 findCv.getCareers().get(i).setJoinYear(cv.getCareers().get(i).getJoinYear());
                 findCv.getCareers().get(i).setDescription(cv.getCareers().get(i).getDescription());
@@ -260,12 +264,14 @@ public class CvService {
                 findCv.getCareers().get(i).setRetirementYear(cv.getCareers().get(i).getRetirementYear());
                 findCv.getCareers().get(i).setCompanyName(cv.getCareers().get(i).getCompanyName());
                 findCv.getCareers().get(i).setDevelopmentJob(cv.getCareers().get(i).getDevelopmentJob());
-                for(int j = 0; j < cv.getCareers().get(i).getCareerSkillStacks().size(); j++){
-                    SkillStack findSkillStack = skillStackRepository.findById(cv.getCareers().get(i).getCareerSkillStacks().get(j).getSkillStack().getSkillStackId())
-                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
-                    cv.getCareers().get(i).getCareerSkillStacks().get(j).setSkillStack(findSkillStack);
+                if (!cv.getCareers().get(i).getCareerSkillStacks().isEmpty()) {
+                    for (int j = 0; j < cv.getCareers().get(i).getCareerSkillStacks().size(); j++) {
+                        SkillStack findSkillStack = skillStackRepository.findById(cv.getCareers().get(i).getCareerSkillStacks().get(j).getSkillStack().getSkillStackId())
+                                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+                        cv.getCareers().get(i).getCareerSkillStacks().get(j).setSkillStack(findSkillStack);
+                    }
+                    findCv.getCareers().get(i).setCareerSkillStacks(cv.getCareers().get(i).getCareerSkillStacks());
                 }
-                findCv.getCareers().get(i).setCareerSkillStacks(cv.getCareers().get(i).getCareerSkillStacks());
             }
 
             if(cv.getCareers().size() < findCv.getCareers().size()){
@@ -287,7 +293,7 @@ public class CvService {
                 }
             }
 
-            for(int i = 0; i < cv.getProjects().size(); i++){
+            for(int i = 0; i < cv.getProjects().size(); i++) {
                 findCv.getProjects().get(i).setPart(cv.getProjects().get(i).getPart());
                 findCv.getProjects().get(i).setStartMonth(cv.getProjects().get(i).getStartMonth());
                 findCv.getProjects().get(i).setStartYear(cv.getProjects().get(i).getStartYear());
@@ -296,12 +302,14 @@ public class CvService {
                 findCv.getProjects().get(i).setProjectSubject(cv.getProjects().get(i).getProjectSubject());
                 findCv.getProjects().get(i).setDescription(cv.getProjects().get(i).getDescription());
                 findCv.getProjects().get(i).setLink(cv.getProjects().get(i).getLink());
-                for(int j = 0; j < cv.getProjects().get(i).getProjectSkillStacks().size(); j++){
-                    SkillStack findSkillStack = skillStackRepository.findById(cv.getProjects().get(i).getProjectSkillStacks().get(j).getSkillStack().getSkillStackId())
-                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
-                    cv.getProjects().get(i).getProjectSkillStacks().get(j).setSkillStack(findSkillStack);
+                if (!cv.getProjects().get(i).getProjectSkillStacks().isEmpty()) {
+                    for (int j = 0; j < cv.getProjects().get(i).getProjectSkillStacks().size(); j++) {
+                        SkillStack findSkillStack = skillStackRepository.findById(cv.getProjects().get(i).getProjectSkillStacks().get(j).getSkillStack().getSkillStackId())
+                                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+                        cv.getProjects().get(i).getProjectSkillStacks().get(j).setSkillStack(findSkillStack);
+                    }
+                    findCv.getProjects().get(i).setProjectSkillStacks(cv.getProjects().get(i).getProjectSkillStacks());
                 }
-                findCv.getProjects().get(i).setProjectSkillStacks(cv.getProjects().get(i).getProjectSkillStacks());
             }
 
             if(cv.getProjects().size() < findCv.getProjects().size()){
