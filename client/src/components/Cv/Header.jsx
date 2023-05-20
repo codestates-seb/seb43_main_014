@@ -55,7 +55,7 @@ const Header = () => {
                 setIsOpenConfirm={setIsOpenConfirm}
                 handleLogout={handleLogout}
               >
-                <p>정말 로그아웃 하시겠습니까?</p>
+                <p className="confirm_content">정말 로그아웃 하시겠습니까?</p>
               </Confirm>
             )}
           </div>
@@ -138,5 +138,9 @@ const BasicHeader = styled.header`
   .logo_img {
     width: 1.2rem;
     height: 1.2rem;
+  }
+
+  .confirm_content {
+    font-size: larger;
   }
 `;
