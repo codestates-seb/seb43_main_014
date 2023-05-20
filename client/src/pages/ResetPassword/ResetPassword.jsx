@@ -68,7 +68,7 @@ export default function ResetPassword() {
           <div className={styles.title}>비밀번호 찾기</div>
           <div className={styles.explanation}>
             <p>회원가입 시 사용한 이메일을 입력해주세요.</p>
-            <p>올바른 이메일이라면 비밀번호를 메일로 보내드릴게요!</p>
+            <p>올바른 이메일이라면 임시 비밀번호를 발급 해드릴게요!</p>
           </div>
           <LabelInput
             labelText="이메일"
