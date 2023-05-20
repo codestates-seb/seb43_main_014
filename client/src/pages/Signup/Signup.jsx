@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Signup.module.css';
 import HelloBox from '../../components/common/HelloBox/HelloBox';
 import FormBox from '../../components/common/FormBox/FormBox';
@@ -11,6 +11,10 @@ import { validate } from '../../utils/validate-signup';
 import Alert from '../../components/common/Alert/Alert';
 
 export default function Signup() {
+  useEffect(() => {
+    setSignupClicked(true);
+  }, []);
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
@@ -37,6 +41,7 @@ export default function Signup() {
   });
 
   const [showAlert, setShowAlert] = useState(false);
+  const [signupClicked, setSignupClicked] = useState(false);
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
@@ -90,7 +95,12 @@ export default function Signup() {
             <Link to="/login" className={styles.login}>
               <h1>로그인</h1>
             </Link>
-            <Link to="/signup" className={styles.signup}>
+            <Link
+              to="/signup"
+              className={`${styles.signup} ${
+                signupClicked && styles.signupClicked
+              }`}
+            >
               <h1>회원가입</h1>
             </Link>
           </div>
@@ -110,6 +120,7 @@ export default function Signup() {
             type="text"
             name="phone"
             placeholder="휴대폰 번호를 입력해주세요."
+            phoneDuplicate={true}
             value={form.phone}
             handleChange={handleChange}
           />
@@ -121,7 +132,7 @@ export default function Signup() {
             type="text"
             name="email"
             placeholder="이메일을 입력해주세요."
-            duplicate={true}
+            emailDuplicate={true}
             value={form.email}
             handleChange={handleChange}
           />

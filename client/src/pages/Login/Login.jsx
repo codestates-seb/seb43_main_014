@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Login.module.css';
 import HelloBox from '../../components/common/HelloBox/HelloBox';
 import FormBox from '../../components/common/FormBox/FormBox';
@@ -13,8 +13,11 @@ import { validate } from '../../utils/validate-login';
 import Alert from '../../components/common/Alert/Alert';
 
 export default function Login() {
-  const navigate = useNavigate();
+  useEffect(() => {
+    setLoginClicked(true);
+  }, []);
 
+  const navigate = useNavigate();
   const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
@@ -33,6 +36,7 @@ export default function Login() {
   });
 
   const [showAlert, setShowAlert] = useState(false);
+  const [loginClicked, setLoginClicked] = useState(false);
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
@@ -89,7 +93,12 @@ export default function Login() {
         )}
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.tapMenu}>
-            <Link to="/login" className={styles.login}>
+            <Link
+              to="/login"
+              className={`${styles.login} ${
+                loginClicked && styles.loginClicked
+              }`}
+            >
               <h1>로그인</h1>
             </Link>
             <Link to="/signup" className={styles.signup}>

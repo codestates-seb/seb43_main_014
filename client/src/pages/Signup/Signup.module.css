@@ -30,8 +30,7 @@
 .login:hover,
 .signup:hover {
   background-color: var(--puple100);
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+  border-radius: 1rem;
   text-decoration: none;
 }
 
@@ -41,4 +40,10 @@
 
 .successMsg {
   color: blue;
+}
+
+.signupClicked {
+  background-color: var(--puple100);
+  color: var(--blue300);
+  border-radius: 1rem;
 }

@@ -27,18 +27,23 @@
   color: black;
 }
 
-.login:hover,
-.signup:hover {
-  background-color: var(--puple100);
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  text-decoration: none;
-}
-
 .errorsMsg {
   color: red;
 }
 
 .successMsg {
   color: blue;
+}
+
+.loginClicked {
+  background-color: var(--puple100);
+  color: var(--blue300);
+  border-radius: 1rem;
+}
+
+.login:hover,
+.signup:hover {
+  background-color: var(--puple100);
+  border-radius: 1rem;
+  text-decoration: none;
 }
