@@ -7,10 +7,16 @@ import FormBox from '../../components/common/FormBox/FormBox';
 import { validate } from '../../utils/validate-resetpassword';
 import Alert from '../../components/common/Alert/Alert';
 import axios from 'axios';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '../../recoil/AuthAtom';
 
 export default function ResetPassword() {
-  // /user/forgot-password POST
+  const navigate = useNavigate();
 
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [form, setForm] = useState({
     email: '',
   });
@@ -55,6 +61,11 @@ export default function ResetPassword() {
     setValid(newValid);
   };
 
+  // 로그인한 상태라면 비밀번호 찾기 페이지 못가게 홈페이지로 라우팅!
+  if (isLogin) {
+    navigate('/');
+  }
+
   return (
     <main className={styles.container}>
       <HelloBox />
@@ -78,9 +89,13 @@ export default function ResetPassword() {
             value={form.email}
             handleChange={handleChange}
           />
-          <div className={valid.email ? styles.successMsg : styles.errorsMsg}>
-            {errors.email}
-          </div>
+          {form.email && (
+            <div className={valid.email ? styles.successMsg : styles.errorsMsg}>
+              {valid.email ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.email}</p>
+            </div>
+          )}
+
           <br />
           <br />
           <br />
