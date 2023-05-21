@@ -14,11 +14,11 @@ const Header = () => {
   const userData = JSON.parse(localStorage.getItem('user_info'));
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
-  console.log(isOpenConfirm);
 
   const handleLogout = () => {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('user_info');
+    localStorage.removeItem('isLogin');
     setIsLogin(false);
     setToken(null);
     setUserInfo(null);
