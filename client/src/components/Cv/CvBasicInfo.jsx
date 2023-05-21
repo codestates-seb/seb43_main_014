@@ -143,7 +143,8 @@ const CvBasicInfo = () => {
   const [url3, setUrl3] = useState('');
   const [url4, setUrl4] = useState('');
   const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
-
+  const user = localStorage.getItem('user_info');
+  const { userId } = JSON.parse(user);
   // const [inputs, setInputs] = useState({
   //   title: '',
   //   name: '',
@@ -200,6 +201,7 @@ const CvBasicInfo = () => {
   // const getData = JSON.parse(localStorage.getItem('CvBasicContent'));
 
   const cvContent1 = {
+    userId: userId,
     title: title,
     name: name,
     email: email,

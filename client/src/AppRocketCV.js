@@ -74,7 +74,7 @@ function AppRocKetCV() {
       setUserInfo(JSON.parse(userData));
       setIsLogin(true);
     }
-  }, [isLogin]);
+  }, [setUserInfo]);
 
   useEffect(() => {
     console.log('OAuth 재로그인');
