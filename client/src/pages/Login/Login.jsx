@@ -11,6 +11,8 @@ import { isLoginState, tokenState, userState } from '../../recoil/AuthAtom';
 import axios from 'axios';
 import { validate } from '../../utils/validate-login';
 import Alert from '../../components/common/Alert/Alert';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function Login() {
   useEffect(() => {
@@ -35,6 +37,7 @@ export default function Login() {
     password: false,
   });
 
+  const [공백Alert, set공백Alert] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
 
@@ -50,7 +53,6 @@ export default function Login() {
           form,
         )
         .then((res) => {
-          console.log('리프레쉬 토큰', res.headers.refresh);
           const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
           const userData = res.data;
 
@@ -60,10 +62,11 @@ export default function Login() {
 
           localStorage.setItem('jwt_token', token);
           localStorage.setItem('user_info', JSON.stringify(userData));
+          localStorage.setItem('isLogin', true);
           navigate('/');
         })
         .catch((error) => {
-          alert('로그인 실패!');
+          setShowAlert(true);
           console.log(error);
         });
     }
@@ -72,7 +75,7 @@ export default function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      setShowAlert(true);
+      set공백Alert(true);
       e.preventDefault(); // 입력 막기
       return;
     }
@@ -82,12 +85,16 @@ export default function Login() {
     setValid(newValid);
   };
 
+  // 로그인한 상태라면 로그인 페이지로 가는게 아니라 홈페이지로 라우팅!
+  if (isLogin) {
+    navigate('/');
+  }
   return (
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
-        {showAlert && (
-          <Alert setShowAlert={setShowAlert}>
+        {공백Alert && (
+          <Alert setShowAlert={set공백Alert}>
             <div>공백은 입력할 수 없습니다.</div>
           </Alert>
         )}
@@ -113,11 +120,14 @@ export default function Login() {
             value={form.username}
             handleChange={handleChange}
           />
-          <div
-            className={valid.username ? styles.successMsg : styles.errorsMsg}
-          >
-            {errors.username}
-          </div>
+          {form.username && (
+            <div
+              className={valid.username ? styles.successMsg : styles.errorsMsg}
+            >
+              {valid.username ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.username}</p>
+            </div>
+          )}
           <LabelInput
             labelText="비밀번호"
             type="password"
@@ -127,14 +137,22 @@ export default function Login() {
             value={form.password}
             handleChange={handleChange}
           />
-          <div
-            className={valid.password ? styles.successMsg : styles.errorsMsg}
-          >
-            {errors.password}
-          </div>
+          {form.password && (
+            <div
+              className={valid.password ? styles.successMsg : styles.errorsMsg}
+            >
+              {valid.password ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.password}</p>
+            </div>
+          )}
           <Button allTrue={!allTrue} text="로그인" />
         </form>
         <Oauth />
+        {showAlert && (
+          <Alert setShowAlert={setShowAlert}>
+            <div>아이디와 비밀번호를 다시 확인해주세요!</div>
+          </Alert>
+        )}
       </FormBox>
     </main>
   );
