@@ -9,6 +9,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { validate } from '../../utils/validate-signup';
 import Alert from '../../components/common/Alert/Alert';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '../../recoil/AuthAtom';
 
 export default function Signup() {
   useEffect(() => {
@@ -16,6 +20,9 @@ export default function Signup() {
   }, []);
 
   const navigate = useNavigate();
+
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -40,7 +47,9 @@ export default function Signup() {
     password_confirm: false,
   });
 
+  const [공백Alert, set공백Alert] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [회원가입성공모달, set회원가입성공모달] = useState(false);
   const [signupClicked, setSignupClicked] = useState(false);
 
   const allTrue = Object.values(valid).every((value) => value === true);
@@ -56,12 +65,14 @@ export default function Signup() {
         )
         .then((res) => {
           console.log(res);
-          alert('회원가입에 성공하셨습니다.');
-          navigate('/login');
+          set회원가입성공모달(true);
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
         })
         .catch((error) => {
           console.log(error);
-          alert('회원가입에 실패하였습니다.');
+          setShowAlert(true);
         });
     }
   };
@@ -69,7 +80,7 @@ export default function Signup() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      setShowAlert(true);
+      set공백Alert(true);
       e.preventDefault();
       return;
     }
@@ -81,12 +92,17 @@ export default function Signup() {
     setValid(newValid);
   };
 
+  // 로그인한 상태라면 회원가입 페이지로 가는게 아니라 홈페이지로 라우팅!
+  if (isLogin) {
+    navigate('/');
+  }
+
   return (
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
-        {showAlert && (
-          <Alert setShowAlert={setShowAlert}>
+        {공백Alert && (
+          <Alert setShowAlert={set공백Alert}>
             <div>공백은 입력할 수 없습니다.</div>
           </Alert>
         )}
@@ -112,9 +128,12 @@ export default function Signup() {
             value={form.name}
             handleChange={handleChange}
           />
-          <div className={valid.name ? styles.successMsg : styles.errorsMsg}>
-            {errors.name}
-          </div>
+          {form.name && (
+            <div className={valid.name ? styles.successMsg : styles.errorsMsg}>
+              {valid.name ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.name}</p>
+            </div>
+          )}
           <LabelInput
             labelText="휴대폰 번호"
             type="text"
@@ -124,9 +143,12 @@ export default function Signup() {
             value={form.phone}
             handleChange={handleChange}
           />
-          <div className={valid.phone ? styles.successMsg : styles.errorsMsg}>
-            {errors.phone}
-          </div>
+          {form.phone && (
+            <div className={valid.phone ? styles.successMsg : styles.errorsMsg}>
+              {valid.phone ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.phone}</p>
+            </div>
+          )}
           <LabelInput
             labelText="이메일"
             type="text"
@@ -136,9 +158,12 @@ export default function Signup() {
             value={form.email}
             handleChange={handleChange}
           />
-          <div className={valid.email ? styles.successMsg : styles.errorsMsg}>
-            {errors.email}
-          </div>
+          {form.email && (
+            <div className={valid.email ? styles.successMsg : styles.errorsMsg}>
+              {valid.email ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.email}</p>
+            </div>
+          )}
           <LabelInput
             labelText="비밀번호"
             type="password"
@@ -147,11 +172,14 @@ export default function Signup() {
             value={form.password}
             handleChange={handleChange}
           />
-          <div
-            className={valid.password ? styles.successMsg : styles.errorsMsg}
-          >
-            {errors.password}
-          </div>
+          {form.password && (
+            <div
+              className={valid.password ? styles.successMsg : styles.errorsMsg}
+            >
+              {valid.password ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.password}</p>
+            </div>
+          )}
           <LabelInput
             isNoLabel={true}
             type="password"
@@ -160,16 +188,37 @@ export default function Signup() {
             value={form.password_confirm}
             handleChange={handleChange}
           />
-          <div
-            className={
-              valid.password_confirm ? styles.successMsg : styles.errorsMsg
-            }
-          >
-            {errors.password_confirm}
-          </div>
+          {form.password_confirm && (
+            <div
+              className={
+                valid.password_confirm ? styles.successMsg : styles.errorsMsg
+              }
+            >
+              {valid.password_confirm ? (
+                <CheckCircleIcon />
+              ) : (
+                <ErrorRoundedIcon />
+              )}
+              <p>{errors.password_confirm}</p>
+            </div>
+          )}
+
           <Button allTrue={!allTrue} text="회원가입" />
         </form>
         <Oauth />
+        {showAlert && (
+          <Alert setShowAlert={setShowAlert}>
+            <div>휴대폰 번호와 이메일 중복확인을 하셨나요?</div>
+          </Alert>
+        )}
+        {회원가입성공모달 && (
+          <Alert isSuccess={true} setShowAlert={set회원가입성공모달}>
+            <div>
+              회원가입에 성공하셨습니다! 로켓CV의 회원이 되신걸 축하드려요!
+            </div>
+            <div>3초뒤에 로그인페이지로 넘어가요!</div>
+          </Alert>
+        )}
       </FormBox>
     </main>
   );
