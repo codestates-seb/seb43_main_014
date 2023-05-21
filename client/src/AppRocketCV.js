@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './pages/Root';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
 import './GlobalStyles.css';
 import Login from './pages/Login/Login';
@@ -9,9 +9,10 @@ import Signup from './pages/Signup/Signup';
 import Main from './pages/Main';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import CvPage from './components/Cv/CvPage';
-import { isLoginState, userState } from './recoil/AuthAtom';
+import { isLoginState, tokenState, userState } from './recoil/AuthAtom';
 import { useRecoilState } from 'recoil';
-import OAuthLogin from './pages/\bOAuthLogin/OAuthLogin';
+import OAuthLogin from './pages/OAuthLogin/OAuthLogin';
+import { extractAccessToken } from './utils/extractAccessToken';
 
 const router = createBrowserRouter([
   {
@@ -61,22 +62,29 @@ const router = createBrowserRouter([
 function AppRocKetCV() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  console.log(isLogin); // 로그인시 : false -> true
-  console.log('userInfo : ', userInfo);
+  const [accessToken, setAccessToken] = useRecoilState(tokenState);
 
   const token = localStorage.getItem('jwt_token');
   const userData = localStorage.getItem('user_info');
 
   useEffect(() => {
-    // 앱이 로드될 때 로컬 스토리지에서 토큰을 확인하여 로그인 상태를 복원
-    console.log('액세스토큰 :', token);
-    console.log(userData);
-
+    // 앱이 새로고침돼도 로컬 스토리지에서 토큰을 확인하여 리코일 상태를 복원
     if (token && userData) {
+      setAccessToken(token);
       setUserInfo(JSON.parse(userData));
       setIsLogin(true);
     }
   }, [setUserInfo]);
+
+  useEffect(() => {
+    console.log('OAuth 재로그인');
+    const currentUrl = window.location.href;
+    const AccessToken = extractAccessToken(currentUrl);
+    console.log(AccessToken);
+    // if(oauth 재로그인 url) {
+
+    // }
+  }, []);
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }
 
