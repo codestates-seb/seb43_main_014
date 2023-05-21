@@ -9,6 +9,9 @@ import styles from './OAuthLogin.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { tokenState, isLoginState, userState } from '../../recoil/AuthAtom';
+import { extractAccessToken } from '../../utils/extractAccessToken';
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export default function OAuthLogin() {
   const navigate = useNavigate();
@@ -30,21 +33,6 @@ export default function OAuthLogin() {
   const [showAlert, setShowAlert] = useState(false);
 
   const allTrue = Object.values(valid).every((value) => value === true);
-
-  function extractAccessToken(url) {
-    const queryString = url.split('?')[1];
-    const params = new URLSearchParams(queryString);
-    console.log(params);
-    const accessTokenParam = params.get('accessToken');
-    console.log('❌', accessTokenParam);
-
-    if (accessTokenParam) {
-      // 액세스 토큰에서 'Bearer '를 제거한 값을 반환
-      return accessTokenParam.replace('Bearer ', '');
-    }
-
-    return null; // 액세스 토큰이 없는 경우 null을 반환
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,9 +101,12 @@ export default function OAuthLogin() {
             value={form.phone}
             handleChange={handleChange}
           />
-          <div className={valid.phone ? styles.successMsg : styles.errorsMsg}>
-            {errors.phone}
-          </div>
+          {form.phone && (
+            <div className={valid.phone ? styles.successMsg : styles.errorsMsg}>
+              {valid.phone ? <CheckCircleIcon /> : <ErrorRoundedIcon />}
+              <p>{errors.phone}</p>
+            </div>
+          )}
           <br />
           <br />
           <br />

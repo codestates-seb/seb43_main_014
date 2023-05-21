@@ -3,10 +3,12 @@ import styles from './LabelInput.module.css';
 import { Link } from 'react-router-dom';
 import Modal from '../../common/Modal/index';
 import Button from '../Button/Button';
+import axios from 'axios';
 
 export default function LabelInput({
   labelText,
-  duplicate,
+  phoneDuplicate,
+  emailDuplicate,
   isNoLabel,
   resetButton,
   type,
@@ -17,11 +19,13 @@ export default function LabelInput({
 }) {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
-  const valid = false;
+  const valid = true;
 
   const handleClickModal = () => {
-    setIsOpenModal((prev) => !prev);
+    setIsOpenModal((isOpen) => !isOpen);
   };
+  console.log(value);
+
   // 라벨없는 인풋창! (ex.비밀번호 확인)
   if (isNoLabel) {
     return (
@@ -48,16 +52,40 @@ export default function LabelInput({
         </label>
         {resetButton && (
           <Link to="/reset_password" className={styles.passwordReset}>
-            비밀번호 재설정
+            비밀번호 찾기
           </Link>
         )}
-        {duplicate && (
-          <div className={styles.duplicate} onClick={handleClickModal}>
+        {(emailDuplicate || phoneDuplicate) && (
+          <div
+            className={styles.duplicate}
+            onClick={() => {
+              setIsOpenModal(true);
+              axios.post(
+                `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/sign/${name}`,
+                { name: value },
+              );
+            }}
+          >
             중복확인
           </div>
         )}
       </div>
-      {isOpenModal && (
+      {phoneDuplicate && isOpenModal && (
+        <Modal openModalHandler={handleClickModal}>
+          {valid ? (
+            <div className={styles.center}>
+              <p>사용 가능한 휴대폰 번호입니다.</p>
+              <Button text="사용하기" />
+            </div>
+          ) : (
+            <div className={styles.center}>
+              <p>이미 존재하는 휴대폰 번호입니다.</p>
+              <Button text="다른 휴대폰 번호 사용하기" />
+            </div>
+          )}
+        </Modal>
+      )}
+      {emailDuplicate && isOpenModal && (
         <Modal openModalHandler={handleClickModal}>
           {valid ? (
             <div className={styles.center}>

@@ -2,24 +2,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from '../../images/rocket.png';
 import { useRecoilState } from 'recoil';
-import { isLoginState, userState } from '../../recoil/AuthAtom';
+import { isLoginState, tokenState, userState } from '../../recoil/AuthAtom';
 import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/Confirm/Confirm';
 
 const Header = () => {
   const navigate = useNavigate();
+  const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
   const userData = JSON.parse(localStorage.getItem('user_info'));
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
-  console.log(isOpenConfirm);
 
   const handleLogout = () => {
     localStorage.removeItem('jwt_token');
     localStorage.removeItem('user_info');
+    localStorage.removeItem('isLogin');
     setIsLogin(false);
+    setToken(null);
     setUserInfo(null);
+    setIsOpenConfirm(false);
     navigate('/');
   };
   if (isLogin) {
@@ -52,7 +55,7 @@ const Header = () => {
                 setIsOpenConfirm={setIsOpenConfirm}
                 handleLogout={handleLogout}
               >
-                <p>정말 로그아웃 하시겠습니까?</p>
+                <p className="confirm_content">정말 로그아웃 하시겠습니까?</p>
               </Confirm>
             )}
           </div>
@@ -125,12 +128,19 @@ const BasicHeader = styled.header`
   }
 
   .auth_menu * {
-    margin-left: 1rem;
     font-size: 1rem;
+  }
+
+  .auth_menu a {
+    margin-right: 1rem;
   }
 
   .logo_img {
     width: 1.2rem;
     height: 1.2rem;
+  }
+
+  .confirm_content {
+    font-size: larger;
   }
 `;

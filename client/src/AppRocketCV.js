@@ -47,8 +47,12 @@ const router = createBrowserRouter([
         element: <CvPage />,
       },
       {
-        path: '/receive-token.html/',
+        path: '/login/oauth2/',
         element: <OAuthLogin />,
+      },
+      {
+        path: '/login/oauth2/already/',
+        element: <Main />,
       },
     ],
   },
