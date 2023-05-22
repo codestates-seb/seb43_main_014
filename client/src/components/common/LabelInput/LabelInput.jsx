@@ -24,7 +24,6 @@ export default function LabelInput({
   const handleClickModal = () => {
     setIsOpenModal((isOpen) => !isOpen);
   };
-  console.log(value);
 
   // 라벨없는 인풋창! (ex.비밀번호 확인)
   if (isNoLabel) {
