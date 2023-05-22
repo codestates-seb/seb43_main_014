@@ -26,8 +26,8 @@ import javax.validation.Valid;
 @RestController
 public class CvController {
 
-    private final CvMapper mapper;
     private final CvService cvService;
+    private final CvMapper mapper;
     private final CvControllerHelper helper;
 
     // 이력서 작성
@@ -43,11 +43,8 @@ public class CvController {
                 })
     @PostMapping
     public ResponseEntity<CvResponseDto> postCv(@RequestBody @Valid CvPostDto requestBody){
-        Cv postCv = mapper.cvPostToCv(requestBody);
-        Cv cv = cvService.createCv(postCv);
-        cvService.injectLowDomain(cv);
-        CvResponseDto response = mapper.cvToCvResponse(cv);
-//        CvResponseDto.Response response = helper.createCvHelper(requestBody);
+
+        CvResponseDto response = helper.createCvWithTransaction(requestBody);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -68,10 +65,9 @@ public class CvController {
     public ResponseEntity<CvResponseDto> patchCv(@PathVariable("cv-id") long cvId,
                                                           @RequestBody @Valid CvPatchDto requestBody) {
 
-        Cv patchCv = mapper.cvPatchToCv(requestBody);
-        Cv cv = cvService.updateCv(patchCv);
+        CvResponseDto response = helper.updateCvWithTransaction(requestBody);
 
-        return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 이력서 조회
