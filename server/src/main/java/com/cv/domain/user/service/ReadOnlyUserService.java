@@ -24,6 +24,16 @@ public class ReadOnlyUserService implements UserServiceInter {
     }
 
     @Override
+    public UserDto.ReissueResponse reissue(UserDto.Reissue reissue) {
+        throw new UnsupportedOperationException("This method is not supported in read-only mode.");
+    }
+
+    @Override
+    public UserDto.LogoutResponse logout(UserDto.Logout logout) {
+        throw new UnsupportedOperationException("This method is not supported in read-only mode.");
+    }
+
+    @Override
     public LocalDateTime changePassword(Long userId, UserDto.PasswordPatch userPasswordPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
