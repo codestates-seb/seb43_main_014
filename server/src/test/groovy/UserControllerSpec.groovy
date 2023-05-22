@@ -16,7 +16,7 @@
 //import org.springframework.test.web.servlet.MockMvc
 //import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 //import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-//import spock.lang.Specification
+import spock.lang.Specification
 //
 //import java.time.LocalDateTime
 //
@@ -27,7 +27,7 @@
 //@SpringBootTest
 //@AutoConfigureMockMvc
 //@ActiveProfiles("test")
-//class UserControllerSpec extends Specification {
+class UserControllerSpec extends Specification {
 //
 //    @Autowired
 //    MockMvc mockMvc
@@ -240,4 +240,4 @@
 //        result.andExpect(status().isOk())
 //                .andExpect(content().string(isDuplicated.toString()))
 //    }
-//}
+}
