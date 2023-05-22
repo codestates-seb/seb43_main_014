@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 
 public interface UserServiceInter {
     UserDto.SignUpResponse createUser(UserDto.Post userPostDto);
+    UserDto.ReissueResponse reissue(UserDto.Reissue reissue);
+    UserDto.LogoutResponse logout(UserDto.Logout logout);
     LocalDateTime changePassword(Long userId, UserDto.PasswordPatch userPasswordPatchDto);
     User findUser(Long userId);
     UserDto.UserPatchResponse updateUserInfo(Long userId, UserDto.Patch userInfoPatchDto);

@@ -5,6 +5,7 @@ import com.cv.domain.user.repository.UserRepository;
 import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.cv.global.auth.utils.UserAuthorityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 // OAuth2 인증에 성공하면 호출되는 핸들러
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private final JwtTokenizer jwtTokenizer;
     private final UserAuthorityUtils authorityUtils;
     private final UserRepository userRepository;
+    private final RedisTemplate redisTemplate;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -82,6 +85,12 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private void redirect(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
+
+        // refreshToken Redis에 저장(expirationTime 설정을 통해 자동 삭제 처리)
+        redisTemplate.opsForValue()
+                .set("RT_" + user.getEmail(), refreshToken,
+                        jwtTokenizer.getRefreshTokenExpirationMinutes(), TimeUnit.MINUTES);
+
         boolean relogin  = true; // 재로그인
 
         if (user.getPhone() == null) {
@@ -98,7 +107,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         claims.put("roles", user.getRoles());
 
         String subject = user.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationHours());
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -109,7 +118,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
     private String delegateRefreshToken(User user) {
         String subject = user.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationHours());
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
