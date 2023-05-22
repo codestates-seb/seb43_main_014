@@ -1,22 +1,17 @@
 package com.cv.domain.user.controller;
 
-import com.cv.domain.cv.dto.CvDto;
 import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.service.CvService;
-import com.cv.domain.user.dto.MailDto;
 import com.cv.domain.user.dto.UserDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.DefaultUserService;
 import com.cv.domain.user.service.ReadOnlyUserService;
-import com.cv.global.exception.BusinessLogicException;
-import com.cv.global.exception.ExceptionCode;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,6 +41,22 @@ public class UserController {
     public ResponseEntity createUser(@Valid @RequestBody UserDto.Post userPostDto) {
         UserDto.SignUpResponse createdUser = defaultUserService.createUser(userPostDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    // access token/refresh token 재발급
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(@Valid @RequestBody UserDto.Reissue reissue) {
+        UserDto.ReissueResponse reissueResponse = defaultUserService.reissue(reissue);
+
+        return new ResponseEntity<>(reissueResponse, HttpStatus.valueOf(reissueResponse.getState()));
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity logout(@Valid @RequestBody UserDto.Logout logout) {
+        UserDto.LogoutResponse logoutResponse = defaultUserService.logout(logout);
+
+        return new ResponseEntity<>(logoutResponse, HttpStatus.valueOf(logoutResponse.getState()));
     }
 
     // 비밀번호 변경
@@ -122,13 +133,12 @@ public class UserController {
     // email 중복확인
     @PostMapping("/sign/email")
     public boolean isEmailDuplicated(@RequestBody UserDto.Email userEmailDto){
-        return defaultUserService.isEmailDuplicated(userEmailDto);
+        return readOnlyUserService.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
     @PostMapping("/sign/phone")
     public boolean isPhoneDuplicated(@RequestBody UserDto.Phone userPhoneDto){
-        return defaultUserService.isPhoneDuplicated(userPhoneDto);
-
+        return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
     }
 }
