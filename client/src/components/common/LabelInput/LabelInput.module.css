@@ -25,7 +25,8 @@
 
 .passwordReset {
   margin-top: 3rem;
-  color: mediumblue;
+  color: var(--blue300);
+  font-weight: 500;
 }
 
 .passwordReset:hover {
@@ -39,7 +40,8 @@
 
 .duplicate {
   margin-top: 3rem;
-  color: mediumblue;
+  color: var(--blue300);
+  font-weight: 500;
   cursor: pointer;
 }
 

@@ -3,10 +3,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
+import { CvContentAtom } from '../../recoil/CvContentAtom';
+import { useRecoilState } from 'recoil';
 
 const days = [
   '일',
@@ -125,58 +127,145 @@ const jobs = [
   '개발 PM',
 ];
 const CvBasicInfo = () => {
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [year, setYear] = useState('');
-  const [job, setJob] = useState('');
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [adress, setAdress] = useState('');
-  const [intro, setIntro] = useState('');
-  const [stackTags, setStackTags] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [birthMonth, setBirthMonth] = useState('');
+  const [birthDay, setBirthDay] = useState('');
+  const [birthYear, setBirthYear] = useState('');
+  const [developmentJob, setDevelopmentJob] = useState('');
+  const [selfIntroduction, setSelfIntroduction] = useState('');
+  const [cvSkillStacks, setCvSkillStacks] = useState('');
   const [url1, setUrl1] = useState('');
   const [url2, setUrl2] = useState('');
   const [url3, setUrl3] = useState('');
   const [url4, setUrl4] = useState('');
+  const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
+  const user = localStorage.getItem('user_info');
+  const { userId } = JSON.parse(user);
+  // const [inputs, setInputs] = useState({
+  //   title: '',
+  //   name: '',
+  //   email: '',
+  //   phone: '',
+  //   address: '',
+  //   birthMonth: '',
+  //   birthDay: '',
+  //   birthYear: '',
+  //   developmentJob: '',
+  //   selfIntroduction: '',
+  //   cvSkillStacks: '',
+  //   url1: '',
+  //   url2: '',
+  //   url3: '',
+  //   url4: '',
+  // });
+
+  // const {
+  //   title,
+  //   name,
+  //   email,
+  //   phone,
+  //   address,
+  //   birthMonth,
+  //   birthDay,
+  //   birthYear,
+  //   developmentJob,
+  //   selfIntroduction,
+  //   cvSkillStacks,
+  //   url1,
+  //   url2,
+  //   url3,
+  //   url4,
+  // } = inputs;
+  // const onChange = (e) => {
+  //   const { value, name } = e.target;
+  //   setInputs({
+  //     ...inputs,
+  //     [name]: value,
+  //   });
+  // };
+
+  const handleClickSave = () => {
+    alert('임시저장이 완료되었습니다.');
+    setCvContent((prev) => ({ ...prev, ...cvContent1 }));
+
+    //비동기 해결해야함.
+  };
+
+  useEffect(() => {
+    localStorage.setItem('CvBasicContent', JSON.stringify({ ...cvContent }));
+  }, [cvContent]);
+  // const getData = JSON.parse(localStorage.getItem('CvBasicContent'));
+
+  const cvContent1 = {
+    userId: userId,
+    title: title,
+    name: name,
+    email: email,
+    phone: phone,
+    address: address,
+    birthMonth: birthMonth,
+    birthDay: birthDay,
+    birthYear: birthYear,
+    developmentJob: developmentJob,
+    selfIntroduction: selfIntroduction,
+    links: [
+      {
+        linkName: 'LINK_GITHUB',
+        linkAddress: url1,
+      },
+      {
+        linkName: 'LINK_NOTION',
+        linkAddress: url2,
+      },
+      {
+        linkName: 'LINK_BLOG',
+        linkAddress: url3,
+      },
+      {
+        linkName: 'LINK_PORTFOLIO',
+        linkAddress: url4,
+      },
+    ],
+  };
 
   const onChange = (event) => {
     const {
       target: { name, value },
     } = event;
-    if (name === 'day') {
-      setDay(value);
-    } else if (name === 'month') {
-      setMonth(value);
-    } else if (name === 'year') {
-      setYear(value);
-    } else if (name === 'job') {
-      setJob(value);
+    if (name === 'birthday') {
+      setBirthDay(value);
+    } else if (name === 'birthmonth') {
+      setBirthMonth(value);
+    } else if (name === 'birthyear') {
+      setBirthYear(value);
+    } else if (name === 'developmentjob') {
+      setDevelopmentJob(value);
     } else if (name === 'title') {
       setTitle(value);
     } else if (name === 'name') {
       setName(value);
-    } else if (name === 'mail') {
+    } else if (name === 'email') {
       setEmail(value);
-    } else if (name === 'number') {
-      setPhoneNumber(value);
-    } else if (name === 'adress') {
-      setAdress(value);
-    } else if (name === 'intro') {
-      setIntro(value);
+    } else if (name === 'phone') {
+      setPhone(value);
+    } else if (name === 'address') {
+      setAddress(value);
+    } else if (name === 'selfintroduction') {
+      setSelfIntroduction(value);
     } else if (name === 'tag') {
-      setStackTags(value);
-    } else if (name === 'gitLink') {
+      setCvSkillStacks(value);
+    } else if (name === 'giturl') {
       setUrl1(value);
-    } else if (name === 'notionLink') {
+    } else if (name === 'notionurl') {
       setUrl2(value);
-    } else if (name === 'blogLink') {
+    } else if (name === 'blogurl') {
       setUrl3(value);
-    } else if (name === 'ptpLink') {
+    } else if (name === 'ptpurl') {
       setUrl4(value);
-
-      console.log(value);
     }
   };
   return (
@@ -216,18 +305,18 @@ const CvBasicInfo = () => {
             ></input>
             <span>전화번호</span>
             <input
-              name="phoneNumber"
+              name="phone"
               type="text"
-              value={phoneNumber}
-              placeholder="하이픈(-)을 뺀 형식으로 입력해주세요."
+              value={phone}
+              placeholder="하이픈(-)을 포함한 형식으로 입력해주세요."
               onChange={onChange}
-              maxLength={11}
+              maxLength={13}
             ></input>
             <span>주소</span>
             <input
-              name="adress"
+              name="address"
               type="text"
-              value={adress}
+              value={address}
               onChange={onChange}
               maxLength={50}
             ></input>
@@ -241,8 +330,8 @@ const CvBasicInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="month"
-                value={month}
+                name="birthmonth"
+                value={birthMonth}
                 label="Month"
                 onChange={onChange}
               >
@@ -258,8 +347,8 @@ const CvBasicInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="day"
-                value={day}
+                name="birthday"
+                value={birthDay}
                 label="Day"
                 onChange={onChange}
               >
@@ -275,8 +364,8 @@ const CvBasicInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="year"
-                value={year}
+                name="birthyear"
+                value={birthYear}
                 label="Year"
                 onChange={onChange}
               >
@@ -296,8 +385,8 @@ const CvBasicInfo = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                name="job"
-                value={job}
+                name="developmentjob"
+                value={developmentJob}
                 label="job"
                 onChange={onChange}
               >
@@ -313,12 +402,12 @@ const CvBasicInfo = () => {
 
         <div className="intro">
           <span>자기소개</span>
-          <input
-            name="intro"
+          <textarea
+            name="selfintroduction"
             type="text"
-            value={intro}
+            value={selfIntroduction}
             onChange={onChange}
-          ></input>
+          ></textarea>
         </div>
 
         <div className="tag">
@@ -341,7 +430,7 @@ const CvBasicInfo = () => {
             <span>Git hub</span>
           </div>
           <input
-            name="url1"
+            name="giturl"
             type="text"
             value={url1}
             placeholder="URL을 입력해주세요."
@@ -352,7 +441,7 @@ const CvBasicInfo = () => {
             <span>Notion</span>
           </div>
           <input
-            name="url2"
+            name="notionurl"
             type="text"
             value={url2}
             placeholder="URL을 입력해주세요."
@@ -363,7 +452,7 @@ const CvBasicInfo = () => {
             <span>Blog</span>
           </div>
           <input
-            name="url3"
+            name="blogurl"
             type="text"
             value={url3}
             placeholder="URL을 입력해주세요."
@@ -373,13 +462,14 @@ const CvBasicInfo = () => {
         <div className="port">
           <span>포트폴리오</span>
           <input
-            name="url4"
+            name="ptpurl"
             type="text"
             value={url4}
             placeholder="URL을 입력해주세요."
             onChange={onChange}
           ></input>
         </div>
+        <StyledButton onClick={handleClickSave}>임시저장</StyledButton>
       </div>
     </Container>
   );
@@ -440,9 +530,14 @@ const Container = styled.div`
 
   .intro {
     margin: 1rem 0 0 0;
-    input {
+    textarea {
       width: 100%;
       height: 20rem;
+      border-radius: 0.2rem;
+      border: 1px solid #c8c8c8;
+      :hover {
+        border: 1px solid black;
+      }
     }
   }
   .link {
@@ -459,5 +554,23 @@ const Container = styled.div`
   }
   .tag {
     margin-top: 1rem;
+  }
+`;
+
+const StyledButton = styled.button`
+  width: 100%;
+  height: 3.5rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: var(--bgColor);
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:hover {
+    background-color: var(--puple300);
   }
 `;
