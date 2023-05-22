@@ -3,6 +3,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import TagInput from './TagInput';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CvContentAtom } from '../../recoil/CvContentAtom';
@@ -93,7 +94,6 @@ const CvCareerInfo = ({ setCheck }) => {
   const [companyName, setCompanyName] = useState('');
   const [duty, setDuty] = useState('');
   const [developmentJob, setDevelopmentJob] = useState('');
-  const [careerSkillStacks, setCareerSkillStacks] = useState('');
   const [joinMonth, setJoinMonth] = useState('');
   const [joinYear, setJoinYear] = useState('');
   const [retirementMonth, setRetirementMonth] = useState('');
@@ -102,7 +102,6 @@ const CvCareerInfo = ({ setCheck }) => {
 
   const [projectSubject, setProjectSubject] = useState('');
   const [part, setPart] = useState('');
-  const [proSkillStack, setProSkillStack] = useState('');
   const [link, setLink] = useState('');
   const [startMonth, setStartMonth] = useState('');
   const [startYear, setStartYear] = useState('');
@@ -110,6 +109,8 @@ const CvCareerInfo = ({ setCheck }) => {
   const [endYear, setEndYear] = useState('');
   const [proDescription, setProDescription] = useState('');
   const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
+
+  const [tags, setTags] = useState('');
 
   const cvContent2 = {
     educations: [
@@ -147,6 +148,11 @@ const CvCareerInfo = ({ setCheck }) => {
         startYear: startYear,
         endMonth: endMonth,
         endYear: endYear,
+        projectSkillStacks: [
+          {
+            skillStackId: tags,
+          },
+        ],
         description: proDescription,
       },
     ],
@@ -204,16 +210,14 @@ const CvCareerInfo = ({ setCheck }) => {
       setDuty(value);
     } else if (name === 'developmentjob') {
       setDevelopmentJob(value);
-    } else if (name === 'careerskillstacks') {
-      setCareerSkillStacks(value);
     } else if (name === 'jobdescription') {
       setJobDescription(value);
     } else if (name === 'projectsubject') {
       setProjectSubject(value);
     } else if (name === 'part') {
       setPart(value);
-    } else if (name === 'proskillstack') {
-      setProSkillStack(value);
+    } else if (name === 'protags') {
+      setTags(value);
     } else if (name === 'prodescription') {
       setProDescription(value);
     } else if (name === 'link') {
@@ -387,13 +391,6 @@ const CvCareerInfo = ({ setCheck }) => {
             value={developmentJob}
             onChange={onChange}
           ></input>
-          <span>기술스택</span>
-          <input
-            name="careerskillstacks"
-            type="text"
-            value={careerSkillStacks}
-            onChange={onChange}
-          ></input>
         </div>
         <div className="test2">
           <div className="birth2">
@@ -512,13 +509,6 @@ const CvCareerInfo = ({ setCheck }) => {
           </div>
         </div>
         <div className="school">
-          <span>기술스택</span>
-          <input
-            name="proskillstack"
-            type="text"
-            value={proSkillStack}
-            onChange={onChange}
-          ></input>
           <span>프로젝트 링크</span>
           <input
             name="link"
@@ -526,6 +516,8 @@ const CvCareerInfo = ({ setCheck }) => {
             value={link}
             onChange={onChange}
           ></input>
+          <span>기술스택</span>
+          <TagInput tags={tags} setTags={setTags} />
         </div>
         <div className="test2">
           <div className="birth2">
