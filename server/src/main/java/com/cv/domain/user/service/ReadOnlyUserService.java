@@ -58,4 +58,16 @@ public class ReadOnlyUserService implements UserServiceInter {
     public  UserDto.UserPatchResponse uploadProfile(Long userId, UserDto.ProfileImage profileImageDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
+
+    @Override
+    public boolean isEmailDuplicated(UserDto.Email userEmailDto) {
+        boolean isDuplicated = userRepository.existsByEmail(userEmailDto.getEmail());
+        return !isDuplicated;
+    }
+
+    @Override
+    public boolean isPhoneDuplicated(UserDto.Phone userPhoneDto) {
+        boolean isDuplicated = userRepository.existsByPhone(userPhoneDto.getPhone());
+        return !isDuplicated;
+    }
 }
