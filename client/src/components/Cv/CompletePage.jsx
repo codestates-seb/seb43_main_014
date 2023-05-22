@@ -2,8 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import Logo from '../../images/rocket.png';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import { useEffect } from 'react';
 
-const CompletePage = () => {
+const CompletePage = ({ setCheck }) => {
+  useEffect(() => {
+    setCheck(true);
+  }, []);
+  console.log(3, setCheck);
   return (
     <Container>
       <img className="Logo" src={Logo} alt="로고 이미지" />

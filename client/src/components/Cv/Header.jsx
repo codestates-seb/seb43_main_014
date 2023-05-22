@@ -70,7 +70,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="contents_menu">
-            <Link to="/create-cv">이력서 작성</Link>
+            <Link to="/login">이력서 작성</Link>
             <Link to="/project/matching">프로젝트 매칭</Link>
             <Link to="/team">팀원 소개</Link>
             <Link to="/team">문의 하기</Link>
