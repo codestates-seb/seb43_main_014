@@ -1,22 +1,17 @@
 package com.cv.domain.user.controller;
 
-import com.cv.domain.cv.dto.CvDto;
 import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.service.CvService;
-import com.cv.domain.user.dto.MailDto;
 import com.cv.domain.user.dto.UserDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.DefaultUserService;
 import com.cv.domain.user.service.ReadOnlyUserService;
-import com.cv.global.exception.BusinessLogicException;
-import com.cv.global.exception.ExceptionCode;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -138,13 +133,12 @@ public class UserController {
     // email 중복확인
     @PostMapping("/sign/email")
     public boolean isEmailDuplicated(@RequestBody UserDto.Email userEmailDto){
-        return defaultUserService.isEmailDuplicated(userEmailDto);
+        return readOnlyUserService.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
     @PostMapping("/sign/phone")
     public boolean isPhoneDuplicated(@RequestBody UserDto.Phone userPhoneDto){
-        return defaultUserService.isPhoneDuplicated(userPhoneDto);
-
+        return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
     }
 }
