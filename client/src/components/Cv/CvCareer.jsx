@@ -80,7 +80,7 @@ const years = [
   '1960',
 ];
 
-const CvCareerInfo = () => {
+const CvCareerInfo = ({ setCheck }) => {
   const [degree, setDegree] = useState('');
   const [major, setMajor] = useState('');
   const [schoolName, setSchoolName] = useState('');
@@ -155,6 +155,7 @@ const CvCareerInfo = () => {
   const handleClickSave = () => {
     setCvContent((prev) => ({ ...prev, ...cvContent2 }));
     alert('임시저장이 완료되었습니다.');
+    setCheck(true);
   };
 
   useEffect(() => {

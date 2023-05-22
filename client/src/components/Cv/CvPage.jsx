@@ -9,7 +9,7 @@ import CvBasicInfo from './CvBasicInfo';
 import CvCareer from './CvCareer';
 import CvSkillInput from './CvCustomInput';
 import CompletePage from './CompletePage';
-import CvTemplate from './CvTemplate';
+import CvPreview from './CvPreview';
 import axios from 'axios';
 import { CvContentAtom } from '../../recoil/CvContentAtom';
 import { useRecoilState } from 'recoil';
@@ -17,25 +17,24 @@ import { useNavigate } from 'react-router-dom';
 import { API } from '../../utils/API';
 
 export default function CvPage() {
+  const [check, setCheck] = useState(false);
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
   const steps = ['기본 정보', '경력 및 프로젝트', '작성 완료'];
   const token = localStorage.getItem('jwt_token');
-  const user = localStorage.getItem('user_info');
-  const { userId } = JSON.parse(user);
-  console.log('userId', userId);
   const getStepContent = (stepNumber) => {
     switch (stepNumber) {
       case 0:
-        return <CvBasicInfo />;
+        return <CvBasicInfo setCheck={setCheck} />;
       case 1:
-        return <CvCareer />;
+        return <CvCareer setCheck={setCheck} />;
 
       case 2:
-        return <CompletePage />;
+        return <CompletePage setCheck={setCheck} />;
     }
   };
+  console.log(cvContent);
 
   const handleClickSave = () => {
     axios
@@ -56,10 +55,15 @@ export default function CvPage() {
       });
   };
 
-  console.log('최종 이력서 데이터', cvContent);
   const handleNext = () => {
-    setActiveStep((preActiveStep) => preActiveStep + 1);
+    if (check) {
+      setActiveStep((preActiveStep) => preActiveStep + 1);
+      setCheck(false);
+    } else {
+      alert('임시저장 버튼을 눌러주세요.');
+    }
   };
+
   const handleBack = () => {
     setActiveStep((preActiveStep) => preActiveStep - 1);
   };
@@ -67,6 +71,7 @@ export default function CvPage() {
     setActiveStep(0);
     setCvContent(null);
   };
+  console.log(2, check);
 
   return (
     <Container>
@@ -106,7 +111,7 @@ export default function CvPage() {
                   다시 작성하기
                 </StyledResetButton>
               </div>
-              <CvTemplate />
+              <CvPreview />
             </>
           )}
         </div>
