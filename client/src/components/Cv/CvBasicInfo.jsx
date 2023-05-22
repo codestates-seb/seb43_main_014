@@ -5,10 +5,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
 import { CvContentAtom } from '../../recoil/CvContentAtom';
 import { useRecoilState } from 'recoil';
+import TagInput from './TagInput';
 
 const days = [
   '일',
@@ -127,6 +126,7 @@ const jobs = [
   '개발 PM',
 ];
 const CvBasicInfo = ({ setCheck }) => {
+  const [tags, setTags] = useState('');
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -137,7 +137,6 @@ const CvBasicInfo = ({ setCheck }) => {
   const [birthYear, setBirthYear] = useState('');
   const [developmentJob, setDevelopmentJob] = useState('');
   const [selfIntroduction, setSelfIntroduction] = useState('');
-  const [cvSkillStacks, setCvSkillStacks] = useState('');
   const [url1, setUrl1] = useState('');
   const [url2, setUrl2] = useState('');
   const [url3, setUrl3] = useState('');
@@ -145,6 +144,7 @@ const CvBasicInfo = ({ setCheck }) => {
   const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
   const user = localStorage.getItem('user_info');
   const { userId } = JSON.parse(user);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   // const [inputs, setInputs] = useState({
   //   title: '',
@@ -190,10 +190,14 @@ const CvBasicInfo = ({ setCheck }) => {
   // };
 
   const handleClickSave = () => {
-    alert('임시저장이 완료되었습니다.');
-    setCvContent((prev) => ({ ...prev, ...cvContent1 }));
-    setCheck(true);
-
+    if (title !== '' && name !== '') {
+      setIsEmpty(false);
+      alert('임시저장이 완료되었습니다.');
+      setCvContent((prev) => ({ ...prev, ...cvContent1 }));
+      setCheck(true);
+    } else {
+      setIsEmpty(true);
+    }
     //비동기 해결해야함.
   };
 
@@ -214,6 +218,11 @@ const CvBasicInfo = ({ setCheck }) => {
     birthYear: birthYear,
     developmentJob: developmentJob,
     selfIntroduction: selfIntroduction,
+    cvSkillStacks: [
+      {
+        skillStackId: tags,
+      },
+    ],
     links: [
       {
         linkName: 'LINK_GITHUB',
@@ -296,8 +305,8 @@ const CvBasicInfo = ({ setCheck }) => {
       setAddress(value);
     } else if (name === 'selfintroduction') {
       setSelfIntroduction(value);
-    } else if (name === 'tag') {
-      setCvSkillStacks(value);
+    } else if (name === 'tags') {
+      setTags(value);
     } else if (name === 'giturl') {
       setUrl1(value);
     } else if (name === 'notionurl') {
@@ -312,13 +321,14 @@ const CvBasicInfo = ({ setCheck }) => {
     <Container>
       <div className="body">
         <div className="title">
+          {isEmpty && <Warning>이력서 제목을 입력하세요.</Warning>}
           <input
             maxLength={20}
             name="title"
             type="text"
             value={title}
             onChange={onChange}
-            placeholder="이력서 제목을 입력하세요."
+            placeholder="* 이력서 제목을 입력하세요."
           ></input>
           <hr></hr>
         </div>
@@ -327,12 +337,14 @@ const CvBasicInfo = ({ setCheck }) => {
             <img src="https://blog.kakaocdn.net/dn/OZ3vp/btqWW9GQeUf/AscsDSgZbtKRKXxMuw2bPk/img.jpg" />
           </div>
           <div className="name">
+            {isEmpty && <Warning>성명을 입력하세요.</Warning>}
             <span>성명</span>
             <input
               name="name"
               type="text"
               value={name}
               onChange={onChange}
+              placeholder="* 성명을 입력해주세요."
               maxLength={10}
             ></input>
             <span>이메일 주소</span>
@@ -348,7 +360,7 @@ const CvBasicInfo = ({ setCheck }) => {
               name="phone"
               type="text"
               value={phone}
-              placeholder="하이픈(-)을 포함한 형식으로 입력해주세요."
+              placeholder="하이픈(-)을 포함한 형식으로 입력해주세요. ex) 010-1111-1111"
               onChange={onChange}
               maxLength={13}
             ></input>
@@ -452,15 +464,7 @@ const CvBasicInfo = ({ setCheck }) => {
 
         <div className="tag">
           <span>기술스택 태그</span>
-          <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <Fab color="primary" variant="extended">
-              React
-            </Fab>
-            <Fab color="secondary" variant="extended">
-              Javascript
-            </Fab>
-            <Fab variant="extended">Java</Fab>
-          </Box>
+          <TagInput tags={tags} setTags={setTags} />
         </div>
         <div className="link">
           <div>
@@ -539,11 +543,12 @@ const Container = styled.div`
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   input {
-    width: 32rem;
+    width: 100%;
     height: 2.5rem;
     margin: 0 0 1rem 0rem;
     border-radius: 0.2rem;
     border: 1px solid #c8c8c8;
+
     :hover {
       border: 1px solid black;
     }
@@ -613,6 +618,12 @@ const Container = styled.div`
   .tag {
     margin-top: 1rem;
   }
+`;
+
+const Warning = styled.p`
+  color: red;
+  font-size: 0.8rem;
+  font-weight: 800;
 `;
 
 const StyledButton = styled.button`

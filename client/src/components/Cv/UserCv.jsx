@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { CvContentAtom } from '../../recoil/CvContentAtom';
-import { useRecoilState } from 'recoil';
 
-const CvPreview = () => {
-  const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
-
+const UserCv = () => {
   return (
     <Container>
       <div className="test1">
@@ -19,25 +15,25 @@ const CvPreview = () => {
         <div>
           <h4>성명</h4>
           <div>
-            <span>{cvContent.name}</span>
+            <span>{res.name}</span>
           </div>
         </div>
         <div>
           <h4>이메일</h4>
           <div>
-            <span>{cvContent.email}</span>
+            <span>{res.email}</span>
           </div>
         </div>
         <div>
           <h4>전화번호</h4>
           <div>
-            <span>{cvContent.phone}</span>
+            <span>{res.phone}</span>
           </div>
         </div>
         <div>
           <h4>주소</h4>
           <div>
-            <span>{cvContent.address}</span>
+            <span>{res.address}</span>
           </div>
         </div>
         <div>
@@ -45,8 +41,8 @@ const CvPreview = () => {
           <div>
             <div>
               <span>
-                {cvContent.birthYear}년-{cvContent.birthMonth}월-
-                {cvContent.birthDay}일
+                {rest.birthYear}년-{res.birthMonth}월-
+                {res.birthDay}일
               </span>
             </div>
           </div>
@@ -54,98 +50,93 @@ const CvPreview = () => {
 
         <div>
           <h4>개발직무</h4>
+
           <div>
-            <span>{cvContent.developmentJob}</span>
-          </div>
-        </div>
-        <div>
-          <h4>기술스택</h4>
-          <div>
-            <span>{cvContent.cvSkillStacks[0].skillStackId}</span>
+            <span>{res.developmentJob}</span>
           </div>
         </div>
       </div>
       <div className="test2">
         <div>
-          <h3>{cvContent.title}</h3>
+          <h3>{res.title}</h3>
         </div>
         <hr></hr>
-        <div>{cvContent.selfIntroduction}</div>
+        <div>{res.selfIntroduction}</div>
         <h4>학력 및 자격</h4>
         <hr></hr>
         <div className="edu">
           <div>
-            <span>{cvContent.educations[0].degree}</span>
+            <span>{res.educations[0].degree}</span>
           </div>
           <div>
             <span>
-              {cvContent.educations[0].admissionYear}년 {}
-              {cvContent.educations[0].admissionMonth}월-
-              {cvContent.educations[0].graduationYear}년 {}
-              {cvContent.educations[0].graduationMonth}월
+              {res.educations[0].admissionYear}년 {}
+              {res.educations[0].admissionMonth}월-
+              {res.educations[0].graduationYear}년 {}
+              {res.educations[0].graduationMonth}월
             </span>
           </div>
         </div>
-        <div>{cvContent.educations[0].schoolName}</div>
-        <div>{cvContent.educations[0].major}</div>
-        <div>{cvContent.educations[0].description}</div>
+        <div>{res.educations[0].schoolName}</div>
+        <div>{res.educations[0].major}</div>
+        <div>{res.educations[0].description}</div>
         <h4>경력</h4>
         <hr></hr>
         <div className="edu">
-          <div>{cvContent.careers[0].duty}</div>
+          <div>{res.careers[0].duty}</div>
           <div>
             <span>
-              {cvContent.careers[0].joinYear}년 {}
-              {cvContent.careers[0].joinMonth}월-
-              {cvContent.careers[0].retirementYear}년 {}
-              {cvContent.careers[0].retirementMonth}월
+              {res.careers[0].joinYear}년 {}
+              {res.careers[0].joinMonth}월-
+              {res.careers[0].retirementYear}년 {}
+              {res.careers[0].retirementMonth}월
             </span>
           </div>
         </div>
-        <div>{cvContent.careers[0].companyName}</div>
-        <div>{cvContent.careers[0].developmentJob}</div>
-        <div>{cvContent.careers[0].description}</div>
+        <div>{res.careers[0].companyName}</div>
+        <div>{res.careers[0].developmentJob}</div>
+        <div>{res.careers[0].description}</div>
         <h4>프로젝트</h4>
         <hr></hr>
         <div className="edu">
-          <div>{cvContent.projects[0].projectSubject}</div>
+          <div>{res.projects[0].projectSubject}</div>
           <div>
             <span>
-              {cvContent.projects[0].startYear}년 {}
-              {cvContent.projects[0].startMonth}월-
-              {cvContent.projects[0].endYear}년 {}
-              {cvContent.projects[0].endMonth}월
+              {res.projects[0].startYear}년 {}
+              {res.projects[0].startMonth}월-
+              {res.projects[0].endYear}년 {}
+              {res.projects[0].endMonth}월
             </span>
           </div>
         </div>
-        <div>{cvContent.projects[0].part}</div>
-        <div>{cvContent.projects[0].link}</div>
-        <div>{cvContent.projects[0].projectSkillStacks[0].skillStackId}</div>
-        <div>{cvContent.projects[0].description}</div>
+        <div>{res.projects[0].part}</div>
+        <div>{res.projects[0].link}</div>
+        <div>{res.projects[0].description}</div>
+
         <h4>사용자 정의 섹션</h4>
         <h4>링크</h4>
         <div>
           <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_github.png" />
-          GITHUB : {cvContent.links[0].linkAddress}
+          GITHUB : {res.links[0].linkAddress}
         </div>
         <div>
           <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_notion.png" />
-          NOTION : {cvContent.links[1].linkAddress}
+          NOTION : {rest.links[1].linkAddress}
         </div>
         <div>
           <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_blog.png" />
-          BLOG : {cvContent.links[2].linkAddress}
+          BLOG : {res.links[2].linkAddress}
         </div>
         <div>
           <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
-          PORTFOLIO : {cvContent.links[3].linkAddress}
+          PORTFOLIO : {res.links[3].linkAddress}
         </div>
       </div>
     </Container>
   );
 };
 
-export default CvPreview;
+export default UserCv;
 
 const Container = styled.div`
   margin: 0 4rem 8rem 4rem;
