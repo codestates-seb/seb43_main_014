@@ -31,6 +31,47 @@ public class UserDto {
         private String phone;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class Reissue {
+        @NotBlank(message = "accessToken을 입력해주세요.")
+        private String accessToken;
+
+        @NotBlank(message = "refreshToken을 입력해주세요.")
+        private String refreshToken;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ReissueResponse {
+        private int state;
+        private String message;
+        private Object data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class TokenInfo {
+        private String accessToken;
+        private String refreshToken;
+    }
+
+    @Data
+    public static class Logout {
+        @NotBlank(message = "잘못된 요청입니다. accessToken을 입력해주세요.")
+        private String accessToken;
+
+        @NotBlank(message = "잘못된 요청입니다. refreshToken을 입력해주세요.")
+        private String refreshToken;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class LogoutResponse {
+        private int state;
+        private String message;
+    }
+
     @Getter
     public static class Email {
         @NotBlank

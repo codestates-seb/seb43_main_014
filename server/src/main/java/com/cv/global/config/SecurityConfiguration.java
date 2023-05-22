@@ -14,6 +14,7 @@ import com.cv.global.auth.utils.UserAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,6 +39,7 @@ public class SecurityConfiguration {
     private final OAuth2UserSuccessHandler oAuth2UserSuccessHandler;
     private final CustomOAuth2UserService oAuth2UserService;
     private final UserDetailsService userDetailsService;
+    private final RedisTemplate redisTemplate;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -59,6 +61,8 @@ public class SecurityConfiguration {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/user").permitAll()  // 회원가입 api는 인증되지 않은 사용자도 호출 가능
                         .antMatchers(HttpMethod.POST, "/user/forgot-password").permitAll()
+                        .antMatchers(HttpMethod.POST, "/user/reissue").permitAll()
+                        .antMatchers(HttpMethod.POST, "/user/logout").permitAll()
                         .antMatchers(HttpMethod.POST, "/user/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
@@ -71,7 +75,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/cv/**").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.POST, "/oauth2/phone").hasAnyRole("USER", "ADMIN")
                         .anyRequest().permitAll()
-                )
+                ) // SecurityContext에 저장된 인증 토큰의 authorities를 기반으로 접근 허용 여부를 결정함
                 .oauth2Login()
                 .successHandler(oAuth2UserSuccessHandler) // OAuth2 로그인 성공 시 실행되는 handler 설정 (access & refresh token과 함께 redirect 시킬 목적)
                 .userInfoEndpoint() // OAuth2 Provider로부터 사용자 정보를 가져오는 엔드포인트 지정
@@ -85,12 +89,12 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, redisTemplate);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, userDetailsService);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, userDetailsService, redisTemplate);
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);

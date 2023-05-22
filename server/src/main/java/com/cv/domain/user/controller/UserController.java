@@ -43,6 +43,22 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+    // access token/refresh token 재발급
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(@Valid @RequestBody UserDto.Reissue reissue) {
+        UserDto.ReissueResponse reissueResponse = defaultUserService.reissue(reissue);
+
+        return new ResponseEntity<>(reissueResponse, HttpStatus.valueOf(reissueResponse.getState()));
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity logout(@Valid @RequestBody UserDto.Logout logout) {
+        UserDto.LogoutResponse logoutResponse = defaultUserService.logout(logout);
+
+        return new ResponseEntity<>(logoutResponse, HttpStatus.valueOf(logoutResponse.getState()));
+    }
+
     // 비밀번호 변경
     @PatchMapping("/my-page/password/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")

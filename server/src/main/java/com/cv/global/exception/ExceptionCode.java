@@ -15,7 +15,6 @@ public enum ExceptionCode {
     RESUME_WAS_DELETED(404, "Resume was deleted"),
     SKILL_STACK_NOT_FOUND(404, "Skill stack not found"),
     RESUME_EXISTS(409, "Resume exists"),
-    USER_NO_HAVE_AUTHORIZATION(404, "User no have authoization"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     PASSWORD_MISMATCH(401,"Password mismatch" );
 
