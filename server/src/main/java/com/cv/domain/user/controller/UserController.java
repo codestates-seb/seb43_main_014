@@ -1,13 +1,18 @@
 package com.cv.domain.user.controller;
 
 import com.cv.domain.cv.dto.PageLatestCvDto;
+import com.cv.domain.cv.dto.cvDto.CvResponseDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.service.CvService;
 import com.cv.domain.user.dto.UserDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.DefaultUserService;
 import com.cv.domain.user.service.ReadOnlyUserService;
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,12 +36,23 @@ import java.util.Map;
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
+@Tag(name = "USER", description = "USER API Document")
 public class UserController {
     private final DefaultUserService defaultUserService;
     private final ReadOnlyUserService readOnlyUserService;
     private final CvService cvService;
 
     // 회원등록
+    @Operation(summary = "회원등록", description = "회원을 등록합니다",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "등록이 완료되었습니다.",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.SignUpResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping
     public ResponseEntity createUser(@Valid @RequestBody UserDto.Post userPostDto) {
         UserDto.SignUpResponse createdUser = defaultUserService.createUser(userPostDto);
