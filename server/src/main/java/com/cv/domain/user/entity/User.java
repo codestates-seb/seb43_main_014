@@ -45,6 +45,7 @@ public class User extends Auditable {
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
 
     // 프로필사진
+    @Lob
     @Column(name = "profileImage")
     private String profileImage;
 
@@ -69,14 +70,5 @@ public class User extends Auditable {
     public void checkActiveUser(User user){
         if(user.getUserStatus() == UserStatus.USER_WITHDRAWN)
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
-    }
-
-
-    // 회원정보를 수정,삭제요청 하는 user가 Id로 자신인지 확인
-    public static boolean isMyself(long authenticatedUserId,Long userId) {
-        if(userId != authenticatedUserId){
-            throw new BusinessLogicException(ExceptionCode.USER_NO_HAVE_AUTHORIZATION);
-        }
-        return true;
     }
 }

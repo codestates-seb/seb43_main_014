@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +19,7 @@ public class PageLatestCvDto {
 
     public PageLatestCvDto(Page<Cv> cvPage) {
         this.latestCvs = cvPage.getContent().stream()
-                .map(cv -> new LatestCv(cv.getTitle(), cv.getCreatedAt(), cv.getDevelopmentJob()))
+                .map(cv -> new LatestCv(cv.getCvId(), cv.getTitle(), cv.getCreatedAt().toLocalDate(), cv.getDevelopmentJob()))
                 .collect(Collectors.toList());
         this.totalPages = cvPage.getTotalPages();
         this.totalElements = cvPage.getTotalElements();
@@ -26,11 +27,13 @@ public class PageLatestCvDto {
 
     @Data
     private static class LatestCv {
+        private Long cvId;
         private String title;
         private String developmentJob;
-        private LocalDateTime createdAt;
+        private LocalDate createdAt;
 
-        public LatestCv(String title, LocalDateTime createdAt, String developmentJob) {
+        public LatestCv(Long cvId, String title, LocalDate createdAt, String developmentJob) {
+            this.cvId = cvId;
             this.title = title;
             this.createdAt = createdAt;
             this.developmentJob = developmentJob;

@@ -21,12 +21,14 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
-import com.cv.domain.user.service.UserService;
+import com.cv.domain.user.service.ReadOnlyUserService;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +45,7 @@ public class CvService {
     private final SkillStackRepository skillStackRepository;
     private final CareerSkillStackRepository careerSkillStackRepository;
     private final ProjectSkillStackRepository projectSkillStackRepository;
-    private final UserService userService;
+    private final ReadOnlyUserService readOnlyUserService;
     private final EducationRepository educationRepository;
     private final ProjectRepository projectRepository;
     private final CustomSectionRepository customSectionRepository;
@@ -54,7 +56,7 @@ public class CvService {
 
     public Cv createCv(Cv cv){
 
-        userService.findUser(cv.getUser().getUserId());
+        readOnlyUserService.findUser(cv.getUser().getUserId());
         return cvRepository.save(cv);
     }
     
@@ -135,8 +137,9 @@ public class CvService {
         }
     }
 
-    public Page<Cv> findLatestCvsByUser(Long userId, Pageable pageable) {
-        return cvRepository.findByUserIdFromRecently(userId, pageable); // (2)
+    public Page<Cv> findLatestCvsByUser(Long userId, int page) {
+        Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
+        return cvRepository.findByUserIdFromRecently(userId, pageable);
     }
     
     public void injectLowDomain(Cv cv){

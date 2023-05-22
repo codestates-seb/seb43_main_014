@@ -2,27 +2,29 @@ package com.cv.global.auth.oauth2.handler;
 
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;
-import com.cv.domain.user.service.UserService;
 import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
 import com.cv.global.auth.utils.UserAuthorityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 // OAuth2 인증에 성공하면 호출되는 핸들러
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private final JwtTokenizer jwtTokenizer;
     private final UserAuthorityUtils authorityUtils;
     private final UserRepository userRepository;
+    private final RedisTemplate redisTemplate;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -49,6 +52,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         // OAuth2User의 속성들을 토대로 우리 DB에 User 객체를 create하거나 update
         User user = createOrUpdateUser(attributes);
+
         redirect(request, response, user);
     }
 
@@ -82,7 +86,18 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
 
-        String uri = createURI(accessToken, refreshToken).toString();
+        // refreshToken Redis에 저장(expirationTime 설정을 통해 자동 삭제 처리)
+        redisTemplate.opsForValue()
+                .set("RT_" + user.getEmail(), refreshToken,
+                        jwtTokenizer.getRefreshTokenExpirationMinutes(), TimeUnit.MINUTES);
+
+        boolean relogin  = true; // 재로그인
+
+        if (user.getPhone() == null) {
+            relogin = false; // 처음 로그인
+        }
+
+        String uri = createURI(accessToken, refreshToken, relogin, user).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
@@ -92,7 +107,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         claims.put("roles", user.getRoles());
 
         String subject = user.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationHours());
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -103,7 +118,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
     private String delegateRefreshToken(User user) {
         String subject = user.getEmail();
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationHours());
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
@@ -111,20 +126,42 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("accessToken", "Bearer " + accessToken);
-        queryParams.add("refreshToken", refreshToken);
+    private URI createURI(String accessToken, String refreshToken, Boolean relogin, User user) {
+        // 재로그인 여부에 따라 redirect uri를 분기
+        String path;
+        UriComponents uriComponents;
+        if (relogin) {
+            path = "/login/oauth2/already"; // 재로그인
 
-        // FIXME: 배포 시, 웹 서버 호스팅 도메인으로 바꿔야함
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/receive-token.html")
-                .queryParams(queryParams)
-                .build()
-                .toUri();
+            // UTF_8 인코딩(URL 인코딩) -> URI는 아스키 문자만 포함 가능
+            String encodedUserId = UriUtils.encode(String.valueOf(user.getUserId()), StandardCharsets.UTF_8);
+            String encodedName = UriUtils.encode(user.getName(), StandardCharsets.UTF_8);
+
+            uriComponents = UriComponentsBuilder
+                    .newInstance()
+                    .scheme("http")
+                    .host("localhost") // FIXME: 배포 시, 웹 서버 호스팅 도메인으로 바꿔야함
+                    .port(3000)
+                    .path(path)
+                    .queryParam("accessToken", "Bearer " + accessToken)
+                    .queryParam("refreshToken", refreshToken)
+                    .queryParam("userId", encodedUserId)
+                    .queryParam("name", encodedName)
+                    .build();
+        } else {
+            path = "/login/oauth2";
+
+            uriComponents = UriComponentsBuilder
+                    .newInstance()
+                    .scheme("http")
+                    .host("localhost")
+                    .port(3000)
+                    .path(path)
+                    .queryParam("accessToken", "Bearer " + accessToken)
+                    .queryParam("refreshToken", refreshToken)
+                    .build();
+        }
+
+        return uriComponents.toUri();
     }
 }
