@@ -174,12 +174,10 @@ public class DefaultUserService implements UserServiceInter{
     }
 
     public boolean isEmailDuplicated(UserDto.Email userEmailDto) {
-        boolean isDuplicated = userRepository.existsByEmail(userEmailDto.getEmail());
-        return !isDuplicated;
+        throw new UnsupportedOperationException("This method is not supported in transaction mode.");
     }
 
     public boolean isPhoneDuplicated(UserDto.Phone userPhoneDto) {
-        boolean isDuplicated = userRepository.existsByPhone(userPhoneDto.getPhone());
-        return !isDuplicated;
+        throw new UnsupportedOperationException("This method is not supported in transaction mode.");
     }
 }
