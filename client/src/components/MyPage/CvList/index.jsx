@@ -1,33 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './cvList.module.css';
+import { Pagination } from '@mui/material';
 
-const CvList = () => {
+const CvList = ({ cv, cvs }) => {
+  const { title, developmentJob, createdAt } = cv;
+  const { totalPages, totalElements } = cvs;
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // 페이지가 변경될 때 해당 페이지의 데이터를 가져오거나 업데이트하는 로직을 작성해야 합니다.
+  };
   return (
     <div className={styles.container}>
       <div className={styles.cvContainer}>
         <div className={styles.cvCard}>
           <div>
-            <h4>이력서 Title</h4>
-            <div className={styles.cvJob}>개발 직무</div>
+            <h4>{title}</h4>
+            <div className={styles.cvJob}>{developmentJob}</div>
           </div>
-          <div className={styles.cvDate}>2023.05.08</div>
-        </div>
-        <div className={styles.cvCard}>
-          <div>
-            <h4>이력서 Title</h4>
-            <div>개발 직무</div>
-          </div>
-          <div className={styles.cvDate}>작성 날짜</div>
-        </div>
-        <div className={styles.cvCard}>
-          <div>
-            <h4>이력서 Title</h4>
-            <div>개발 직무</div>
-          </div>
-          <div className={styles.cvDate}>작성 날짜</div>
+          <div className={styles.cvDate}>{createdAt}</div>
         </div>
       </div>
-      <div className={styles.pageNum}>1 2 3 4</div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../../../recoil/AuthAtom';
+import AWS from 'aws-sdk';
 
 const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
   const { name, email, phone, profileImage } = userData;
@@ -23,7 +24,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
     phone: false,
   });
   const [isEdit, setIsEdit] = useState(false);
-
+  const [test, setTest] = useState('');
   const handleSubmit = () => {
     axios
       .patch(
@@ -75,41 +76,107 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
     console.log({ ...inputs, [name]: value });
   };
 
-  const [imgBase64, setImgBase64] = useState(''); // url
-  const onFileChange = (e) => {
-    const { files } = e.target;
-    const theFile = files[0]; // file 하나만 받기.
-    const reader = new FileReader(); // reader   web api
+  // const [imgBase64, setImgBase64] = useState(''); // url
+  // const onFileChange = (e) => {
+  //   const { files } = e.target;
+  //   const theFile = files[0]; // file 하나만 받기.
+  //   const reader = new FileReader(); // reader   web api
 
-    if (!files.length) {
+  //   if (!files.length) {
+  //     return;
+  //   } else {
+  //     reader.onloadend = () => {
+  //       const { result } = reader; // reader === e.currentTatget   ??
+  //       setImgBase64(result);
+  //       console.log('result', typeof result);
+  //     };
+  //     reader.readAsDataURL(theFile);
+  //   }
+  // };
+
+  const onFileChange = (e) => {
+    const ACCESS_KEY = 'AKIATFSKCU43WPGDK372';
+    const SECRET_ACCESS_KEY = '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';
+    const REGION = 'ap-northeast-2';
+    const S3_BUCKET = 'hyun-upload-img';
+    // AWS ACCESS KEY를 세팅합니다.
+    AWS.config.update({
+      accessKeyId: ACCESS_KEY,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    });
+    // 버킷에 맞는 이름과 리전을 설정합니다.
+    const myBucket = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+
+    const file = e.target.files[0];
+
+    const params = {
+      ACL: 'public-read',
+      Body: file,
+      Bucket: S3_BUCKET,
+      Key: file.name,
+    };
+    const object_name = params.Key;
+    console.log(object_name);
+    if (!e.target.files.length) {
       return;
     } else {
-      reader.onloadend = () => {
-        const { result } = reader; // reader === e.currentTatget   ??
-        setImgBase64(result);
-        console.log('result', typeof result);
-      };
-      reader.readAsDataURL(theFile);
+      myBucket
+        .putObject(params)
+        .on('httpUploadProgress', (e) => {
+          console.log(e);
+          // setTest(
+          //   `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`,
+          // );›
+          setTest(`https://s3.amazonaws.com/${S3_BUCKET}/${object_name}`);
+        })
+        .send((err) => {
+          if (err) console.log(err);
+        });
     }
+    console.log(test);
+
+    // `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`,
+    // axios
+    //   .post(
+    //     `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
+    //     formData,
+    //     {
+    //       headers: {
+    //         'Content-Type': 'multipart/form-data',
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     },
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     console.log('formData', formData);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
-  useEffect(() => {
-    axios
-      .post(
-        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
-        {
-          profileImage: imgBase64,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-      .then((response) => console.log(response.data))
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [imgBase64]);
+
+  // useEffect(() => {
+  //   axios
+  //     .post(
+  //       `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
+  //       {
+  //         profileImage: imgBase64,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     )
+  //     .then((response) => console.log(response.data))
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [imgBase64]);
 
   const fileInputRef = useRef(null);
 
@@ -124,8 +191,9 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
           <div className={styles.profilePic}>
             <img
               className={styles.pic}
-              src={imgBase64 ? imgBase64 : profileImage}
-              // src={imgBase64}
+              // src={imgBase64 ? imgBase64 : hahh}
+              // src={profileImage}
+              src="test"
               alt="profileImg"
             />
             <div>
@@ -138,13 +206,15 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
                 <AddIcon />
               </Fab>
             </div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={onFileChange}
-              ref={fileInputRef}
-              className={styles.imgAdd}
-            />
+            <form>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={onFileChange}
+                ref={fileInputRef}
+                className={styles.imgAdd}
+              />
+            </form>
           </div>
           <div className={styles.proInfo}>
             <div>
