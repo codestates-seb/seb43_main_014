@@ -126,7 +126,7 @@ const jobs = [
   '블록체인',
   '개발 PM',
 ];
-const CvBasicInfo = () => {
+const CvBasicInfo = ({ setCheck }) => {
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -145,6 +145,7 @@ const CvBasicInfo = () => {
   const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
   const user = localStorage.getItem('user_info');
   const { userId } = JSON.parse(user);
+
   // const [inputs, setInputs] = useState({
   //   title: '',
   //   name: '',
@@ -191,6 +192,7 @@ const CvBasicInfo = () => {
   const handleClickSave = () => {
     alert('임시저장이 완료되었습니다.');
     setCvContent((prev) => ({ ...prev, ...cvContent1 }));
+    setCheck(true);
 
     //비동기 해결해야함.
   };
@@ -228,6 +230,44 @@ const CvBasicInfo = () => {
       {
         linkName: 'LINK_PORTFOLIO',
         linkAddress: url4,
+      },
+    ],
+    educations: [
+      {
+        degree: '',
+        major: '',
+        schoolName: '',
+        admissionMonth: '',
+        admissionYear: '',
+        graduationMonth: '',
+        graduationYear: '',
+        description: '',
+      },
+    ],
+
+    careers: [
+      {
+        companyName: '',
+        duty: '',
+        developmentJob: '',
+        joinMonth: '',
+        joinYear: '',
+        retirementMonth: '',
+        retirementYear: '',
+        description: '',
+      },
+    ],
+
+    projects: [
+      {
+        projectSubject: '',
+        part: '',
+        link: '',
+        startMonth: '',
+        startYear: '',
+        endMonth: '',
+        endYear: '',
+        description: '',
       },
     ],
   };
@@ -427,7 +467,10 @@ const CvBasicInfo = () => {
             <span>링크</span>
           </div>
           <div>
-            <span>Git hub</span>
+            <span>
+              <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_github.png" />
+              Git hub
+            </span>
           </div>
           <input
             name="giturl"
@@ -438,7 +481,10 @@ const CvBasicInfo = () => {
           ></input>
 
           <div>
-            <span>Notion</span>
+            <span>
+              <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_notion.png" />
+              Notion
+            </span>
           </div>
           <input
             name="notionurl"
@@ -449,7 +495,10 @@ const CvBasicInfo = () => {
           ></input>
 
           <div>
-            <span>Blog</span>
+            <span>
+              <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_blog.png" />
+              Blog
+            </span>
           </div>
           <input
             name="blogurl"
@@ -458,9 +507,13 @@ const CvBasicInfo = () => {
             placeholder="URL을 입력해주세요."
             onChange={onChange}
           ></input>
-        </div>
-        <div className="port">
-          <span>포트폴리오</span>
+
+          <div>
+            <span>
+              <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
+              포트폴리오
+            </span>
+          </div>
           <input
             name="ptpurl"
             type="text"
@@ -542,6 +595,11 @@ const Container = styled.div`
   }
   .link {
     margin-top: 2rem;
+    img {
+      margin-right: 0.5rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
   }
   .port {
     width: 20rem;

@@ -4,31 +4,59 @@ import EventTap from '../components/Cv/EventTap';
 import ReviewCard from '../components/Cv/ReviewCard';
 import Logo from '../images/rocket.png';
 import { Link } from 'react-router-dom';
-import CvTemplate from '../components/Cv/CvTemplate';
+import CvSample from '../components/Cv/CvSample';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '../recoil/AuthAtom';
 
 const Main = () => {
-  return (
-    <>
-      <Container>
-        <Link to="/">
-          <img className="Logo" src={Logo} alt="로고 이미지" />
-        </Link>
-        <span>신입 개발자의 이력서 작성, 막막하기만 하다구요?</span>
-        <span>이력서를 가장 빠르고 쉽게 제작하는 방법!</span>
-        <Link to="/create-cv">
-          <StyledButton>이력서 작성하기</StyledButton>
-        </Link>
-        <h3>사용자가 말하는 로켓CV 사용기!</h3>
-        <div className="row">
-          <ReviewCard />
-        </div>
-        <EventTap />
-        <div className="tem"></div>
-        <h3>전문적인 이력서 템플릿을 이용해보세요!</h3>
-        <CvTemplate />
-      </Container>
-    </>
-  );
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  if (isLogin)
+    return (
+      <>
+        <Container>
+          <Link to="/">
+            <img className="Logo" src={Logo} alt="로고 이미지" />
+          </Link>
+          <span>신입 개발자의 이력서 작성, 막막하기만 하다구요?</span>
+          <span>이력서를 가장 빠르고 쉽게 제작하는 방법!</span>
+          <Link to="/create-cv">
+            <StyledButton>이력서 작성하기</StyledButton>
+          </Link>
+          <h3>사용자가 말하는 로켓CV 사용기!</h3>
+          <div className="row">
+            <ReviewCard />
+          </div>
+          <EventTap />
+          <div className="tem"></div>
+          <h3>전문적인 이력서 템플릿을 이용해보세요!</h3>
+          <CvSample />
+        </Container>
+      </>
+    );
+  else {
+    return (
+      <>
+        <Container>
+          <Link to="/">
+            <img className="Logo" src={Logo} alt="로고 이미지" />
+          </Link>
+          <span>신입 개발자의 이력서 작성, 막막하기만 하다구요?</span>
+          <span>이력서를 가장 빠르고 쉽게 제작하는 방법!</span>
+          <Link to="/login">
+            <StyledButton>이력서 작성하기</StyledButton>
+          </Link>
+          <h3>사용자가 말하는 로켓CV 사용기!</h3>
+          <div className="row">
+            <ReviewCard />
+          </div>
+          <EventTap />
+          <div className="tem"></div>
+          <h3>전문적인 이력서 템플릿을 이용해보세요!</h3>
+          <CvSample />
+        </Container>
+      </>
+    );
+  }
 };
 
 export default Main;
