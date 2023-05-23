@@ -1,8 +1,12 @@
 h4 {
   margin: 0rem;
 }
+h4:hover {
+  cursor: pointer;
+}
 
 .cvCard {
+  margin-left: 1rem;
   padding: 1rem 1rem;
   width: 15rem;
   height: 8.5rem;
@@ -12,6 +16,7 @@ h4 {
   background-color: white;
   border-radius: 0.3rem;
   color: black;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }
 .card {
   display: flex;
@@ -19,7 +24,6 @@ h4 {
 }
 .cardRight {
   display: flex;
-  /* border: 1px solid tomato; */
 }
 .cardRight button {
   border: none;

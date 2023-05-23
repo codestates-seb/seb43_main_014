@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API } from '../../utils/API';
-const token = localStorage.getItem('jwt_token');
-const user_info = localStorage.getItem('user_info');
-console.log(user_info);
-const { cvId } = JSON.parse(user_info);
 
 const UserCv = () => {
+  const token = localStorage.getItem('jwt_token');
+  const user = localStorage.getItem('user_info');
+  const { cvId } = JSON.parse(user);
+
   const [userCvData, setUserCvData] = useState('');
+
+  console.log('cvId', cvId);
   useEffect(() => {
     axios
       .get(
@@ -24,14 +26,14 @@ const UserCv = () => {
       )
       .then((res) => {
         setUserCvData(res);
-        console.log(res);
+        console.log('userdata', userCvData);
       })
       .catch((ex) => {
         //오류가 발생했을때 오류를 콘솔에 찍는 것
         console.log(ex);
         alert('서버가 정상적이지 않음.');
       });
-  }, []);
+  }, [cvId]);
 
   return (
     <Container>
@@ -39,7 +41,7 @@ const UserCv = () => {
         <div className="photo">
           <img src="https://blog.kakaocdn.net/dn/OZ3vp/btqWW9GQeUf/AscsDSgZbtKRKXxMuw2bPk/img.jpg" />
         </div>
-        {/* <div>
+        <div>
           <h4>기본 정보</h4>
         </div>
         <hr></hr>
@@ -81,9 +83,14 @@ const UserCv = () => {
 
         <div>
           <h4>개발직무</h4>
-
           <div>
             <span>{userCvData.data.developmentJob}</span>
+          </div>
+        </div>
+        <div>
+          <h4>기술스택</h4>
+          <div>
+            <span></span>
           </div>
         </div>
       </div>
@@ -142,8 +149,8 @@ const UserCv = () => {
         </div>
         <div>{userCvData.data.projects[0].part}</div>
         <div>{userCvData.data.projects[0].link}</div>
+        <div></div>
         <div>{userCvData.data.projects[0].description}</div>
-
         <h4>사용자 정의 섹션</h4>
         <h4>링크</h4>
         <div>
@@ -161,7 +168,7 @@ const UserCv = () => {
         <div>
           <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
           PORTFOLIO : {userCvData.data.links[3].linkAddress}
-        </div> */}
+        </div>
       </div>
     </Container>
   );
