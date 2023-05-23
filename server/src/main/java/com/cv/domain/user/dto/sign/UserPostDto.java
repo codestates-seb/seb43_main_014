@@ -1,4 +1,4 @@
-package com.cv.domain.user.dto;
+package com.cv.domain.user.dto.sign;
 
 import com.cv.domain.user.validator.ValidEmail;
 import lombok.AllArgsConstructor;
