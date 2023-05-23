@@ -27,6 +27,7 @@ export default function ResetPassword() {
 
   const [show공백Alert, setShow공백Alert] = useState(false);
   const [is비밀번호찾기성공모달, setIs비밀번호찾기성공모달] = useState(false);
+  const [is비밀번호찾기실패모달, setIs비밀번호찾기실패모달] = useState(false);
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
@@ -46,6 +47,11 @@ export default function ResetPassword() {
           setTimeout(() => {
             navigate('/login');
           }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('비밀번호 찾기 실패! 다시 이메일을 확인해주세요 :)');
+          setIs비밀번호찾기실패모달(true);
         });
     }
   };
@@ -110,6 +116,12 @@ export default function ResetPassword() {
           <Alert isSuccess={true} setShowAlert={setIs비밀번호찾기성공모달}>
             <div>임시 비밀번호를 발급해드렸어요!</div>
             <div>이메일을 확인해보세요!</div>
+          </Alert>
+        )}
+        {is비밀번호찾기실패모달 && (
+          <Alert setShowAlert={setIs비밀번호찾기실패모달}>
+            <div>비밀번호 찾기 실패!</div>
+            <div>다시 이메일을 확인해주세요 😅</div>
           </Alert>
         )}
       </FormBox>
