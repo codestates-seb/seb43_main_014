@@ -45,7 +45,7 @@ const PwModal = ({ openModalHandler }) => {
     if (password_current && password && password_confirm) {
       axios
         .patch(
-          `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/password/${userId}`,
+          `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/my-page/password/${userId}`,
           {
             currentPassword: password_current,
             newPassword: password,
