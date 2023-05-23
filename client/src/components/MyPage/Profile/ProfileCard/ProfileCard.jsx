@@ -13,7 +13,7 @@ const ProfileCard = ({ userData, setInfoUpdata }) => {
               className={styles.pic}
               src={
                 profileImage
-                  ? null
+                  ? profileImage
                   : 'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-18.jpg'
               }
               alt="profileImg"
