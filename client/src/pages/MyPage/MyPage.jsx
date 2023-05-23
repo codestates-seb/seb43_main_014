@@ -89,7 +89,7 @@ const MyPage = () => {
               <h2>이력서</h2>
               <div className={styles.cvContainers}>
                 <div className={styles.cvContainer}>
-                  {!pageData.latestCvs || !pageData.latestCvs.length ? (
+                  {!pageData ? (
                     <NoCvList />
                   ) : (
                     pageData.latestCvs.map((cv) => (
