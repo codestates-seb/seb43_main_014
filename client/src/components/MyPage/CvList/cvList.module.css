@@ -3,7 +3,6 @@ h4 {
 }
 
 .cvCard {
-  /* border: 1px solid tomato; */
   padding: 1rem 1rem;
   width: 15rem;
   height: 8.5rem;
@@ -13,6 +12,22 @@ h4 {
   background-color: white;
   border-radius: 0.3rem;
   color: black;
+}
+.card {
+  display: flex;
+  justify-content: space-between;
+}
+.cardRight {
+  display: flex;
+  /* border: 1px solid tomato; */
+}
+.cardRight button {
+  border: none;
+  background-color: transparent;
+  font-size: 0.8rem;
+}
+.cardRight button:hover {
+  cursor: pointer;
 }
 .cvJob {
   font-size: 0.92rem;
