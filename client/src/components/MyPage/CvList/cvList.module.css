@@ -1,6 +1,9 @@
 h4 {
   margin: 0rem;
 }
+h4:hover {
+  cursor: pointer;
+}
 
 .cvCard {
   margin-left: 1rem;
