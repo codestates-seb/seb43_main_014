@@ -3,11 +3,23 @@ package com.cv.domain.user.controller;
 import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.service.CvService;
-import com.cv.domain.user.dto.UserDto;
+import com.cv.domain.user.dto.login.*;
+import com.cv.domain.user.dto.logout.LogoutDto;
+import com.cv.domain.user.dto.logout.LogoutResponseDto;
+import com.cv.domain.user.dto.mypage.ProfileImageDto;
+import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
+import com.cv.domain.user.dto.sign.SignUpResponseDto;
+import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.DefaultUserService;
 import com.cv.domain.user.service.ReadOnlyUserService;
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,30 +43,41 @@ import java.util.Map;
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
+@Tag(name = "USER", description = "USER API Document")
 public class UserController {
     private final DefaultUserService defaultUserService;
     private final ReadOnlyUserService readOnlyUserService;
     private final CvService cvService;
 
     // 회원등록
+    @Operation(summary = "회원등록", description = "회원을 등록합니다",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "등록이 완료되었습니다.",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = SignUpResponseDto.class))),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping
-    public ResponseEntity createUser(@Valid @RequestBody UserDto.Post userPostDto) {
-        UserDto.SignUpResponse createdUser = defaultUserService.createUser(userPostDto);
+    public ResponseEntity createUser(@Valid @RequestBody UserPostDto userPostDto) {
+        SignUpResponseDto createdUser = defaultUserService.createUser(userPostDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     // access token/refresh token 재발급
     @PostMapping("/reissue")
-    public ResponseEntity reissue(@Valid @RequestBody UserDto.Reissue reissue) {
-        UserDto.ReissueResponse reissueResponse = defaultUserService.reissue(reissue);
+    public ResponseEntity reissue(@Valid @RequestBody ReissueDto reissue) {
+        ReissueResponseDto reissueResponse = defaultUserService.reissue(reissue);
 
         return new ResponseEntity<>(reissueResponse, HttpStatus.valueOf(reissueResponse.getState()));
     }
 
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity logout(@Valid @RequestBody UserDto.Logout logout) {
-        UserDto.LogoutResponse logoutResponse = defaultUserService.logout(logout);
+    public ResponseEntity logout(@Valid @RequestBody LogoutDto logout) {
+        LogoutResponseDto logoutResponse = defaultUserService.logout(logout);
 
         return new ResponseEntity<>(logoutResponse, HttpStatus.valueOf(logoutResponse.getState()));
     }
@@ -64,7 +87,7 @@ public class UserController {
     @PreAuthorize("#userId == authentication.principal.userId")
     public LocalDateTime changePassword(Authentication authentication,
                                         @PathVariable("userId") @Positive Long userId,
-                                        @Valid @RequestBody UserDto.PasswordPatch userPasswordPatchDto) {
+                                        @Valid @RequestBody UserPasswordPatchDto userPasswordPatchDto) {
         return defaultUserService.changePassword(userId, userPasswordPatchDto);
     }
 
@@ -72,8 +95,8 @@ public class UserController {
     @PatchMapping("/my-page/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity updateUser(@PathVariable("userId") @Positive Long userId,
-                                     @Valid @RequestBody UserDto.Patch userInfoPatchDto) {
-        UserDto.UserPatchResponse updatedUser = defaultUserService.updateUserInfo(userId, userInfoPatchDto);
+                                     @Valid @RequestBody UserPatchDto userInfoPatchDto) {
+        UserPatchResponseDto updatedUser = defaultUserService.updateUserInfo(userId, userInfoPatchDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -117,28 +140,28 @@ public class UserController {
     // 프로필이미지 등록
     @PostMapping("/my-page/{userId}/profile-image")
     @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<UserDto.UserPatchResponse> uploadProfileImage(@PathVariable("userId") Long userId,
-                                                   @RequestBody UserDto.ProfileImage profileImageDto) {
-        UserDto.UserPatchResponse updatedUser = defaultUserService.uploadProfile(userId, profileImageDto);
+    public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("userId") Long userId,
+                                                   @RequestBody ProfileImageDto profileImageDto) {
+        UserPatchResponseDto updatedUser = defaultUserService.uploadProfile(userId, profileImageDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     // 비밀번호 찾기
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody UserDto.PasswordGet passwordGet) {
+    public ResponseEntity<?> forgotPassword(@RequestBody PasswordGetDto passwordGet) {
         defaultUserService.createMailAndChangePassword(passwordGet.getEmail());
         return ResponseEntity.ok().build();
     }
 
     // email 중복확인
     @PostMapping("/sign/email")
-    public boolean isEmailDuplicated(@RequestBody UserDto.Email userEmailDto){
+    public boolean isEmailDuplicated(@RequestBody EmailDto userEmailDto){
         return readOnlyUserService.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
     @PostMapping("/sign/phone")
-    public boolean isPhoneDuplicated(@RequestBody UserDto.Phone userPhoneDto){
+    public boolean isPhoneDuplicated(@RequestBody PhoneDto userPhoneDto){
         return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
     }
 }

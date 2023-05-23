@@ -1,4 +1,4 @@
-package com.cv.domain.user.dto;
+package com.cv.domain.user.dto.sign;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

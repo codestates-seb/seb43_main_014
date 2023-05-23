@@ -1,6 +1,10 @@
 package com.cv.domain.user.mapper;
 
-import com.cv.domain.user.dto.UserDto;
+import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
+import com.cv.domain.user.dto.sign.SignUpResponseDto;
+import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -8,12 +12,8 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
-    UserDto.SignUpResponse userPostToSignUpResponse(User user);
-    User userPostDtoToUser(UserDto.Post userPostDto);
-    User userPasswordPatchDtoToUser(UserDto.PasswordPatch userPasswordPatchDto);
-
-    User userPatchDtoToUser(UserDto.Patch userPatchDto);
-
-    UserDto.UserPatchResponse userPatchToResponse(User updatedUser);
+    SignUpResponseDto userPostToSignUpResponse(User user);
+    User userPostDtoToUser(UserPostDto userPostDto);
+    UserPatchResponseDto userPatchToResponse(User updatedUser);
 }
 

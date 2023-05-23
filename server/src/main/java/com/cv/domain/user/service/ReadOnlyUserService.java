@@ -1,7 +1,18 @@
 package com.cv.domain.user.service;
 
-import com.cv.domain.user.dto.MailDto;
-import com.cv.domain.user.dto.UserDto;
+import com.cv.domain.user.dto.login.EmailDto;
+import com.cv.domain.user.dto.login.PhoneDto;
+import com.cv.domain.user.dto.login.ReissueDto;
+import com.cv.domain.user.dto.login.ReissueResponseDto;
+import com.cv.domain.user.dto.logout.LogoutDto;
+import com.cv.domain.user.dto.logout.LogoutResponseDto;
+import com.cv.domain.user.dto.mypage.ProfileImageDto;
+import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
+import com.cv.domain.user.dto.sign.MailDto;
+import com.cv.domain.user.dto.sign.SignUpResponseDto;
+import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;
 import com.cv.global.exception.BusinessLogicException;
@@ -19,22 +30,22 @@ public class ReadOnlyUserService implements UserServiceInter {
     private final UserRepository userRepository;
 
     @Override
-    public UserDto.SignUpResponse createUser(UserDto.Post userPostDto) {
+    public SignUpResponseDto createUser(UserPostDto userPostDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
     @Override
-    public UserDto.ReissueResponse reissue(UserDto.Reissue reissue) {
+    public ReissueResponseDto reissue(ReissueDto reissue) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
     @Override
-    public UserDto.LogoutResponse logout(UserDto.Logout logout) {
+    public LogoutResponseDto logout(LogoutDto logout) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
     @Override
-    public LocalDateTime changePassword(Long userId, UserDto.PasswordPatch userPasswordPatchDto) {
+    public  LocalDateTime changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
@@ -45,7 +56,7 @@ public class ReadOnlyUserService implements UserServiceInter {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
     @Override
-    public UserDto.UserPatchResponse updateUserInfo(Long userId, UserDto.Patch userInfoPatchDto) {
+    public UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
@@ -65,18 +76,18 @@ public class ReadOnlyUserService implements UserServiceInter {
     }
 
     @Override
-    public  UserDto.UserPatchResponse uploadProfile(Long userId, UserDto.ProfileImage profileImageDto) {
+    public UserPatchResponseDto uploadProfile(Long userId, ProfileImageDto profileImageDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
     @Override
-    public boolean isEmailDuplicated(UserDto.Email userEmailDto) {
+    public boolean isEmailDuplicated(EmailDto userEmailDto) {
         boolean isDuplicated = userRepository.existsByEmail(userEmailDto.getEmail());
         return !isDuplicated;
     }
 
     @Override
-    public boolean isPhoneDuplicated(UserDto.Phone userPhoneDto) {
+    public boolean isPhoneDuplicated(PhoneDto userPhoneDto) {
         boolean isDuplicated = userRepository.existsByPhone(userPhoneDto.getPhone());
         return !isDuplicated;
     }
