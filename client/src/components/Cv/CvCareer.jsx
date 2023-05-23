@@ -168,6 +168,35 @@ const CvCareerInfo = ({ setCheck }) => {
     localStorage.setItem('CvBasicContent', JSON.stringify({ ...cvContent }));
   }, [cvContent]);
 
+  useEffect(() => {
+    const CvBasicContent = localStorage.getItem('CvBasicContent');
+    const { educations, careers, projects } = JSON.parse(CvBasicContent);
+    setDegree(educations[0].degree);
+    setMajor(educations[0].major);
+    setSchoolName(educations[0].schoolName);
+    setAdmissionMonth(educations[0].admissionMonth);
+    setAdmissionYear(educations[0].admissionYear);
+    setGraduationMonth(educations[0].graduationMonth);
+    setGraduationYear(educations[0].graduationYear);
+    setEduDescription(educations[0].eduDescription);
+    setCompanyName(careers[0].companyName);
+    setDuty(careers[0].duty);
+    setDevelopmentJob(careers[0].developmentJob);
+    setJoinMonth(careers[0].joinMonth);
+    setJoinYear(careers[0].joinYear);
+    setRetirementMonth(careers[0].retirementMonth);
+    setRetirementYear(careers[0].retirementYear);
+    setJobDescription(careers[0].jobDescription);
+    setProjectSubject(projects[0].projectSubject);
+    setPart(projects[0].part);
+    setLink(projects[0].link);
+    setStartMonth(projects[0].startMonth);
+    setStartYear(projects[0].startYear);
+    setEndMonth(projects[0].endMonth);
+    setEndYear(projects[0].endYear);
+    setProDescription(projects[0].proDescription);
+  }, []);
+
   const onChange = (event) => {
     const {
       target: { name, value },

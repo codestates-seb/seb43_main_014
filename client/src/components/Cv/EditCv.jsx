@@ -440,8 +440,6 @@ const EditCv = () => {
   };
   return (
     <Container>
-      <div>{userCvData.data.title}</div>
-      <div>{userCvData.data.careers[0].duty}</div>
       <div className="body">
         <div className="title">
           {isEmpty && <Warning>이력서 제목을 입력하세요.</Warning>}
