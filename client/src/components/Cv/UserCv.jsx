@@ -9,7 +9,7 @@ const UserCv = () => {
   const user = localStorage.getItem('user_info');
   const { cvId } = JSON.parse(user);
 
-  const [userCvData, setUserCvData] = useState('');
+  const [userCvData, setUserCvData] = useState(null);
 
   console.log('cvId', cvId);
   useEffect(() => {
@@ -25,8 +25,8 @@ const UserCv = () => {
         },
       )
       .then((res) => {
-        setUserCvData(res);
-        console.log('userdata', userCvData);
+        setUserCvData(res.data);
+        console.log('userdata', res.data);
       })
       .catch((ex) => {
         //오류가 발생했을때 오류를 콘솔에 찍는 것
@@ -35,143 +35,145 @@ const UserCv = () => {
       });
   }, [cvId]);
 
-  return (
-    <Container>
-      <div className="test1">
-        <div className="photo">
-          <img src="https://blog.kakaocdn.net/dn/OZ3vp/btqWW9GQeUf/AscsDSgZbtKRKXxMuw2bPk/img.jpg" />
-        </div>
-        <div>
-          <h4>기본 정보</h4>
-        </div>
-        <hr></hr>
-        <div>
-          <h4>성명</h4>
-          <div>
-            <span>{userCvData.data.name}</span>
+  if (userCvData) {
+    return (
+      <Container>
+        <div className="test1">
+          <div className="photo">
+            <img src="https://blog.kakaocdn.net/dn/OZ3vp/btqWW9GQeUf/AscsDSgZbtKRKXxMuw2bPk/img.jpg" />
           </div>
-        </div>
-        <div>
-          <h4>이메일</h4>
           <div>
-            <span>{userCvData.data.email}</span>
+            <h4>기본 정보</h4>
           </div>
-        </div>
-        <div>
-          <h4>전화번호</h4>
+          <hr></hr>
           <div>
-            <span>{userCvData.data.phone}</span>
-          </div>
-        </div>
-        <div>
-          <h4>주소</h4>
-          <div>
-            <span>{userCvData.data.address}</span>
-          </div>
-        </div>
-        <div>
-          <h4>생년월일</h4>
-          <div>
+            <h4>성명</h4>
             <div>
-              <span>
-                {userCvData.data.birthYear}년-{userCvData.data.birthMonth}월-
-                {userCvData.data.birthDay}일
-              </span>
+              <span>{userCvData.name}</span>
+            </div>
+          </div>
+          <div>
+            <h4>이메일</h4>
+            <div>
+              <span>{userCvData.email}</span>
+            </div>
+          </div>
+          <div>
+            <h4>전화번호</h4>
+            <div>
+              <span>{userCvData.phone}</span>
+            </div>
+          </div>
+          <div>
+            <h4>주소</h4>
+            <div>
+              <span>{userCvData.address}</span>
+            </div>
+          </div>
+          <div>
+            <h4>생년월일</h4>
+            <div>
+              <div>
+                <span>
+                  {userCvData.birthYear}년-{userCvData.birthMonth}월-
+                  {userCvData.birthDay}일
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4>개발직무</h4>
+            <div>
+              <span>{userCvData.developmentJob}</span>
+            </div>
+          </div>
+          <div>
+            <h4>기술스택</h4>
+            <div>
+              <span></span>
             </div>
           </div>
         </div>
-
-        <div>
-          <h4>개발직무</h4>
+        <div className="test2">
           <div>
-            <span>{userCvData.data.developmentJob}</span>
+            <h3>{userCvData.title}</h3>
+          </div>
+          <hr></hr>
+          <div>{userCvData.selfIntroduction}</div>
+          <h4>학력 및 자격</h4>
+          <hr></hr>
+          <div className="edu">
+            <div>
+              <span>{userCvData.educations[0].degree}</span>
+            </div>
+            <div>
+              <span>
+                {userCvData.educations[0].admissionYear}년 {}
+                {userCvData.educations[0].admissionMonth}월-
+                {userCvData.educations[0].graduationYear}년 {}
+                {userCvData.educations[0].graduationMonth}월
+              </span>
+            </div>
+          </div>
+          <div>{userCvData.educations[0].schoolName}</div>
+          <div>{userCvData.educations[0].major}</div>
+          <div>{userCvData.educations[0].description}</div>
+          <h4>경력</h4>
+          <hr></hr>
+          <div className="edu">
+            <div>{userCvData.careers[0].duty}</div>
+            <div>
+              <span>
+                {userCvData.careers[0].joinYear}년 {}
+                {userCvData.careers[0].joinMonth}월-
+                {userCvData.careers[0].retirementYear}년 {}
+                {userCvData.careers[0].retirementMonth}월
+              </span>
+            </div>
+          </div>
+          <div>{userCvData.careers[0].companyName}</div>
+          <div>{userCvData.careers[0].developmentJob}</div>
+          <div>{userCvData.careers[0].description}</div>
+          <h4>프로젝트</h4>
+          <hr></hr>
+          <div className="edu">
+            <div>{userCvData.projects[0].projectSubject}</div>
+            <div>
+              <span>
+                {userCvData.projects[0].startYear}년 {}
+                {userCvData.projects[0].startMonth}월-
+                {userCvData.projects[0].endYear}년 {}
+                {userCvData.projects[0].endMonth}월
+              </span>
+            </div>
+          </div>
+          <div>{userCvData.projects[0].part}</div>
+          <div>{userCvData.projects[0].link}</div>
+          <div></div>
+          <div>{userCvData.projects[0].description}</div>
+          <h4>사용자 정의 섹션</h4>
+          <h4>링크</h4>
+          <div>
+            <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_github.png" />
+            GITHUB : {userCvData.links[0].linkAddress}
+          </div>
+          <div>
+            <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_notion.png" />
+            NOTION : {userCvData.links[1].linkAddress}
+          </div>
+          <div>
+            <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_blog.png" />
+            BLOG : {userCvData.links[2].linkAddress}
+          </div>
+          <div>
+            <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
+            PORTFOLIO : {userCvData.links[3].linkAddress}
           </div>
         </div>
-        <div>
-          <h4>기술스택</h4>
-          <div>
-            <span></span>
-          </div>
-        </div>
-      </div>
-      <div className="test2">
-        <div>
-          <h3>{userCvData.data.title}</h3>
-        </div>
-        <hr></hr>
-        <div>{userCvData.data.selfIntroduction}</div>
-        <h4>학력 및 자격</h4>
-        <hr></hr>
-        <div className="edu">
-          <div>
-            <span>{userCvData.data.educations[0].degree}</span>
-          </div>
-          <div>
-            <span>
-              {userCvData.data.educations[0].admissionYear}년 {}
-              {userCvData.data.educations[0].admissionMonth}월-
-              {userCvData.data.educations[0].graduationYear}년 {}
-              {userCvData.data.educations[0].graduationMonth}월
-            </span>
-          </div>
-        </div>
-        <div>{userCvData.data.educations[0].schoolName}</div>
-        <div>{userCvData.data.educations[0].major}</div>
-        <div>{userCvData.data.educations[0].description}</div>
-        <h4>경력</h4>
-        <hr></hr>
-        <div className="edu">
-          <div>{userCvData.data.careers[0].duty}</div>
-          <div>
-            <span>
-              {userCvData.data.careers[0].joinYear}년 {}
-              {userCvData.data.careers[0].joinMonth}월-
-              {userCvData.data.careers[0].retirementYear}년 {}
-              {userCvData.data.careers[0].retirementMonth}월
-            </span>
-          </div>
-        </div>
-        <div>{userCvData.data.careers[0].companyName}</div>
-        <div>{userCvData.data.careers[0].developmentJob}</div>
-        <div>{userCvData.data.careers[0].description}</div>
-        <h4>프로젝트</h4>
-        <hr></hr>
-        <div className="edu">
-          <div>{userCvData.data.projects[0].projectSubject}</div>
-          <div>
-            <span>
-              {userCvData.data.projects[0].startYear}년 {}
-              {userCvData.data.projects[0].startMonth}월-
-              {userCvData.data.projects[0].endYear}년 {}
-              {userCvData.data.projects[0].endMonth}월
-            </span>
-          </div>
-        </div>
-        <div>{userCvData.data.projects[0].part}</div>
-        <div>{userCvData.data.projects[0].link}</div>
-        <div></div>
-        <div>{userCvData.data.projects[0].description}</div>
-        <h4>사용자 정의 섹션</h4>
-        <h4>링크</h4>
-        <div>
-          <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_github.png" />
-          GITHUB : {userCvData.data.links[0].linkAddress}
-        </div>
-        <div>
-          <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_notion.png" />
-          NOTION : {userCvData.data.links[1].linkAddress}
-        </div>
-        <div>
-          <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_blog.png" />
-          BLOG : {userCvData.data.links[2].linkAddress}
-        </div>
-        <div>
-          <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
-          PORTFOLIO : {userCvData.data.links[3].linkAddress}
-        </div>
-      </div>
-    </Container>
-  );
+      </Container>
+    );
+  }
 };
 
 export default UserCv;

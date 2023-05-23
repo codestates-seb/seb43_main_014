@@ -26,7 +26,7 @@ export default function CvPage() {
   const getStepContent = (stepNumber) => {
     switch (stepNumber) {
       case 0:
-        return <CvBasicInfo setCheck={setCheck} />;
+        return <CvBasicInfo check={check} setCheck={setCheck} />;
       case 1:
         return <CvCareer setCheck={setCheck} />;
 

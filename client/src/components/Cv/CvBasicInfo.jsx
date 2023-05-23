@@ -125,7 +125,7 @@ const jobs = [
   '블록체인',
   '개발 PM',
 ];
-const CvBasicInfo = ({ setCheck }) => {
+const CvBasicInfo = ({ check, setCheck }) => {
   const [tags, setTags] = useState('');
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
@@ -205,6 +205,39 @@ const CvBasicInfo = ({ setCheck }) => {
     localStorage.setItem('CvBasicContent', JSON.stringify({ ...cvContent }));
   }, [cvContent]);
   // const getData = JSON.parse(localStorage.getItem('CvBasicContent'));
+  console.log('c', check);
+  useEffect(() => {
+    if (cvContent) {
+      const CvBasicContent = localStorage.getItem('CvBasicContent');
+      const {
+        title,
+        name,
+        email,
+        phone,
+        address,
+        birthMonth,
+        birthDay,
+        birthYear,
+        developmentJob,
+        selfIntroduction,
+        links,
+      } = JSON.parse(CvBasicContent);
+      setTitle(title);
+      setName(name);
+      setEmail(email);
+      setPhone(phone);
+      setAddress(address);
+      setBirthMonth(birthMonth);
+      setBirthDay(birthDay);
+      setBirthYear(birthYear);
+      setDevelopmentJob(developmentJob);
+      setSelfIntroduction(selfIntroduction);
+      setUrl1(links[0].linkAddress);
+      setUrl2(links[1].linkAddress);
+      setUrl3(links[2].linkAddress);
+      setUrl4(links[3].linkAddress);
+    }
+  }, []);
 
   const cvContent1 = {
     userId: userId,
