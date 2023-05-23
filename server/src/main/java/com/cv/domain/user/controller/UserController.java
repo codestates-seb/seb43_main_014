@@ -83,6 +83,15 @@ public class UserController {
     }
 
     // 비밀번호 변경
+    @Operation(summary = "비밀번호 변경", description = "회원의 비밀번호를 변경합니다",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "변경이 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PatchMapping("/my-page/password/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public LocalDateTime changePassword(Authentication authentication,
@@ -92,6 +101,15 @@ public class UserController {
     }
 
     // 이름, 휴대번호 변경
+    @Operation(summary = "이름, 휴대번호 변경", description = "회원의 이름과 휴대번호를 변경합니다",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "변경이 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PatchMapping("/my-page/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity updateUser(@PathVariable("userId") @Positive Long userId,
@@ -101,6 +119,15 @@ public class UserController {
     }
 
     // 계정삭제
+    @Operation(summary = "회원탈퇴", description = "회원을 탈퇴합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "회원탈퇴가 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @DeleteMapping("/my-page/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity deleteUser(@PathVariable("userId") @Positive Long userId) {
@@ -109,6 +136,15 @@ public class UserController {
     }
 
     // 마이페이지 조회
+    @Operation(summary = "마이페이지 조회", description = "회원의 정보를 조회합니다",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "회원정보를 조회했습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @GetMapping("/my-page/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("userId") @Positive Long userId,
@@ -128,6 +164,15 @@ public class UserController {
     }
 
     // 이력서 페이지네이션
+    @Operation(summary = "마이페이지 내 이력서 리스트 조회", description = "회원의 이력서 리스트를 조회합니다",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "조회가 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @GetMapping("/my-page/{userId}/cvs")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("userId") Long userId,
@@ -138,6 +183,15 @@ public class UserController {
     }
 
     // 프로필이미지 등록
+    @Operation(summary = "프로필 이미지 등록", description = "회원의 프로필이미지를 등록합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "등록이 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping("/my-page/{userId}/profile-image")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("userId") Long userId,
@@ -147,6 +201,15 @@ public class UserController {
     }
 
     // 비밀번호 찾기
+    @Operation(summary = "비밀번호를 찾기", description = "회원의 비밀번호를 찾습니다.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "조회가 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody PasswordGetDto passwordGet) {
         defaultUserService.createMailAndChangePassword(passwordGet.getEmail());
@@ -154,12 +217,30 @@ public class UserController {
     }
 
     // email 중복확인
+    @Operation(summary = "회원가입 시 이메일 중복확인", description = "가입 시 이메일을 중복확인 합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "확인이 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping("/sign/email")
     public boolean isEmailDuplicated(@RequestBody EmailDto userEmailDto) {
         return readOnlyUserService.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
+    @Operation(summary = "휴대폰번호 중복확인", description = "가입 시 회원의 휴대번호를 중복확인합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "확인이 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
+                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping("/sign/phone")
     public boolean isPhoneDuplicated(@RequestBody PhoneDto userPhoneDto) {
         return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
