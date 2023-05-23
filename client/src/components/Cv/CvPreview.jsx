@@ -61,7 +61,7 @@ const CvPreview = () => {
         <div>
           <h4>기술스택</h4>
           <div>
-            <span>{cvContent.cvSkillStacks[0].skillStackId}</span>
+            <span></span>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ const CvPreview = () => {
         </div>
         <div>{cvContent.projects[0].part}</div>
         <div>{cvContent.projects[0].link}</div>
-        <div>{cvContent.projects[0].projectSkillStacks[0].skillStackId}</div>
+        <div></div>
         <div>{cvContent.projects[0].description}</div>
         <h4>사용자 정의 섹션</h4>
         <h4>링크</h4>

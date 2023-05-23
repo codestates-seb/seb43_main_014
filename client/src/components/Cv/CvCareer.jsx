@@ -148,11 +148,11 @@ const CvCareerInfo = ({ setCheck }) => {
         startYear: startYear,
         endMonth: endMonth,
         endYear: endYear,
-        projectSkillStacks: [
-          {
-            skillStackId: tags,
-          },
-        ],
+        // projectSkillStacks: [
+        //   {
+        //     skillStackId: tags,
+        //   },
+        // ],
         description: proDescription,
       },
     ],

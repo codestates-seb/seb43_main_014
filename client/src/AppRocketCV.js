@@ -13,6 +13,7 @@ import { isLoginState, tokenState, userState } from './recoil/AuthAtom';
 import { useRecoilState } from 'recoil';
 import OAuthLogin from './pages/OAuthLogin/OAuthLogin';
 import { extractAccessToken } from './utils/extractAccessToken';
+import UserCv from './components/Cv/UserCv';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
         path: '/profile/:userId',
         element: <div>유저 오픈 프로필 컴포넌트 들어올 자리</div>,
       },
+      { path: '/cv', element: <UserCv /> },
       {
         path: '/project-match',
         element: <div>프로젝트 매칭 페이지 컴포넌트 들어올 자리</div>,
