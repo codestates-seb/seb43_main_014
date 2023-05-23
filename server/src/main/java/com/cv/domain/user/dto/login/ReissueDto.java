@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 public class ReissueDto {
+
     @NotBlank(message = "accessToken을 입력해주세요.")
     private String accessToken;
 
