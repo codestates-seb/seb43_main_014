@@ -2,28 +2,49 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Logo from '../../images/rocket.png';
 import { useRecoilState } from 'recoil';
-import { isLoginState, tokenState, userState } from '../../recoil/AuthAtom';
+import {
+  isLoginState,
+  refreshTokenState,
+  tokenState,
+  userState,
+} from '../../recoil/AuthAtom';
 import { Link, useNavigate } from 'react-router-dom';
 import Confirm from '../common/Confirm/Confirm';
+import axios from 'axios';
+import { localStorageRemove } from '../../utils/localstorageFunc';
 
 const Header = () => {
   const navigate = useNavigate();
   const [token, setToken] = useRecoilState(tokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
   const userData = JSON.parse(localStorage.getItem('user_info'));
+  const jwt_token = localStorage.getItem('jwt_token');
+  const refresh_token = localStorage.getItem('refresh_token');
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('jwt_token');
-    localStorage.removeItem('user_info');
-    localStorage.removeItem('isLogin');
-    setIsLogin(false);
-    setToken(null);
-    setUserInfo(null);
-    setIsOpenConfirm(false);
-    navigate('/');
+    axios
+      .post(
+        'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/logout',
+        {
+          accessToken: jwt_token,
+          refreshToken: refresh_token,
+        },
+      )
+      .then((res) => {
+        console.log(res);
+        localStorageRemove();
+
+        setToken(null);
+        setRefreshToken(null);
+        setUserInfo(null);
+        setIsLogin(false);
+        setIsOpenConfirm(false);
+        navigate('/login');
+      });
   };
   if (isLogin) {
     return (
