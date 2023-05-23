@@ -24,7 +24,12 @@ const PwChange = () => {
         <button className={styles.modalBtn} onClick={openModalHandler}>
           비밀번호 변경
         </button>
-        {isOpen ? <PwModal openModalHandler={openModalHandler} /> : null}
+        {isOpen ? (
+          <PwModal
+            openModalHandler={openModalHandler}
+            setNewDate={setNewDate}
+          />
+        ) : null}
       </div>
     </div>
   );
