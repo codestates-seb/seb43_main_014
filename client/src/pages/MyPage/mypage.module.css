@@ -2,7 +2,6 @@
   width: 75rem;
   margin: auto;
   padding: 3rem;
-  border: 1px solid tomato;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,8 +12,6 @@
 }
 .mypageCv {
   margin-bottom: 2.5rem;
-  /* padding-bottom: 2rem; */
-  /* border-bottom: 0.1rem solid slategray; */
 }
 .container h2 {
   margin: 0rem;
@@ -32,7 +29,6 @@
   border-radius: 0.3rem;
   font-weight: 500;
   font-size: 1.2rem;
-  /* letter-spacing: 0.2rem; */
   color: rgb(255 255 255);
   width: 8.4rem;
   height: 3rem;
@@ -42,4 +38,31 @@
 .cvList button:hover {
   background-color: #94b2f9;
   border: 0.5px solid var(--bgColor);
+}
+.cvContainers {
+  background-color: var(--puple100);
+  width: 61rem;
+  padding: 3rem 3rem 1rem 3rem;
+  border-radius: 0.375rem;
+  display: flex;
+  flex-direction: column;
+}
+.cvContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.pageNums {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.pageNum {
+  border: none;
+  background-color: transparent;
+}
+.pageNum:hover {
+  cursor: pointer;
+}
+.checkNum {
+  color: var(--blue300);
 }
