@@ -17,12 +17,12 @@ export default function LabelInput({
   value,
   handleChange,
 }) {
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpen중복확인Modal, setIsOpen중복확인Modal] = useState(false);
 
   const valid = true;
 
   const handleClickModal = () => {
-    setIsOpenModal((isOpen) => !isOpen);
+    setIsOpen중복확인Modal((isOpen) => !isOpen);
   };
 
   // 라벨없는 인풋창! (ex.비밀번호 확인)
@@ -58,18 +58,25 @@ export default function LabelInput({
           <div
             className={styles.duplicate}
             onClick={() => {
-              setIsOpenModal(true);
-              axios.post(
-                `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/sign/${name}`,
-                { name: value },
-              );
+              console.log(name);
+              console.log(value);
+
+              axios
+                .post(
+                  `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/sign/${name}`,
+                  { [name]: value },
+                )
+                .then((res) => {
+                  console.log(res);
+                  setIsOpen중복확인Modal(true);
+                });
             }}
           >
             중복확인
           </div>
         )}
       </div>
-      {phoneDuplicate && isOpenModal && (
+      {phoneDuplicate && isOpen중복확인Modal && (
         <Modal openModalHandler={handleClickModal}>
           {valid ? (
             <div className={styles.center}>
@@ -84,7 +91,7 @@ export default function LabelInput({
           )}
         </Modal>
       )}
-      {emailDuplicate && isOpenModal && (
+      {emailDuplicate && isOpen중복확인Modal && (
         <Modal openModalHandler={handleClickModal}>
           {valid ? (
             <div className={styles.center}>
