@@ -24,7 +24,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
     phone: false,
   });
   const [isEdit, setIsEdit] = useState(false);
-  const [test, setTest] = useState('');
+  const [newImg, setNewImg] = useState('');
   const handleSubmit = () => {
     axios
       .patch(
@@ -76,27 +76,9 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
     console.log({ ...inputs, [name]: value });
   };
 
-  // const [imgBase64, setImgBase64] = useState(''); // url
-  // const onFileChange = (e) => {
-  //   const { files } = e.target;
-  //   const theFile = files[0]; // file 하나만 받기.
-  //   const reader = new FileReader(); // reader   web api
-
-  //   if (!files.length) {
-  //     return;
-  //   } else {
-  //     reader.onloadend = () => {
-  //       const { result } = reader; // reader === e.currentTatget   ??
-  //       setImgBase64(result);
-  //       console.log('result', typeof result);
-  //     };
-  //     reader.readAsDataURL(theFile);
-  //   }
-  // };
-
   const onFileChange = (e) => {
-    const ACCESS_KEY = '';
-    const SECRET_ACCESS_KEY = '';
+    const ACCESS_KEY = process.env.REACT_APP_AWS_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
     const REGION = 'ap-northeast-2';
     const S3_BUCKET = 'hyun-upload-img';
     // AWS ACCESS KEY를 세팅합니다.
@@ -109,7 +91,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
       params: { Bucket: S3_BUCKET },
       region: REGION,
     });
-
+    console.log(process.env.REACT_APP_AWS_ACCESS_KEY);
     const file = e.target.files[0];
 
     const params = {
@@ -127,56 +109,34 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
         .putObject(params)
         .on('httpUploadProgress', (e) => {
           console.log(e);
-          // setTest(
-          //   `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`,
-          // );›
-          setTest(`https://s3.amazonaws.com/${S3_BUCKET}/${object_name}`);
+          setNewImg(
+            `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`,
+          );
         })
         .send((err) => {
           if (err) console.log(err);
         });
     }
-    console.log(test);
-
-    // `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`,
-    // axios
-    //   .post(
-    //     `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
-    //     formData,
-    //     {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data',
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     },
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     console.log('formData', formData);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .post(
-  //       `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}/profile-image`,
-  //       {
-  //         profileImage: imgBase64,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     )
-  //     .then((response) => console.log(response.data))
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [imgBase64]);
+  useEffect(() => {
+    axios
+      .post(
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/my-page/${userId}/profile-image`,
+        {
+          profileImage: newImg,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((response) => console.log(response.data))
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [newImg]);
 
   const fileInputRef = useRef(null);
 
@@ -191,16 +151,16 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
           <div className={styles.profilePic}>
             <img
               className={styles.pic}
-              // src={imgBase64 ? imgBase64 : hahh}
               src={
                 profileImage
-                  ? null
+                  ? profileImage
+                  : newImg
+                  ? newImg
                   : 'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-18.jpg'
               }
-              // src={profileImage}
-              // src="test"
               alt="profileImg"
             />
+
             <div>
               <Fab
                 size="small"
