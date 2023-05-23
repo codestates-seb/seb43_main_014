@@ -53,7 +53,8 @@ const MyPage = () => {
         console.log(error);
       });
   }, [currentPage]);
-  console.log(pageData);
+  console.log('pageData', pageData);
+  console.log('userData', userData);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
