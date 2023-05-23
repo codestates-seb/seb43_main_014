@@ -4,7 +4,7 @@ import Modal from '../../../common/Modal';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const PwModal = ({ openModalHandler }) => {
+const PwModal = ({ openModalHandler, setNewDate }) => {
   const token = localStorage.getItem('jwt_token');
   const user = localStorage.getItem('user_info');
   const { userId } = JSON.parse(user);
@@ -58,8 +58,7 @@ const PwModal = ({ openModalHandler }) => {
         )
         .then((res) => {
           console.log('res', res);
-          // setIsOpen(false); // 성공했을때 200을 받고 밑에 에러에 있는 alert 실행
-          // console.log(setIsOpen);
+          setNewDate(res.data);
           openModalHandler();
         })
         .catch((error) => {
