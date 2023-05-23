@@ -16,7 +16,7 @@ import {
   userState,
 } from './recoil/AuthAtom';
 import { useRecoilState } from 'recoil';
-import OAuthLogin from './pages/OAuthLogin/OAuthLogin';
+import OAuthLogin from './pages/OAuthFirstLogin/OAuthLogin';
 import { extractAuth } from './utils/extractAuth';
 import { localStorageGet } from './utils/localstorageFunc';
 
