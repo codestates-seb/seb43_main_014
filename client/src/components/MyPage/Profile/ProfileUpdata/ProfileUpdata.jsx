@@ -95,8 +95,8 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
   // };
 
   const onFileChange = (e) => {
-    const ACCESS_KEY = 'AKIATFSKCU43WPGDK372';
-    const SECRET_ACCESS_KEY = '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';
+    const ACCESS_KEY = '';
+    const SECRET_ACCESS_KEY = '';
     const REGION = 'ap-northeast-2';
     const S3_BUCKET = 'hyun-upload-img';
     // AWS ACCESS KEY를 세팅합니다.
