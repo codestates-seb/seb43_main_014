@@ -6,6 +6,11 @@ export const tokenState = atom({
   default: null,
 });
 
+export const refreshTokenState = atom({
+  key: 'refreshTokenState',
+  default: null,
+});
+
 export const isLoginState = atom({
   key: 'isLoginState',
   default: false,
