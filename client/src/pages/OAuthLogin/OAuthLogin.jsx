@@ -8,15 +8,22 @@ import axios from 'axios';
 import styles from './OAuthLogin.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { tokenState, isLoginState, userState } from '../../recoil/AuthAtom';
-import { extractAccessToken } from '../../utils/extractAccessToken';
+import {
+  tokenState,
+  isLoginState,
+  userState,
+  refreshTokenState,
+} from '../../recoil/AuthAtom';
+import { extractAuth } from '../../utils/extractAuth';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { localStorageGet } from '../../utils/localstorageFunc';
 
 export default function OAuthLogin() {
   const navigate = useNavigate();
 
   const [token, setToken] = useRecoilState(tokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
 
@@ -37,7 +44,7 @@ export default function OAuthLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const currentUrl = window.location.href;
-    const accessToken = extractAccessToken(currentUrl);
+    const [accessToken, refreshToken, ,] = extractAuth(currentUrl);
 
     if (allTrue) {
       axios
@@ -51,12 +58,16 @@ export default function OAuthLogin() {
         .then((res) => {
           const userData = res.data;
 
-          setToken(accessToken); // 토큰을 리코일 상태에 저장
-          setIsLogin(true); // 로그인 상태 리코일 상태에 저장
-          setUserInfo(userData); // 유저 데이터 리코일 상태에 저장
-
           localStorage.setItem('jwt_token', accessToken);
+          localStorage.setItem('refresh_token', refreshToken);
+          localStorage.setItem('isLogin', true);
           localStorage.setItem('user_info', JSON.stringify(userData));
+
+          setToken(accessToken);
+          setRefreshToken(refreshToken);
+          setIsLogin(true);
+          setUserInfo(userData);
+
           navigate('/');
         })
         .catch((error) => {
@@ -78,6 +89,12 @@ export default function OAuthLogin() {
     setErrors(newErrors);
     setValid(newValid);
   };
+
+  const [, , , is_Login] = localStorageGet();
+
+  if (is_Login) {
+    navigate('/');
+  }
 
   return (
     <main className={styles.container}>
