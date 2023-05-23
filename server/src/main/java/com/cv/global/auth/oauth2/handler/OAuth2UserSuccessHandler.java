@@ -40,13 +40,6 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        System.out.println("OAuth2UserSuccessHandler 클래스 onAuthenticationSuccess 메서드 : OAuth2User attributes 모두 보기");
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            System.out.println("Key: " + key + ", Value: " + value);
-        }
-
         String email = String.valueOf(attributes.get("email"));
         List<String> authorities = authorityUtils.createRoles(email);
 
@@ -138,10 +131,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             String encodedName = UriUtils.encode(user.getName(), StandardCharsets.UTF_8);
 
             uriComponents = UriComponentsBuilder
-                    .newInstance()
-                    .scheme("http")
-                    .host("localhost") // FIXME: 배포 시, 웹 서버 호스팅 도메인으로 바꿔야함
-                    .port(3000)
+                    .fromUriString("http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com")
                     .path(path)
                     .queryParam("accessToken", "Bearer " + accessToken)
                     .queryParam("refreshToken", refreshToken)
@@ -152,10 +142,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             path = "/login/oauth2";
 
             uriComponents = UriComponentsBuilder
-                    .newInstance()
-                    .scheme("http")
-                    .host("localhost")
-                    .port(3000)
+                    .fromUriString("http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com")
                     .path(path)
                     .queryParam("accessToken", "Bearer " + accessToken)
                     .queryParam("refreshToken", refreshToken)

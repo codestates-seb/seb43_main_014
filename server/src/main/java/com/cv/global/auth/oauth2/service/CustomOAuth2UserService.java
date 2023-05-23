@@ -32,10 +32,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration() // OAuth 로그인 시 키(pk)가 되는 값 ex) sub(google), id(kakao), id(github)
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        System.out.println("CustomOAuth2UserService 클래스 loadUser 메서드 : OAuth2 Provider에 대한 정보 가져오기");
-        System.out.println("Registration Id = " + registrationId);
-        System.out.println("UserName AttributeName = " +  userNameAttributeName);
-
         OAuth2Attribute oAuth2Attribute =
                 OAuth2Attribute.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
