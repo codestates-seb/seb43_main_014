@@ -141,7 +141,7 @@ public class UserController {
     @PostMapping("/my-page/{userId}/profile-image")
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("userId") Long userId,
-                                                   @RequestBody ProfileImageDto profileImageDto) {
+                                                                   @RequestBody ProfileImageDto profileImageDto) {
         UserPatchResponseDto updatedUser = defaultUserService.uploadProfile(userId, profileImageDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
@@ -155,13 +155,13 @@ public class UserController {
 
     // email 중복확인
     @PostMapping("/sign/email")
-    public boolean isEmailDuplicated(@RequestBody EmailDto userEmailDto){
+    public boolean isEmailDuplicated(@RequestBody EmailDto userEmailDto) {
         return readOnlyUserService.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
     @PostMapping("/sign/phone")
-    public boolean isPhoneDuplicated(@RequestBody PhoneDto userPhoneDto){
+    public boolean isPhoneDuplicated(@RequestBody PhoneDto userPhoneDto) {
         return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
     }
 }
