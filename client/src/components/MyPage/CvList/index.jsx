@@ -14,6 +14,12 @@ const CvList = ({ cv }) => {
     localStorage.setItem('user_info', JSON.stringify(getData));
     navigate('/cv');
   };
+  const onCvEdit = () => {
+    const getData = JSON.parse(localStorage.getItem('user_info'));
+    getData.cvId = cvId;
+    localStorage.setItem('user_info', JSON.stringify(getData));
+    navigate('/cv/edit');
+  };
   const onCvDelete = () => {
     axios
       .delete(
@@ -40,7 +46,7 @@ const CvList = ({ cv }) => {
           <div className={styles.cvJob}>{developmentJob}</div>
         </div>
         <div className={styles.cardRight}>
-          <button>수정</button>
+          <button onClick={onCvEdit}>수정</button>
           <span>/</span>
           <button onClick={onCvDelete}>삭제</button>
         </div>
