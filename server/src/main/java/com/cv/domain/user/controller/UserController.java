@@ -1,7 +1,6 @@
 package com.cv.domain.user.controller;
 
 import com.cv.domain.cv.dto.PageLatestCvDto;
-import com.cv.domain.cv.dto.cvDto.CvResponseDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.service.CvService;
 import com.cv.domain.user.dto.UserDto;
