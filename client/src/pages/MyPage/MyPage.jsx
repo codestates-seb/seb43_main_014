@@ -53,7 +53,8 @@ const MyPage = () => {
         console.log(error);
       });
   }, [currentPage]);
-  console.log(pageData);
+  console.log('pageData', pageData);
+  console.log('userData', userData);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -89,7 +90,7 @@ const MyPage = () => {
               <h2>이력서</h2>
               <div className={styles.cvContainers}>
                 <div className={styles.cvContainer}>
-                  {!pageData.latestCvs ? (
+                  {!pageData ? (
                     <NoCvList />
                   ) : (
                     pageData.latestCvs.map((cv) => (

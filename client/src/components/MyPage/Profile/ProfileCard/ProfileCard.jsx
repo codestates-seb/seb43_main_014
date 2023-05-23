@@ -9,7 +9,15 @@ const ProfileCard = ({ userData, setInfoUpdata }) => {
       <div className={styles.proCard}>
         <div className={styles.userInfo}>
           <div className={styles.profilePic}>
-            <img className={styles.pic} src={profileImage} alt="profileImg" />
+            <img
+              className={styles.pic}
+              src={
+                profileImage
+                  ? profileImage
+                  : 'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-18.jpg'
+              }
+              alt="profileImg"
+            />
           </div>
           <div className={styles.proInfo}>
             <span className={styles.info}>{name}</span>
