@@ -9,11 +9,16 @@ import Signup from './pages/Signup/Signup';
 import Main from './pages/Main';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import CvPage from './components/Cv/CvPage';
-import { isLoginState, tokenState, userState } from './recoil/AuthAtom';
+import {
+  isLoginState,
+  refreshTokenState,
+  tokenState,
+  userState,
+} from './recoil/AuthAtom';
 import { useRecoilState } from 'recoil';
 import OAuthLogin from './pages/OAuthLogin/OAuthLogin';
-import { extractAccessToken } from './utils/extractAccessToken';
-import UserCv from './components/Cv/UserCv';
+import { extractAuth } from './utils/extractAuth';
+import { localStorageGet } from './utils/localstorageFunc';
 
 const router = createBrowserRouter([
   {
@@ -50,11 +55,11 @@ const router = createBrowserRouter([
         element: <CvPage />,
       },
       {
-        path: '/login/oauth2/',
+        path: '/login/oauth2/*',
         element: <OAuthLogin />,
       },
       {
-        path: '/login/oauth2/already/',
+        path: '/login/oauth2/already/*',
         element: <Main />,
       },
     ],
@@ -65,27 +70,52 @@ function AppRocKetCV() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
 
-  const token = localStorage.getItem('jwt_token');
-  const userData = localStorage.getItem('user_info');
+  const [access_token, refresh_token, user_info, is_Login] = localStorageGet();
 
   useEffect(() => {
     // 앱이 새로고침돼도 로컬 스토리지에서 토큰을 확인하여 리코일 상태를 복원
-    if (token && userData) {
-      setAccessToken(token);
-      setUserInfo(JSON.parse(userData));
+    if (is_Login) {
+      setAccessToken(access_token);
+      setRefreshToken(refresh_token);
+      setUserInfo(JSON.parse(user_info));
       setIsLogin(true);
     }
   }, [setUserInfo]);
 
+  // OAuth 재로그인 시 실행되는 함수
   useEffect(() => {
-    console.log('OAuth 재로그인');
     const currentUrl = window.location.href;
-    const AccessToken = extractAccessToken(currentUrl);
-    console.log(AccessToken);
-    // if(oauth 재로그인 url) {
+    if (
+      currentUrl.startsWith(
+        'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/already',
+      ) ||
+      currentUrl.startsWith('http://localhost:3000/login/oauth2/already')
+    ) {
+      console.log('OAuth 재로그인');
+      const [accessToken, refreshToken, userIdParam, userNameParam] =
+        extractAuth(currentUrl);
 
-    // }
+      localStorage.setItem('jwt_token', accessToken);
+      localStorage.setItem('refresh_token', refreshToken);
+      localStorage.setItem('isLogin', true);
+      localStorage.setItem(
+        'user_info',
+        JSON.stringify({
+          userId: userIdParam,
+          name: userNameParam,
+        }),
+      );
+
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+      setIsLogin(true);
+      setUserInfo({
+        userId: userIdParam,
+        name: userNameParam,
+      });
+    }
   }, []);
   return <RouterProvider router={router}>AppRocketCV</RouterProvider>;
 }

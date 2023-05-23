@@ -7,21 +7,28 @@ import LabelInput from '../../components/common/LabelInput/LabelInput';
 import { Link, useNavigate } from 'react-router-dom';
 import Oauth from '../../components/common/Oauth/Oauth';
 import { useRecoilState } from 'recoil';
-import { isLoginState, tokenState, userState } from '../../recoil/AuthAtom';
+import {
+  isLoginState,
+  refreshTokenState,
+  tokenState,
+  userState,
+} from '../../recoil/AuthAtom';
 import axios from 'axios';
 import { validate } from '../../utils/validate-login';
 import Alert from '../../components/common/Alert/Alert';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import {
+  localStorageRemove,
+  localStorageGet,
+} from '../../utils/localstorageFunc';
 
 export default function Login() {
-  useEffect(() => {
-    setLoginClicked(true);
-  }, []);
-
   const navigate = useNavigate();
+
   const [token, setToken] = useRecoilState(tokenState);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [refreshToken, setRefreshToken] = useRecoilState(refreshTokenState);
+  const [isLoginAtom, setIsLogin] = useRecoilState(isLoginState);
   const [userInfo, setUserInfo] = useRecoilState(userState);
 
   const [form, setForm] = useState({
@@ -38,32 +45,66 @@ export default function Login() {
   });
 
   const [공백Alert, set공백Alert] = useState(false);
+  const [세션Alert, set세션Alert] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
 
+  useEffect(() => {
+    setLoginClicked(true);
+  }, []);
+
   const allTrue = Object.values(valid).every((value) => value === true);
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     if (allTrue) {
-      console.log('Form data:', form);
       axios
         .post(
           'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/auth/login',
           form,
         )
         .then((res) => {
+          const refreshToken = res.headers.refresh;
           const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
           const userData = res.data;
 
+          localStorage.setItem('jwt_token', token);
+          localStorage.setItem('refresh_token', refreshToken);
+          localStorage.setItem('user_info', JSON.stringify(userData));
+          localStorage.setItem('isLogin', true);
+
           setToken(token); // 토큰을 리코일 상태에 저장
+          setRefreshToken(refreshToken); // 리프레쉬 토큰을 리코일 상태에 저장
           setIsLogin(true); // 로그인 상태 리코일 상태에 저장
           setUserInfo(userData); // 유저 데이터 리코일 상태에 저장
 
-          localStorage.setItem('jwt_token', token);
-          localStorage.setItem('user_info', JSON.stringify(userData));
-          localStorage.setItem('isLogin', true);
           navigate('/');
+
+          // 리프레쉬 토큰 만료 타이머 설정
+          const timerId = setTimeout(() => {
+            const [access_token, refresh_token, ,] = localStorageGet();
+            axios
+              .post(
+                'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/logout',
+                {
+                  accessToken: access_token,
+                  refreshToken: refresh_token,
+                },
+              )
+              .then((res) => {
+                console.log(res);
+                localStorageRemove();
+                set세션Alert(true); //
+                alert(
+                  '세션이 만료되어 자동 로그아웃되었습니다. 다시 로그인 해주세요 :)',
+                );
+                setToken(null);
+                setRefreshToken(null);
+                setUserInfo(null);
+                setIsLogin(false);
+                navigate('/login');
+              });
+          }, 604700000);
         })
         .catch((error) => {
           setShowAlert(true);
@@ -85,8 +126,9 @@ export default function Login() {
     setValid(newValid);
   };
 
+  const [, , , is_Login] = localStorageGet();
   // 로그인한 상태라면 로그인 페이지로 가는게 아니라 홈페이지로 라우팅!
-  if (isLogin) {
+  if (is_Login) {
     navigate('/');
   }
   return (
@@ -98,7 +140,7 @@ export default function Login() {
             <div>공백은 입력할 수 없습니다.</div>
           </Alert>
         )}
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleLogin}>
           <div className={styles.tapMenu}>
             <Link
               to="/login"
@@ -151,6 +193,13 @@ export default function Login() {
         {showAlert && (
           <Alert setShowAlert={setShowAlert}>
             <div>아이디와 비밀번호를 다시 확인해주세요!</div>
+          </Alert>
+        )}
+        {세션Alert && (
+          <Alert>
+            <div>
+              세션이 만료되어 자동 로그아웃되었습니다. 다시 로그인 해주세요 :)
+            </div>
           </Alert>
         )}
       </FormBox>

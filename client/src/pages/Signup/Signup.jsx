@@ -11,17 +11,10 @@ import { validate } from '../../utils/validate-signup';
 import Alert from '../../components/common/Alert/Alert';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useRecoilState } from 'recoil';
-import { isLoginState } from '../../recoil/AuthAtom';
+import { localStorageGet } from '../../utils/localstorageFunc';
 
 export default function Signup() {
-  useEffect(() => {
-    setSignupClicked(true);
-  }, []);
-
   const navigate = useNavigate();
-
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   const [form, setForm] = useState({
     name: '',
@@ -30,7 +23,6 @@ export default function Signup() {
     password: '',
     password_confirm: '',
   });
-
   const [errors, setErrors] = useState({
     name: '',
     phone: '',
@@ -38,7 +30,6 @@ export default function Signup() {
     password: '',
     password_confirm: '',
   });
-
   const [valid, setValid] = useState({
     name: false,
     phone: false,
@@ -51,6 +42,10 @@ export default function Signup() {
   const [showAlert, setShowAlert] = useState(false);
   const [회원가입성공모달, set회원가입성공모달] = useState(false);
   const [signupClicked, setSignupClicked] = useState(false);
+
+  useEffect(() => {
+    setSignupClicked(true);
+  }, []);
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
@@ -92,8 +87,9 @@ export default function Signup() {
     setValid(newValid);
   };
 
+  const [, , , is_Login] = localStorageGet();
   // 로그인한 상태라면 회원가입 페이지로 가는게 아니라 홈페이지로 라우팅!
-  if (isLogin) {
+  if (is_Login) {
     navigate('/');
   }
 
@@ -216,6 +212,9 @@ export default function Signup() {
             <div>
               회원가입에 성공하셨습니다! 로켓CV의 회원이 되신걸 축하드려요!
             </div>
+            <br />
+            <br />
+            <br />
             <div>3초뒤에 로그인페이지로 넘어가요!</div>
           </Alert>
         )}

@@ -10,26 +10,23 @@ import axios from 'axios';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { isLoginState } from '../../recoil/AuthAtom';
+import { localStorageGet } from '../../utils/localstorageFunc';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
 
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [form, setForm] = useState({
     email: '',
   });
-
   const [errors, setErrors] = useState({
     email: '',
   });
-
   const [valid, setValid] = useState({
     email: false,
   });
 
-  const [showAlert, setShowAlert] = useState(false);
+  const [show공백Alert, setShow공백Alert] = useState(false);
+  const [is비밀번호찾기성공모달, setIs비밀번호찾기성공모달] = useState(false);
 
   const allTrue = Object.values(valid).every((value) => value === true);
 
@@ -44,6 +41,11 @@ export default function ResetPassword() {
         )
         .then((res) => {
           console.log(res);
+          setIs비밀번호찾기성공모달(true);
+
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
         });
     }
   };
@@ -51,7 +53,7 @@ export default function ResetPassword() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (value.includes(' ')) {
-      setShowAlert(true);
+      setShow공백Alert(true);
       e.preventDefault();
       return;
     }
@@ -61,8 +63,9 @@ export default function ResetPassword() {
     setValid(newValid);
   };
 
+  const [, , , is_Login] = localStorageGet();
   // 로그인한 상태라면 비밀번호 찾기 페이지 못가게 홈페이지로 라우팅!
-  if (isLogin) {
+  if (is_Login) {
     navigate('/');
   }
 
@@ -70,8 +73,8 @@ export default function ResetPassword() {
     <main className={styles.container}>
       <HelloBox />
       <FormBox>
-        {showAlert && (
-          <Alert setShowAlert={setShowAlert}>
+        {show공백Alert && (
+          <Alert setShowAlert={setShow공백Alert}>
             <div>공백은 입력할 수 없습니다.</div>
           </Alert>
         )}
@@ -103,6 +106,12 @@ export default function ResetPassword() {
           <br />
           <Button allTrue={!allTrue} text="비밀번호 찾기" />
         </form>
+        {is비밀번호찾기성공모달 && (
+          <Alert isSuccess={true} setShowAlert={setIs비밀번호찾기성공모달}>
+            <div>임시 비밀번호를 발급해드렸어요!</div>
+            <div>이메일을 확인해보세요!</div>
+          </Alert>
+        )}
       </FormBox>
     </main>
   );
