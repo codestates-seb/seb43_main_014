@@ -192,8 +192,13 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
             <img
               className={styles.pic}
               // src={imgBase64 ? imgBase64 : hahh}
+              src={
+                profileImage
+                  ? null
+                  : 'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-18.jpg'
+              }
               // src={profileImage}
-              src="test"
+              // src="test"
               alt="profileImg"
             />
             <div>
