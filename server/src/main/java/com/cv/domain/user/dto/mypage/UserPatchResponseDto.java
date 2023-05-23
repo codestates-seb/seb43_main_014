@@ -3,7 +3,7 @@ package com.cv.domain.user.dto.mypage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class UserPatchResponseDto {
@@ -15,6 +15,8 @@ public class UserPatchResponseDto {
     private String phone;
     @Schema(description = "프로필 이미지", example = "user/profile/image/smile")
     private String profileImage;
-    @Schema(description = "프로필 이미지", example = "2023-05-23 12:00:00")
-    private LocalDateTime modifiedAt;
+    @Schema(description = "프로필 이미지", example = "2023-05-23")
+    private LocalDate modifiedAt;
+    @Schema(description = "회원가입 일자", example = "2023-05-23")
+    private LocalDate createdAt;
 }
