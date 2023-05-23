@@ -1,7 +1,15 @@
 package com.cv.domain.user.service;
 
-import com.cv.domain.user.dto.MailDto;
-import com.cv.domain.user.dto.UserDto;
+import com.cv.domain.user.dto.login.*;
+import com.cv.domain.user.dto.logout.LogoutDto;
+import com.cv.domain.user.dto.logout.LogoutResponseDto;
+import com.cv.domain.user.dto.mypage.ProfileImageDto;
+import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchDto;
+import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
+import com.cv.domain.user.dto.sign.MailDto;
+import com.cv.domain.user.dto.sign.SignUpResponseDto;
+import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.mapper.UserMapper;
 import com.cv.domain.user.repository.UserRepository;
@@ -47,7 +55,7 @@ public class DefaultUserService implements UserServiceInter{
 
     // 회원등록
     @Override
-    public UserDto.SignUpResponse createUser(UserDto.Post userPostDto) {
+    public SignUpResponseDto createUser(UserPostDto userPostDto) {
         User user = mapper.userPostDtoToUser(userPostDto);
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
@@ -58,7 +66,7 @@ public class DefaultUserService implements UserServiceInter{
     }
 
     // access token/refresh token 재발급 요청
-    public UserDto.ReissueResponse reissue(UserDto.Reissue reissue) {
+    public ReissueResponseDto reissue(ReissueDto reissue) {
         // Refresh Token 검증
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         String rtVerificationResult = jwtTokenizer.verifySignature(reissue.getRefreshToken(), base64EncodedSecretKey);
@@ -66,10 +74,10 @@ public class DefaultUserService implements UserServiceInter{
         if (!(rtVerificationResult).equals("success")) {
             // Refresh Token이 만료되었을 경우 -> 로그인을 새롭게 할 것을 클라이언트에게 알리기 위함
             if (rtVerificationResult.equals("expired_token")) {
-                return new UserDto.ReissueResponse(HttpStatus.UNAUTHORIZED.value(), "Refresh Token has expired", null);
+                return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token has expired", null);
             }
             else { // Refresh Token이 유효하지 않거나 잘못된 상태임을 나타냄
-                return new UserDto.ReissueResponse(HttpStatus.UNAUTHORIZED.value(), "Refresh Token is not valid", null);
+                return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token is not valid", null);
             }
         }
 
@@ -81,25 +89,25 @@ public class DefaultUserService implements UserServiceInter{
         // 로그아웃되어 Redis에 Refresh Token이 존재하지 않는 경우 처리
         // ObjectUtils.isEmpty()는 null과 빈 문자열 체크를 동시에 함
         if (ObjectUtils.isEmpty(refreshToken)) {
-            return new UserDto.ReissueResponse(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not exist due to logout", null);
+            return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not exist due to logout", null);
         }
         if (!refreshToken.equals(reissue.getRefreshToken())) {
-            return new UserDto.ReissueResponse(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not match",null);
+            return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not match",null);
         }
 
         // 새로운 토큰 생성
-        UserDto.TokenInfo tokenInfo = generateToken(claims);
+        TokenInfoDto tokenInfo = generateToken(claims);
 
         // Refresh Token Redis에 업데이트
         redisTemplate.opsForValue()
                 .set("RT_" + userEmail, tokenInfo.getRefreshToken(),
                         jwtTokenizer.getRefreshTokenExpirationMinutes(), TimeUnit.MINUTES);
 
-        return new UserDto.ReissueResponse(HttpStatus.OK.value(), "Token information has been updated", tokenInfo);
+        return new ReissueResponseDto(HttpStatus.OK.value(), "Token information has been updated", tokenInfo);
     }
 
     // 토큰 재발급 요청 시, 새로운 access token/refresh token 생성
-    private UserDto.TokenInfo generateToken(Map<String, Object> claims) {
+    private TokenInfoDto generateToken(Map<String, Object> claims) {
         String subject = (String) claims.get("username");
         Date accessTokenExpiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         Date refreshTokenExpiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
@@ -108,17 +116,17 @@ public class DefaultUserService implements UserServiceInter{
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, accessTokenExpiration, base64EncodedSecretKey);
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, refreshTokenExpiration, base64EncodedSecretKey);
 
-        return new UserDto.TokenInfo(accessToken, refreshToken);
+        return new TokenInfoDto(accessToken, refreshToken);
     }
 
     // 로그아웃
-    public UserDto.LogoutResponse logout(UserDto.Logout logout) {
+    public LogoutResponseDto logout(LogoutDto logout) {
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         String atVerificationResult = jwtTokenizer.verifySignature(logout.getAccessToken(), base64EncodedSecretKey);
 
         // Access 검증
         if (!(atVerificationResult).equals("success")) {
-            return new UserDto.LogoutResponse(HttpStatus.UNAUTHORIZED.value(), "Access Token is not valid");
+            return new LogoutResponseDto(HttpStatus.UNAUTHORIZED.value(), "Access Token is not valid");
         }
 
         // Access Token에서 User email 가져옴
@@ -135,12 +143,12 @@ public class DefaultUserService implements UserServiceInter{
         redisTemplate.opsForValue()
                 .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MINUTES);
 
-        return new UserDto.LogoutResponse(HttpStatus.OK.value(), "Logout has been successful");
+        return new LogoutResponseDto(HttpStatus.OK.value(), "Logout has been successful");
     }
 
     // 비밀번호 변경
     @Override
-    public LocalDateTime changePassword(Long userId, UserDto.PasswordPatch userPasswordPatchDto) {
+    public LocalDateTime changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
         User loggedInUser = readOnlyUserService.findUser(userId);
 
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
@@ -168,7 +176,7 @@ public class DefaultUserService implements UserServiceInter{
 
     // 회원의 기본정보(이름,휴대번호변경) 변경
     @Override
-    public UserDto.UserPatchResponse updateUserInfo(Long userId, UserDto.Patch userInfoPatchDto) {
+    public UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto) {
         User loggedInUser = readOnlyUserService.findUser(userId);
         loggedInUser.checkActiveUser(loggedInUser);
 
@@ -221,7 +229,7 @@ public class DefaultUserService implements UserServiceInter{
 
     // 이미지 경로 저장하기
     @Override
-    public UserDto.UserPatchResponse uploadProfile(Long userId, UserDto.ProfileImage profileImageDto) {
+    public UserPatchResponseDto uploadProfile(Long userId, ProfileImageDto profileImageDto) {
         User loggedInUser = readOnlyUserService.findUser(userId);
         loggedInUser.checkActiveUser(loggedInUser);
         loggedInUser.setProfileImage(profileImageDto.getProfileImage());
@@ -264,11 +272,11 @@ public class DefaultUserService implements UserServiceInter{
         return passwordBuilder.toString();
     }
 
-    public boolean isEmailDuplicated(UserDto.Email userEmailDto) {
+    public boolean isEmailDuplicated(EmailDto userEmailDto) {
         throw new UnsupportedOperationException("This method is not supported in transaction mode.");
     }
 
-    public boolean isPhoneDuplicated(UserDto.Phone userPhoneDto) {
+    public boolean isPhoneDuplicated(PhoneDto userPhoneDto) {
         throw new UnsupportedOperationException("This method is not supported in transaction mode.");
     }
 }
