@@ -175,6 +175,8 @@ public class UserController {
         result.put("name", user.getName());
         result.put("email", user.getEmail());
         result.put("phone", user.getPhone());
+        result.put("createdAt", user.getCreatedAt());
+        result.put("modifiedAt", user.getModifiedAt());
         result.put("cvs", latestCvDto);
 
         return ResponseEntity.ok(result);
