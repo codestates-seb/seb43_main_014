@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,9 +111,9 @@ public class UserController {
             })
     @PatchMapping("/my-page/password/{userId}")
     @PreAuthorize("#userId == authentication.principal.userId")
-    public LocalDateTime changePassword(Authentication authentication,
-                                        @PathVariable("userId") @Positive Long userId,
-                                        @Valid @RequestBody UserPasswordPatchDto userPasswordPatchDto) {
+    public LocalDate changePassword(Authentication authentication,
+                                    @PathVariable("userId") @Positive Long userId,
+                                    @Valid @RequestBody UserPasswordPatchDto userPasswordPatchDto) {
         return defaultUserService.changePassword(userId, userPasswordPatchDto);
     }
 
