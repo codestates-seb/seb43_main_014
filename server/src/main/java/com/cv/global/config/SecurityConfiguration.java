@@ -63,6 +63,8 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/user/forgot-password").permitAll()
                         .antMatchers(HttpMethod.POST, "/user/reissue").permitAll()
                         .antMatchers(HttpMethod.POST, "/user/logout").permitAll()
+                        .antMatchers(HttpMethod.POST, "/user/sign/email").permitAll()
+                        .antMatchers(HttpMethod.POST, "/user/sign/phone").permitAll()
                         .antMatchers(HttpMethod.POST, "/user/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/user").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/user").hasRole("ADMIN")
