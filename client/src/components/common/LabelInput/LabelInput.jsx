@@ -19,7 +19,7 @@ export default function LabelInput({
 }) {
   const [isOpen중복확인Modal, setIsOpen중복확인Modal] = useState(false);
 
-  const valid = true;
+  const [duplicateValid, setduplicateValid] = useState(null);
 
   const handleClickModal = () => {
     setIsOpen중복확인Modal((isOpen) => !isOpen);
@@ -67,7 +67,8 @@ export default function LabelInput({
                   { [name]: value },
                 )
                 .then((res) => {
-                  console.log(res);
+                  console.log(res.data);
+                  setduplicateValid(res.data);
                   setIsOpen중복확인Modal(true);
                 });
             }}
@@ -78,22 +79,25 @@ export default function LabelInput({
       </div>
       {phoneDuplicate && isOpen중복확인Modal && (
         <Modal openModalHandler={handleClickModal}>
-          {valid ? (
+          {duplicateValid ? (
             <div className={styles.center}>
               <p>사용 가능한 휴대폰 번호입니다.</p>
-              <Button text="사용하기" />
+              <Button text="사용하기" onClick={handleClickModal} />
             </div>
           ) : (
             <div className={styles.center}>
               <p>이미 존재하는 휴대폰 번호입니다.</p>
-              <Button text="다른 휴대폰 번호 사용하기" />
+              <Button
+                text="다른 휴대폰 번호 사용하기"
+                onClick={handleClickModal}
+              />
             </div>
           )}
         </Modal>
       )}
       {emailDuplicate && isOpen중복확인Modal && (
         <Modal openModalHandler={handleClickModal}>
-          {valid ? (
+          {duplicateValid ? (
             <div className={styles.center}>
               <p>사용 가능한 이메일입니다.</p>
               <Button text="사용하기" />
