@@ -32,6 +32,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +42,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class CvService {
-
     private final CvRepository cvRepository;
     private final SkillStackRepository skillStackRepository;
     private final CareerSkillStackRepository careerSkillStackRepository;
