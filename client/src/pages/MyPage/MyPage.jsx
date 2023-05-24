@@ -16,6 +16,7 @@ const MyPage = () => {
   const [pageData, setPageData] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const { createdAt } = userData;
   console.log('userId', userId);
 
   useEffect(() => {
@@ -53,6 +54,7 @@ const MyPage = () => {
         console.log(error);
       });
   }, [currentPage]);
+  console.log('userData', userData);
   console.log('pageData', pageData);
 
   const handlePageChange = (pageNumber) => {
@@ -89,11 +91,13 @@ const MyPage = () => {
               <h2>이력서</h2>
               <div className={styles.cvContainers}>
                 <div className={styles.cvContainer}>
-                  {!pageData ? (
+                  {!pageData ||
+                  !pageData.latestCvs ||
+                  pageData.latestCvs.length === 0 ? (
                     <NoCvList />
                   ) : (
                     pageData.latestCvs.map((cv) => (
-                      <CvList cv={cv} key={cv.cvId} />
+                      <CvList cv={cv} key={cv.cvId} setPageData={setPageData} />
                     ))
                   )}
                 </div>
@@ -105,7 +109,7 @@ const MyPage = () => {
             </div>
             <div className={styles.mypageItem}>
               <h2>비밀번호</h2>
-              <PwChange />
+              <PwChange createdAt={createdAt} setUserData={setUserData} />
             </div>
             <div className={styles.mypageItem}>
               <h2>계정 삭제</h2>

@@ -3,7 +3,7 @@ import styles from './cvList.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const CvList = ({ cv }) => {
+const CvList = ({ cv, setPageData }) => {
   const { title, developmentJob, createdAt, cvId } = cv;
   const token = localStorage.getItem('jwt_token');
   const navigate = useNavigate();
@@ -32,6 +32,7 @@ const CvList = ({ cv }) => {
       )
       .then((res) => {
         console.log('res', res);
+        setPageData((prev) => ({ ...prev }));
       })
       .catch((error) => {
         console.log(error);
