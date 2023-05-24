@@ -93,7 +93,7 @@ const CvCareerInfo = ({ setCheck }) => {
 
   const [companyName, setCompanyName] = useState('');
   const [duty, setDuty] = useState('');
-  const [developmentJob, setDevelopmentJob] = useState('');
+  const [careersDevelopmentJob, setCareersDevelopmentJob] = useState('');
   const [joinMonth, setJoinMonth] = useState('');
   const [joinYear, setJoinYear] = useState('');
   const [retirementMonth, setRetirementMonth] = useState('');
@@ -130,7 +130,7 @@ const CvCareerInfo = ({ setCheck }) => {
       {
         companyName: companyName,
         duty: duty,
-        developmentJob: developmentJob,
+        developmentJob: careersDevelopmentJob,
         joinMonth: joinMonth,
         joinYear: joinYear,
         retirementMonth: retirementMonth,
@@ -181,7 +181,7 @@ const CvCareerInfo = ({ setCheck }) => {
     setEduDescription(educations[0].eduDescription);
     setCompanyName(careers[0].companyName);
     setDuty(careers[0].duty);
-    setDevelopmentJob(careers[0].developmentJob);
+    setCareersDevelopmentJob(careers[0].careersDevelopmentJob);
     setJoinMonth(careers[0].joinMonth);
     setJoinYear(careers[0].joinYear);
     setRetirementMonth(careers[0].retirementMonth);
@@ -237,8 +237,8 @@ const CvCareerInfo = ({ setCheck }) => {
       setCompanyName(value);
     } else if (name === 'duty') {
       setDuty(value);
-    } else if (name === 'developmentjob') {
-      setDevelopmentJob(value);
+    } else if (name === 'careersdevelopmentjob') {
+      setCareersDevelopmentJob(value);
     } else if (name === 'jobdescription') {
       setJobDescription(value);
     } else if (name === 'projectsubject') {
@@ -415,9 +415,9 @@ const CvCareerInfo = ({ setCheck }) => {
           <span>개발직무</span>
           <input
             maxLength={30}
-            name="developmentjob"
+            name="careersdevelopmentjob"
             type="text"
-            value={developmentJob}
+            value={careersDevelopmentJob}
             onChange={onChange}
           ></input>
         </div>

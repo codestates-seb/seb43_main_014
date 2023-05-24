@@ -164,7 +164,7 @@ const EditCv = () => {
 
   const [companyName, setCompanyName] = useState('');
   const [duty, setDuty] = useState('');
-  const [developmentJob2, setDevelopmentJob2] = useState('');
+  const [careersDevelopmentJob, setCareersDevelopmentJob] = useState('');
   const [joinMonth, setJoinMonth] = useState('');
   const [joinYear, setJoinYear] = useState('');
   const [retirementMonth, setRetirementMonth] = useState('');
@@ -221,7 +221,7 @@ const EditCv = () => {
         setEduDescription(res.data.educations[0].description);
         setCompanyName(res.data.careers[0].companyName);
         setDuty(res.data.careers[0].duty);
-        setDevelopmentJob2(res.data.careers[0].developmentJob);
+        setCareersDevelopmentJob(res.data.careers[0].developmentJob);
         setJoinMonth(res.data.careers[0].joinMonth);
         setJoinYear(res.data.careers[0].joinYear);
         setRetirementMonth(res.data.careers[0].retirementMonth);
@@ -236,8 +236,8 @@ const EditCv = () => {
         setEndYear(res.data.projects[0].endYear);
         setProDescription(res.data.projects[0].description);
         setTags(res.data.tags);
-        setUserCvData(res);
-        console.log('userdata', userCvData);
+        setUserCvData(res.data);
+        console.log('userdata', res.data);
       })
       .catch((ex) => {
         //오류가 발생했을때 오류를 콘솔에 찍는 것
@@ -245,14 +245,14 @@ const EditCv = () => {
         alert('서버가 정상적이지 않음.');
       });
   }, [cvId]);
-
+  console.log('나와라좀', cvContent);
   const handleClickSave = () => {
     if (title !== '' && name !== '') {
       setIsEmpty(false);
       alert('이력서 수정이 완료되었습니다.');
-      setCvContent(() => ({ cvContent1 }));
+      setCvContent(() => ({ ...cvContent1 }));
       axios
-        .patch(`${API}/cv/${cvId}`, cvContent, {
+        .patch(`${API}/cv/edit/${cvId}`, cvContent, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -272,13 +272,8 @@ const EditCv = () => {
     //비동기 해결해야함.
   };
 
-  useEffect(() => {
-    localStorage.setItem('CvBasicContent', JSON.stringify({ ...cvContent }));
-  }, [cvContent]);
-
   const cvContent1 = {
-    cvId: { cvId },
-    userId: { userId },
+    cvId: cvId,
     title: title,
     name: name,
     email: email,
@@ -314,40 +309,45 @@ const EditCv = () => {
     ],
     educations: [
       {
-        degree: '',
-        major: '',
-        schoolName: '',
-        admissionMonth: '',
-        admissionYear: '',
-        graduationMonth: '',
-        graduationYear: '',
-        description: '',
+        degree: degree,
+        major: major,
+        schoolName: schoolName,
+        admissionMonth: admissionMonth,
+        admissionYear: admissionYear,
+        graduationMonth: graduationMonth,
+        graduationYear: graduationYear,
+        description: eduDescription,
       },
     ],
 
     careers: [
       {
-        companyName: '',
-        duty: '',
-        developmentJob2: '',
-        joinMonth: '',
-        joinYear: '',
-        retirementMonth: '',
-        retirementYear: '',
-        description: '',
+        companyName: companyName,
+        duty: duty,
+        developmentJob: careersDevelopmentJob,
+        joinMonth: joinMonth,
+        joinYear: joinYear,
+        retirementMonth: retirementMonth,
+        retirementYear: retirementYear,
+        description: jobDescription,
       },
     ],
 
     projects: [
       {
-        projectSubject: '',
-        part: '',
-        link: '',
-        startMonth: '',
-        startYear: '',
-        endMonth: '',
-        endYear: '',
-        description: '',
+        projectSubject: projectSubject,
+        part: part,
+        link: link,
+        startMonth: startMonth,
+        startYear: startYear,
+        endMonth: endMonth,
+        endYear: endYear,
+        // projectSkillStacks: [
+        //   {
+        //     skillStackId: tags,
+        //   },
+        // ],
+        description: proDescription,
       },
     ],
   };
@@ -422,8 +422,8 @@ const EditCv = () => {
       setCompanyName(value);
     } else if (name === 'duty') {
       setDuty(value);
-    } else if (name === 'developmentjob2') {
-      setDevelopmentJob2(value);
+    } else if (name === 'careersdevelopmentjob') {
+      setCareersDevelopmentJob(value);
     } else if (name === 'jobdescription') {
       setJobDescription(value);
     } else if (name === 'projectsubject') {
@@ -807,9 +807,9 @@ const EditCv = () => {
           <span>개발직무</span>
           <input
             maxLength={30}
-            name="developmentjob2"
+            name="careersdevelopmentjob"
             type="text"
-            value={developmentJob2}
+            value={careersDevelopmentJob}
             onChange={onChange}
           ></input>
         </div>
@@ -1041,10 +1041,9 @@ const EditCv = () => {
 export default EditCv;
 
 const Container = styled.div`
-  margin: 0rem 4rem 8rem 4rem;
   display: flex;
   flex-direction: column;
-
+  margin: 5rem auto;
   width: 55rem;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
