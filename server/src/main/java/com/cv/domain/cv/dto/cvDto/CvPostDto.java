@@ -1,17 +1,11 @@
 package com.cv.domain.cv.dto.cvDto;
 
 import com.cv.domain.career.dto.careerDto.CareerAddDto;
-import com.cv.domain.career.dto.careerDto.CareerResponseDto;
 import com.cv.domain.customSection.dto.CustomSectionAddDto;
-import com.cv.domain.customSection.dto.CustomSectionResponseDto;
 import com.cv.domain.cv.dto.linkDto.LinkAddDto;
-import com.cv.domain.cv.dto.linkDto.LinkResponseDto;
 import com.cv.domain.cv.dto.portfolioDto.PortfolioAddDto;
-import com.cv.domain.cv.dto.portfolioDto.PortfolioResponseDto;
 import com.cv.domain.education.dto.EducationAddDto;
-import com.cv.domain.education.dto.EducationResponseDto;
 import com.cv.domain.project.dto.projectDto.ProjectAddDto;
-import com.cv.domain.project.dto.projectDto.ProjectResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -56,9 +50,6 @@ public class CvPostDto {
 
     @Schema(description = "개발 직무", example = "풀스택")
     private String developmentJob;
-
-    @Schema(description = "이력서가 삭제 상태인지 확인 true = 삭제상태", example = "false")
-    private Boolean isDelete;
 
     @Schema(description = "이력서에 작성할 기술 스택")
     private List<CvSkillStackAddDto> cvSkillStacks;

@@ -55,9 +55,6 @@ public class CvPatchDto {
     @Schema(description = "개발 직무", example = "풀스택")
     private String developmentJob;
 
-    @Schema(description = "이력서가 삭제 상태인지 확인 true = 삭제상태", example = "false")
-    private Boolean isDelete;
-
     @Schema(description = "이력서에 작성할 기술 스택")
     private List<CvSkillStackAddDto> cvSkillStacks;
 

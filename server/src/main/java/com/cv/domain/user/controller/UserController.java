@@ -55,8 +55,6 @@ public class UserController {
                     @ApiResponse(responseCode = "201", description = "등록이 완료되었습니다.",
                             content = @Content(mediaType = "application/json", schema = @Schema(implementation = SignUpResponseDto.class))),
                     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
-                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
-                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
@@ -67,6 +65,16 @@ public class UserController {
     }
 
     // access token/refresh token 재발급
+    @Operation(summary = "Jwt 토큰 재발급", description = "Refresh token을 검증하여 새로운 Access token과 Refresh token을 재발급합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "토큰 정보가 성공적으로 업데이트되었습니다.",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ReissueResponseDto.class))),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "1. Refresh token이 만료되었습니다. " + "2. Refresh token이 유효하지 않습니다. ex) Jwt 서명 불일치, Jwt 형식/토큰 유형이 올바르지 않음 etc. "
+                            + "3. 로그아웃으로 인해 Refresh token이 서버에 존재하지 않습니다. " + "4. Refresh token이 현재 사용자에게 발급된 토큰 정보와 매치되지 않습니다. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ReissueResponseDto.class))),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping("/reissue")
     public ResponseEntity reissue(@Valid @RequestBody ReissueDto reissue) {
         ReissueResponseDto reissueResponse = defaultUserService.reissue(reissue);
@@ -75,6 +83,15 @@ public class UserController {
     }
 
     // 로그아웃
+    @Operation(summary = "로그아웃", description = "Access token을 검증하여 로그아웃을 진행합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공적으로 로그아웃되었습니다.",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LogoutResponseDto.class))),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
+                    @ApiResponse(responseCode = "401", description = "Access token이 유효하지 않습니다. ex) Jwt 유효기간 만료, 서명 불일치, Jwt 형식/토큰 유형이 올바르지 않음 etc.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = LogoutResponseDto.class))),
+                    @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
+                    @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
+            })
     @PostMapping("/logout")
     public ResponseEntity logout(@Valid @RequestBody LogoutDto logout) {
         LogoutResponseDto logoutResponse = defaultUserService.logout(logout);
@@ -201,12 +218,10 @@ public class UserController {
     }
 
     // 비밀번호 찾기
-    @Operation(summary = "비밀번호를 찾기", description = "회원의 비밀번호를 찾습니다.",
+    @Operation(summary = "비밀번호를 찾기", description = "회원의 이메일로 임시 비밀번호를 발급합니다.",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "조회가 완료되었습니다.",content = @Content()),
+                    @ApiResponse(responseCode = "200", description = "정상적으로 임시 비밀번호가 발급되었습니다.",content = @Content()),
                     @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.", content = @Content()),
-                    @ApiResponse(responseCode = "401", description = "인증 정보가 부족합니다. ex) 로그인이 되어있지 않은 경우", content = @Content()),
-                    @ApiResponse(responseCode = "403", description = "요청에 대한 권한이 없습니다.", content = @Content()),
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
