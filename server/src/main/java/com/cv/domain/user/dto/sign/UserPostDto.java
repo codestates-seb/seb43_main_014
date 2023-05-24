@@ -4,12 +4,14 @@ import com.cv.domain.user.validator.ValidEmail;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserPostDto {
     @Schema(description = "이름", example = "홍길동")
     @NotBlank(message = "이름은 공백이 아니어야 합니다.")
