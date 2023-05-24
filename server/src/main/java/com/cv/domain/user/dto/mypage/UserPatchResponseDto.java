@@ -15,7 +15,7 @@ public class UserPatchResponseDto {
     private String phone;
     @Schema(description = "프로필 이미지", example = "user/profile/image/smile")
     private String profileImage;
-    @Schema(description = "프로필 이미지", example = "2023-05-23")
+    @Schema(description = "마지막 수정일자", example = "2023-05-23")
     private LocalDate modifiedAt;
     @Schema(description = "회원가입 일자", example = "2023-05-23")
     private LocalDate createdAt;
