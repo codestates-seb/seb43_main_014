@@ -1,0 +1,21 @@
+.noCvList {
+  width: 100%;
+}
+.cvCard {
+  padding: 1rem 1rem;
+  width: 15rem;
+  height: 8.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 0.3rem;
+  color: black;
+}
+.noNum {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: -1rem;
+  width: 55rem;
+}
