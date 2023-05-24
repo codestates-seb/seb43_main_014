@@ -65,7 +65,7 @@ export default function Login() {
         )
         .then((res) => {
           const refreshToken = res.headers.refresh;
-          const token = res.headers.authorization.split(' ')[1]; // "Bearer " 부분을 제외한 토큰 값만 추출
+          const token = res.headers.authorization.split(' ')[1];
           const userData = res.data;
 
           localStorage.setItem('jwt_token', token);
@@ -73,10 +73,10 @@ export default function Login() {
           localStorage.setItem('user_info', JSON.stringify(userData));
           localStorage.setItem('isLogin', true);
 
-          setToken(token); // 토큰을 리코일 상태에 저장
-          setRefreshToken(refreshToken); // 리프레쉬 토큰을 리코일 상태에 저장
-          setIsLogin(true); // 로그인 상태 리코일 상태에 저장
-          setUserInfo(userData); // 유저 데이터 리코일 상태에 저장
+          setToken(token);
+          setRefreshToken(refreshToken);
+          setIsLogin(true);
+          setUserInfo(userData);
 
           navigate('/');
 
@@ -94,7 +94,7 @@ export default function Login() {
               .then((res) => {
                 console.log(res);
                 localStorageRemove();
-                set세션Alert(true); //
+                set세션Alert(true); // 비동기 관리 질문할 것
                 alert(
                   '세션이 만료되어 자동 로그아웃되었습니다. 다시 로그인 해주세요 :)',
                 );

@@ -39,7 +39,7 @@ export default function Signup() {
   });
 
   const [공백Alert, set공백Alert] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const [회원가입실패모달, set회원가입실패모달] = useState(false);
   const [회원가입성공모달, set회원가입성공모달] = useState(false);
   const [signupClicked, setSignupClicked] = useState(false);
 
@@ -67,7 +67,7 @@ export default function Signup() {
         })
         .catch((error) => {
           console.log(error);
-          setShowAlert(true);
+          set회원가입실패모달(true);
         });
     }
   };
@@ -202,8 +202,8 @@ export default function Signup() {
           <Button allTrue={!allTrue} text="회원가입" />
         </form>
         <Oauth />
-        {showAlert && (
-          <Alert setShowAlert={setShowAlert}>
+        {회원가입실패모달 && (
+          <Alert setShowAlert={set회원가입실패모달}>
             <div>휴대폰 번호와 이메일 중복확인을 하셨나요?</div>
           </Alert>
         )}
