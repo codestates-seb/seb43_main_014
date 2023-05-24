@@ -4,7 +4,7 @@ import Modal from '../../../common/Modal';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const PwModal = ({ openModalHandler, setNewDate }) => {
+const PwModal = ({ openModalHandler, setUserData }) => {
   const token = localStorage.getItem('jwt_token');
   const user = localStorage.getItem('user_info');
   const { userId } = JSON.parse(user);
@@ -58,7 +58,7 @@ const PwModal = ({ openModalHandler, setNewDate }) => {
         )
         .then((res) => {
           console.log('res', res);
-          setNewDate(res.data);
+          setUserData((prev) => ({ ...prev, createdAt: res.data }));
           openModalHandler();
         })
         .catch((error) => {
