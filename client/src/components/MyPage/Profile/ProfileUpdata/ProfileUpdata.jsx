@@ -24,11 +24,11 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
     phone: false,
   });
   const [isEdit, setIsEdit] = useState(false);
-  const [newImg, setNewImg] = useState('');
+
   const handleSubmit = () => {
     axios
       .patch(
-        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userId}`,
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/my-page/${userId}`,
         { name: inputs.name, phone: inputs.phone },
         {
           headers: {
@@ -91,9 +91,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
       params: { Bucket: S3_BUCKET },
       region: REGION,
     });
-    console.log(process.env.REACT_APP_AWS_ACCESS_KEY);
     const file = e.target.files[0];
-
     const params = {
       ACL: 'public-read',
       Body: file,
@@ -101,7 +99,7 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
       Key: file.name,
     };
     const object_name = params.Key;
-    console.log(object_name);
+
     if (!e.target.files.length) {
       return;
     } else {
@@ -109,22 +107,20 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
         .putObject(params)
         .on('httpUploadProgress', (e) => {
           console.log(e);
-          setNewImg(
-            `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`,
-          );
+          const imageUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`;
+          updateProfileImage(imageUrl);
         })
         .send((err) => {
           if (err) console.log(err);
         });
     }
   };
-
-  useEffect(() => {
+  const updateProfileImage = (imageUrl) => {
     axios
       .post(
         `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/my-page/${userId}/profile-image`,
         {
-          profileImage: newImg,
+          profileImage: imageUrl,
         },
         {
           headers: {
@@ -132,12 +128,15 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
           },
         },
       )
-      .then((response) => console.log(response.data))
+      .then((response) => {
+        console.log('dkdk', response.data);
+        // 이미지 업로드 후에 필요한 추가 작업 수행
+        setUserData((prev) => ({ ...prev, profileImage: imageUrl }));
+      })
       .catch((error) => {
         console.log(error);
       });
-  }, [newImg]);
-
+  };
   const fileInputRef = useRef(null);
 
   const onAddClick = () => {
@@ -154,8 +153,6 @@ const ProfileUpdata = ({ setInfoUpdata, userData, setUserData }) => {
               src={
                 profileImage
                   ? profileImage
-                  : newImg
-                  ? newImg
                   : 'https://wallpapers-clan.com/wp-content/uploads/2022/08/default-pfp-18.jpg'
               }
               alt="profileImg"
