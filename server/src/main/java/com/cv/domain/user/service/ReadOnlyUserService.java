@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class ReadOnlyUserService implements UserServiceInter {
     }
 
     @Override
-    public  LocalDateTime changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
+    public LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 

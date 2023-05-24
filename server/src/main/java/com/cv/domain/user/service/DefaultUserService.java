@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -148,7 +149,7 @@ public class DefaultUserService implements UserServiceInter{
 
     // 비밀번호 변경
     @Override
-    public LocalDateTime changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
+    public LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
         User loggedInUser = readOnlyUserService.findUser(userId);
 
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
@@ -163,7 +164,9 @@ public class DefaultUserService implements UserServiceInter{
         } else {
             throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
         }
-        return loggedInUser.getModifiedAt();
+        LocalDateTime modifiedAt = loggedInUser.getModifiedAt();
+        LocalDate changePasswordModi = modifiedAt.toLocalDate();
+        return changePasswordModi;
     }
 
 

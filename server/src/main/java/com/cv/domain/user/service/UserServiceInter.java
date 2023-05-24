@@ -15,13 +15,14 @@ import com.cv.domain.user.dto.sign.SignUpResponseDto;
 import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public interface UserServiceInter {
     SignUpResponseDto createUser(UserPostDto userPostDto);
     ReissueResponseDto reissue(ReissueDto reissue);
     LogoutResponseDto logout(LogoutDto logout);
-    LocalDateTime changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto);
+    LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto);
     User findUser(Long userId);
     UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto);
     void deleteUser(Long userId);
