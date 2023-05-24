@@ -164,9 +164,8 @@ public class DefaultUserService implements UserServiceInter{
         } else {
             throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
         }
-        LocalDateTime modifiedAt = loggedInUser.getModifiedAt();
-        LocalDate changePasswordModi = modifiedAt.toLocalDate();
-        return changePasswordModi;
+        LocalDate modifiedAt = loggedInUser.getModifiedAt().toLocalDate();
+        return modifiedAt;
     }
 
 
