@@ -3,6 +3,7 @@ package com.cv.domain.user.dto.mypage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
@@ -16,7 +17,9 @@ public class UserPatchResponseDto {
     @Schema(description = "프로필 이미지", example = "user/profile/image/smile")
     private String profileImage;
     @Schema(description = "마지막 수정일자", example = "2023-05-23")
+    @Size(max = 10)
     private LocalDate modifiedAt;
     @Schema(description = "회원가입 일자", example = "2023-05-23")
+    @Size(max = 10)
     private LocalDate createdAt;
 }
