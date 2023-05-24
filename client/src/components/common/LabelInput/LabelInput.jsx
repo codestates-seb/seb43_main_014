@@ -100,12 +100,12 @@ export default function LabelInput({
           {duplicateValid ? (
             <div className={styles.center}>
               <p>사용 가능한 이메일입니다.</p>
-              <Button text="사용하기" />
+              <Button text="사용하기" onClick={handleClickModal} />
             </div>
           ) : (
             <div className={styles.center}>
               <p>이미 존재하는 이메일입니다.</p>
-              <Button text="다른 이메일 작성하기" />
+              <Button text="다른 이메일 작성하기" onClick={handleClickModal} />
             </div>
           )}
         </Modal>
