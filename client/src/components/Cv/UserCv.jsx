@@ -9,7 +9,7 @@ const UserCv = () => {
   const user = localStorage.getItem('user_info');
   const { cvId } = JSON.parse(user);
 
-  const [userCvData, setUserCvData] = useState(null);
+  const [userCvData, setUserCvData] = useState('');
 
   console.log('cvId', cvId);
   useEffect(() => {
@@ -34,7 +34,7 @@ const UserCv = () => {
         alert('서버가 정상적이지 않음.');
       });
   }, [cvId]);
-
+  console.log('userdata', userCvData);
   if (userCvData) {
     return (
       <Container>
@@ -179,10 +179,9 @@ const UserCv = () => {
 export default UserCv;
 
 const Container = styled.div`
-  margin: 0 4rem 8rem 4rem;
   display: flex;
   flex-direction: row;
-
+  margin: 5rem auto;
   width: 55rem;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

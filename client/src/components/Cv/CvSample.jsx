@@ -56,7 +56,11 @@ const CvSample = () => {
           <h3>열심히 하는 인재입니다</h3>
         </div>
         <hr></hr>
-        <div>태어날때 부터 개발자의 운명이었던것 같습니다.</div>
+        <div>
+          태어날때 부터 개발자의 운명이었던것 같습니다. 귀사에 근무 시 최선을
+          다하여 노력하는 인재입니다. 저를 뽑아주신다면 항상 발전하는 모습을
+          보여드리도록 하겠습니다.
+        </div>
         <h4>학력 및 자격</h4>
         <hr></hr>
         <div className="edu">
@@ -73,7 +77,7 @@ const CvSample = () => {
         </div>
         <div>서울대학교</div>
         <div>컴퓨터공학</div>
-        <div>졸업했습니다</div>
+        <div>한국 최고의 대학 서울대학교에서 4년 공부 후 졸업했습니다</div>
         <h4>경력</h4>
         <hr></hr>
         <div className="edu">
@@ -90,7 +94,7 @@ const CvSample = () => {
         </div>
         <div>카카오엔터테인먼트</div>
         <div>서버/백엔드 개발자</div>
-        <div>5년 다니고 퇴사했습니다</div>
+        <div>5년 재직 후 퇴사 하였으며 최고의 IT 기업입니다.</div>
         <h4>프로젝트</h4>
         <hr></hr>
         <div className="edu">
@@ -107,7 +111,10 @@ const CvSample = () => {
         </div>
         <div>팀장</div>
         <div>http://www.com</div>
-        <div>저혼자 다해버렸네요.</div>
+        <div>
+          신입 개발자의 이력서를 로켓처럼 빠르게 제작해주는 서비스를
+          제작하였습니다.
+        </div>
 
         <h4>사용자 정의 섹션</h4>
         <h4>링크</h4>
