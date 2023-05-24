@@ -92,7 +92,7 @@ function AppRocKetCV() {
     const currentUrl = window.location.href;
     if (
       currentUrl.startsWith(
-        'http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/already',
+        'http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com/login/oauth2/already',
       ) ||
       currentUrl.startsWith('http://localhost:3000/login/oauth2/already')
     ) {
