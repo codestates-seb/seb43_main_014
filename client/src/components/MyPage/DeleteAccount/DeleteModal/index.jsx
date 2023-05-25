@@ -7,16 +7,18 @@ import { isLoginState, userState } from '../../../../recoil/AuthAtom';
 import { useNavigate } from 'react-router-dom';
 // role: 'dialog',
 
-const DeleteModal = ({ openModalHandler }) => {
+const DeleteModal = ({ openModalHandler, userData }) => {
+  const refreshToken = localStorage.getItem('refresh_token');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [check, setCheck] = useState(false);
   const [userInfo, setUserInfo] = useRecoilState(userState);
+  const { name, email } = userData;
   const token = localStorage.getItem('jwt_token');
   const navigate = useNavigate();
   const onDelete = () => {
     axios
       .delete(
-        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/mypage/${userInfo.userId}`,
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/my-page/${userInfo.userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,25 +29,33 @@ const DeleteModal = ({ openModalHandler }) => {
         console.log('res', res);
         localStorage.removeItem('jwt_token');
         localStorage.removeItem('user_info');
+        localStorage.removeItem('isLogin');
+        localStorage.removeItem('refresh_token');
         setIsLogin(false);
         navigate('/');
       })
       .catch((error) => {
         console.log(error);
       });
+    axios.post(
+      `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/logout`,
+      {
+        accessToken: token,
+        refreshToken: refreshToken,
+      },
+    );
   };
 
   const onCheck = () => {
     setCheck(!check);
   };
-
   return (
     <>
       <Modal openModalHandler={openModalHandler}>
         <div>
           <h4>계정 삭제</h4>
           <div className={styles.modalGuide}>
-            {userInfo.name} 님({userInfo.email})의 계정 삭제를 선택 하였습니다.
+            {name} 님({email})의 계정 삭제를 선택 하였습니다.
           </div>
           <span>프로필 정보</span>
           <div className={styles.modalGuideList}>
