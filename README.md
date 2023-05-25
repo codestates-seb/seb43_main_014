@@ -1,7 +1,7 @@
 # 🚀 로켓CV
-으니네 코딩노예양성소
 
 ## :pushpin: 배포 페이지 바로가기
+- ** 배포 링크 :** http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com/
 
 ## :paperclip: 프로젝트 소개
 
