@@ -176,7 +176,7 @@ public class UserController {
         result.put("email", user.getEmail());
         result.put("phone", user.getPhone());
         result.put("createdAt", user.getCreatedAt());
-        result.put("modifiedAt", user.getModifiedAt());
+        result.put("modifiedAt", user.getModifiedAt().toLocalDate().toString().substring(0, 10));
         result.put("cvs", latestCvDto);
 
         return ResponseEntity.ok(result);
