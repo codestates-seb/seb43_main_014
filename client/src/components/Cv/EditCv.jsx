@@ -245,14 +245,12 @@ const EditCv = () => {
         alert('서버가 정상적이지 않음.');
       });
   }, [cvId]);
-  console.log('나와라좀', cvContent);
   const handleClickSave = () => {
     if (title !== '' && name !== '') {
       setIsEmpty(false);
       alert('이력서 수정이 완료되었습니다.');
-      setCvContent(() => ({ ...cvContent1 }));
       axios
-        .patch(`${API}/cv/edit/${cvId}`, cvContent, {
+        .patch(`${API}/cv/edit/${cvId}`, cvContent1, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -351,7 +349,7 @@ const EditCv = () => {
       },
     ],
   };
-
+  console.log('나와라좀', cvContent1);
   const onChange = (event) => {
     const {
       target: { name, value },

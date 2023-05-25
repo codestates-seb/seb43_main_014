@@ -7,9 +7,13 @@ import { Link } from 'react-router-dom';
 import CvSample from '../components/Cv/CvSample';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '../recoil/AuthAtom';
+import { CvContentAtom } from '../recoil/CvContentAtom';
 
 const Main = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [cvContent, setCvContent] = useRecoilState(CvContentAtom);
+
+  setCvContent('');
   if (isLogin)
     return (
       <>
