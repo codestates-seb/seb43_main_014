@@ -29,8 +29,8 @@ const TokenRefreshTimer = memo(() => {
       .then((res) => {
         console.log(res);
 
-        localStorage.setItem('jwt_token', res.data.data.accessToken);
         localStorage.setItem('refresh_token', res.data.data.refreshToken);
+        localStorage.setItem('jwt_token', res.data.data.accessToken);
 
         setToken(res.data.data.accessToken);
         setRefreshToken(res.data.data.refreshToken);

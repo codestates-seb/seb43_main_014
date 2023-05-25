@@ -64,6 +64,17 @@ const months = [
 ];
 const years = [
   '년',
+  '2023',
+  '2022',
+  '2021',
+  '2020',
+  '2019',
+  '2018',
+  '2017',
+  '2016',
+  '2015',
+  '2014',
+  '2013',
   '2012',
   '2011',
   '2010',
@@ -245,14 +256,12 @@ const EditCv = () => {
         alert('서버가 정상적이지 않음.');
       });
   }, [cvId]);
-  console.log('나와라좀', cvContent);
   const handleClickSave = () => {
     if (title !== '' && name !== '') {
       setIsEmpty(false);
       alert('이력서 수정이 완료되었습니다.');
-      setCvContent(() => ({ ...cvContent1 }));
       axios
-        .patch(`${API}/cv/edit/${cvId}`, cvContent, {
+        .patch(`${API}/cv/edit/${cvId}`, cvContent1, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
@@ -351,7 +360,7 @@ const EditCv = () => {
       },
     ],
   };
-
+  console.log('나와라좀', cvContent1);
   const onChange = (event) => {
     const {
       target: { name, value },
