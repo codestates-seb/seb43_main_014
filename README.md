@@ -2,7 +2,7 @@
 <div  align="center">
   <img width="40%" src="https://i.ibb.co/7jxwcPw/cv.png" alt="rocketcv">
 </div>
-<h3 align="center">✨ 원하는 경력을 만들고 성장할 수 있는 당신의 커리어를 위한 완벽한 파트너, 로컷CV ✨</h3>
+<h3 align="center">✨ 원하는 경력을 만들고 성장할 수 있는 당신의 커리어를 위한 완벽한 파트너, 로켓CV ✨</h3>
 
 - **팀 명 :**  으니네 코딩노예양성소
 - **프로젝트 명 :** 로켓CV
