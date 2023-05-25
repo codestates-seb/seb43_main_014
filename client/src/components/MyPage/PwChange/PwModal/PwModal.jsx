@@ -58,7 +58,8 @@ const PwModal = ({ openModalHandler, setUserData }) => {
         )
         .then((res) => {
           console.log('res', res);
-          setUserData((prev) => ({ ...prev, createdAt: res.data }));
+          setUserData((prev) => ({ ...prev, modifiedAt: res.data }));
+          // setUserData((prev) => ({ ...prev }));
           openModalHandler();
         })
         .catch((error) => {
