@@ -23,7 +23,7 @@
 |김재윤|BE||
 |유성영|BE|||
 
-## 팀원 소개
+## 👨‍👩‍👧‍👦 Team
 <table>
   <tr>
   <td align="center"><a href="https://github.com/heejinki"><img src="https://avatars.githubusercontent.com/u/120415871?v=4" width="100px;" alt=""/><br /><sub><b>@heejinki</b></sub></a><br /></td>
