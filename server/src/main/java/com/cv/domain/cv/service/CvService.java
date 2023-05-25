@@ -8,6 +8,7 @@ import com.cv.domain.customSection.entity.CustomSection;
 import com.cv.domain.customSection.repository.CustomSectionRepository;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.entity.CvSkillStack;
+import com.cv.domain.cv.entity.Link;
 import com.cv.domain.cv.entity.Portfolio;
 import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.repository.CvSkillStackRepository;
@@ -52,6 +53,7 @@ public class CvService {
     private final CustomSectionRepository customSectionRepository;
     private final CareerRepository careerRepository;
     private final PortfolioRepository portfolioRepository;
+    private final LinkRepository linkRepository;
 
 
 
@@ -247,6 +249,30 @@ public class CvService {
             }
         }   else{
             findCv.setCustomSections(null);
+        }
+
+        if (cv.getLinks() != null) {
+            if (cv.getLinks().size() > findCv.getLinks().size()) {
+                for (int i = 0; i < cv.getLinks().size() - findCv.getLinks().size(); i++) {
+                    Link link = new Link();
+                    link.setCv(findCv);
+                    linkRepository.save(link);
+                    findCv.getLinks().add(link);
+                }
+            }
+
+            for (int i = 0; i < cv.getLinks().size(); i++) {
+                findCv.getLinks().get(i).setLinkName(cv.getLinks().get(i).getLinkName());
+                findCv.getLinks().get(i).setLinkAddress(cv.getLinks().get(i).getLinkAddress());
+            }
+
+            if (cv.getLinks().size() < findCv.getLinks().size()) {
+                for (int i = cv.getLinks().size(); i < findCv.getLinks().size(); i++) {
+                    findCv.getLinks().remove(i);
+                }
+            }
+        } else {
+            findCv.setLinks(null);
         }
 
         if(cv.getCareers() != null){
