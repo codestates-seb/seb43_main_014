@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './pwChange.module.css';
 import PwModal from './PwModal/PwModal';
 
-const PwChange = ({ createdAt, setUserData }) => {
+const PwChange = ({ setUserData, modifiedAt }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openModalHandler = () => {
     setIsOpen(!isOpen);
@@ -12,7 +12,7 @@ const PwChange = ({ createdAt, setUserData }) => {
       <div className={styles.date}>
         <div>
           <span>최근 업데이트 : </span>
-          <span>{createdAt}</span>
+          <span>{modifiedAt}</span>
         </div>
         <div>
           <span className={styles.pw}>비밀번호</span>

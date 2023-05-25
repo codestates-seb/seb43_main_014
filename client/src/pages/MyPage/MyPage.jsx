@@ -7,6 +7,7 @@ import CvList from '../../components/MyPage/CvList';
 import axios from 'axios';
 import NoCvList from '../../components/MyPage/NoCvList/NoCvList';
 import Spinner from '../../components/common/Spinner';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   const token = localStorage.getItem('jwt_token');
@@ -16,9 +17,10 @@ const MyPage = () => {
   const [pageData, setPageData] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const { createdAt } = userData;
+  const { modifiedAt } = userData;
+  const navigate = useNavigate();
   console.log('userId', userId);
-
+  // const handleDelete = () => {};
   useEffect(() => {
     setIsLoading(true);
     axios
@@ -75,6 +77,9 @@ const MyPage = () => {
     }
     return pageNumbers;
   };
+  const onNewCv = () => {
+    navigate('/create-cv');
+  };
   console.log(currentPage);
   return (
     <>
@@ -97,23 +102,31 @@ const MyPage = () => {
                     <NoCvList />
                   ) : (
                     pageData.latestCvs.map((cv) => (
-                      <CvList cv={cv} key={cv.cvId} setPageData={setPageData} />
+                      <>
+                        <CvList
+                          cv={cv}
+                          key={cv.cvId}
+                          pageData={pageData}
+                          setPageData={setPageData}
+                        />
+                        {console.log('key', cv.cvId)}
+                      </>
                     ))
                   )}
                 </div>
                 <div className={styles.pageNums}>{renderPageNumbers()}</div>
               </div>
               <div className={styles.cvList}>
-                <button>새이력서 추가</button>
+                <button onClick={onNewCv}>새이력서 추가</button>
               </div>
             </div>
             <div className={styles.mypageItem}>
               <h2>비밀번호</h2>
-              <PwChange createdAt={createdAt} setUserData={setUserData} />
+              <PwChange setUserData={setUserData} modifiedAt={modifiedAt} />
             </div>
             <div className={styles.mypageItem}>
               <h2>계정 삭제</h2>
-              <DeleteAccount />
+              <DeleteAccount userData={userData} />
             </div>
           </div>
         </>

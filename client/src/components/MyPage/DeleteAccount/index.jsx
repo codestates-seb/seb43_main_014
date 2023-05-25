@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './deleteAccount.module.css';
 import DeleteModal from './DeleteModal';
 
-const DeleteAccount = () => {
+const DeleteAccount = ({ userData }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openModalHandler = () => {
     setIsOpen(!isOpen);
@@ -21,7 +21,12 @@ const DeleteAccount = () => {
           <button className={styles.modalBtn} onClick={openModalHandler}>
             삭제하기
           </button>
-          {isOpen ? <DeleteModal openModalHandler={openModalHandler} /> : null}
+          {isOpen ? (
+            <DeleteModal
+              openModalHandler={openModalHandler}
+              userData={userData}
+            />
+          ) : null}
         </div>
       </div>
     </>
