@@ -26,6 +26,17 @@ const months = [
 ]; //포문으로 해결
 const years = [
   '년',
+  '2023',
+  '2022',
+  '2021',
+  '2020',
+  '2019',
+  '2018',
+  '2017',
+  '2016',
+  '2015',
+  '2014',
+  '2013',
   '2012',
   '2011',
   '2010',
@@ -178,7 +189,7 @@ const CvCareerInfo = ({ setCheck }) => {
     setAdmissionYear(educations[0].admissionYear);
     setGraduationMonth(educations[0].graduationMonth);
     setGraduationYear(educations[0].graduationYear);
-    setEduDescription(educations[0].eduDescription);
+    setEduDescription(educations[0].description);
     setCompanyName(careers[0].companyName);
     setDuty(careers[0].duty);
     setCareersDevelopmentJob(careers[0].careersDevelopmentJob);
@@ -186,7 +197,7 @@ const CvCareerInfo = ({ setCheck }) => {
     setJoinYear(careers[0].joinYear);
     setRetirementMonth(careers[0].retirementMonth);
     setRetirementYear(careers[0].retirementYear);
-    setJobDescription(careers[0].jobDescription);
+    setJobDescription(careers[0].description);
     setProjectSubject(projects[0].projectSubject);
     setPart(projects[0].part);
     setLink(projects[0].link);
@@ -194,7 +205,7 @@ const CvCareerInfo = ({ setCheck }) => {
     setStartYear(projects[0].startYear);
     setEndMonth(projects[0].endMonth);
     setEndYear(projects[0].endYear);
-    setProDescription(projects[0].proDescription);
+    setProDescription(projects[0].description);
   }, []);
 
   const onChange = (event) => {
