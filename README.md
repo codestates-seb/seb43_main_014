@@ -23,13 +23,7 @@
 |김재윤|BE||
 |유성영|BE|||
 
-## 🚀 로켓CV 소개
-</br>
-
-저희는 로켓처럼 빠르게 성장 중인 </br>
-**으니네 코딩노예양성소**입니다!
-</br>
-
+## 팀원 소개
 <table>
   <tr>
   <td align="center"><a href="https://github.com/heejinki"><img src="https://avatars.githubusercontent.com/u/120415871?v=4" width="100px;" alt=""/><br /><sub><b>@heejinki</b></sub></a><br /></td>
