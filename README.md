@@ -1,4 +1,5 @@
 # seb43_main_014
+<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=으니네 코딩노예양성소&fontSize=90" />
 으니네 코딩노예양성소
 
 ## :pushpin: 배포 페이지 바로가기
