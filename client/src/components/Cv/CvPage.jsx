@@ -53,6 +53,7 @@ export default function CvPage() {
         console.log(error);
         alert('이력서 저장이 실패하였습니다.');
       });
+    localStorage.removeItem('CvBasicContent');
   };
 
   const handleNext = () => {
