@@ -1,10 +1,15 @@
-![ 로켓CV](https://i.ibb.co/7jxwcPw/cv.png)
-# 🚀 로켓CV
+<h1>🚀 로켓CV</h1>
+<div  align="center">
+  <img width="40%" src="https://i.ibb.co/7jxwcPw/cv.png" alt="rocketcv">
+</div>
+</br>
+<h3 align="center">💑 원하는 경력을 만들고 성장할 수 있는 당신의 커리어를 위한 완벽한 파트너, 로컷CV!</h3>
 - **팀 명 :**  으니네 코딩노예양성소
 - **프로젝트 명 :** 로켓CV
 - **프로젝트 기간 :** 2023.04.28 ~ 2023.05.25
+- **팀원 :** 김희진(팀장), 박은희(부팀장), 강동욱, 김도현, 권채연, 김재윤, 유성영
+- **프로젝트 소개 :** 이력서 작성부터 프로젝트 협업과 채용 매칭까지, 모두 한 곳에서 가능한 올인원 웹 애플리케이션
 - **배포 링크 :** http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com/
-- **프로젝트 소개 :** 개발분야의 이력서 플폼을 제공하며 개인과 개인, 개인과 기업을 매칭시켜주는 웹 애플리케이션
 
 
 ## :page_facing_up: 프로젝트 설명
