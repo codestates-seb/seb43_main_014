@@ -25,14 +25,17 @@
 ## 🚀 로켓CV 소개
 </br>
 
-저희는 **로켓CV**입니다!
+저희는 로켓처럼 빠르게 성장 중인 </br>
+**으니네 코딩노예양성소**입니다!
 </br>
 
 <table>
   <tr>
   <td align="center"><a href="https://github.com/chaeyeon0130"><img src="https://avatars.githubusercontent.com/u/102018765?v=4" width="100px;" alt=""/><br /><sub><b>@chaeyeon0130</b></sub></a><br /></td>
+  <td align="center"><a href="https://github.com/jaeyumn"><img src="https://avatars.githubusercontent.com/u/91544507?v=4" width="100px;" alt=""/><br /><sub><b>@jaeyumn</b></sub></a><br /></td>
      
 </tr>
-      <td align="center">[BE]권채연</td>
+  <td align="center">[BE]권채연</td>
+  <td align="center">[BE]김재윤</td>
 </tr>
 </table>
