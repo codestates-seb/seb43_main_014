@@ -21,3 +21,18 @@
 |권채연|BE||
 |김재윤|BE||
 |유성영|BE|||
+
+## 🚀 로켓CV 소개
+</br>
+
+저희는 **로켓CV**입니다!
+</br>
+
+<table>
+  <tr>
+  <td align="center"><a href="https://github.com/chaeyeon0130"><img src="https://avatars.githubusercontent.com/u/102018765?v=4" width="100px;" alt=""/><br /><sub><b>@chaeyeon0130</b></sub></a><br /></td>
+     
+</tr>
+      <td align="center">[BE]권채연</td>
+</tr>
+</table>
