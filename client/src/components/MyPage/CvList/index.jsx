@@ -31,8 +31,9 @@ const CvList = ({ cv, pageData, setPageData }) => {
       )
       .then((res) => {
         console.log('res', res);
-        const newList = pageData.latestCvs.filter((el) => cvId !== el.cvId);
-        setPageData((prev) => ({ ...prev, latestCvs: newList }));
+        // const newList = pageData.latestCvs.filter((el) => cvId !== el.cvId);
+        // setPageData((prev) => ({ ...prev, latestCvs: newList }));
+        navigate(0);
       })
       .catch((error) => {
         console.log(error);
