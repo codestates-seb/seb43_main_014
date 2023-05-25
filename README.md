@@ -1,4 +1,4 @@
-![ 로켓CV](https://i.ibb.co/St47Cc4/cv.png)
+![ 로켓CV](https://i.ibb.co/tZWcL8V/cv.png)
 # 🚀 로켓CV
 - **팀 명 :**  으니네 코딩노예양성소
 - **프로젝트 명 :** 로켓CV
