@@ -1,7 +1,8 @@
 # 🚀 로켓CV
-
-## :pushpin: 배포 페이지 바로가기
-- http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com/
+- **팀 명 :**  으니네 코딩노예양성소
+- **프로젝트 명 :** 로켓CV
+- **프로젝트 기간 :** 2023.0~~
+- **배포 링크 :** http://main-project-cv-deploy.s3-website.ap-northeast-2.amazonaws.com/
 
 ## :paperclip: 프로젝트 소개
 
