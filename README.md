@@ -27,7 +27,6 @@
 | Java | mySQL | Rest | AWS | Spring | Spring<br>Boot |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/mysql-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/restapi-icon.svg" alt="icon" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > |
-<br/>
 
 ## 👨‍👩‍👧‍👦 Team
 | 김희진<br>(FE, 팀장) | 박은희<br>(BE, 부팀장) | 강동욱<br>(FE) | 김도현<br>(FE) | 권채연<br>(BE) | 김재윤<br>(BE) | 유성영<br>(BE) |
