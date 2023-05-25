@@ -31,7 +31,6 @@ import org.springframework.util.ObjectUtils;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -164,8 +163,7 @@ public class DefaultUserService implements UserServiceInter{
         } else {
             throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
         }
-        LocalDate modifiedAt = loggedInUser.getModifiedAt().toLocalDate();
-        return modifiedAt;
+        return loggedInUser.getModifiedAt().toLocalDate();
     }
 
 
