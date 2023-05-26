@@ -32,4 +32,16 @@ public class CvControllerHelper {
 
         return mapper.cvToCvResponse(cv);
     }
+
+    @Transactional(readOnly = true)
+    public CvResponseDto getCvWithTransaction(long cvId) {
+        Cv cv = cvService.getCv(cvId);
+
+        return mapper.cvToCvResponse(cv);
+    }
+
+    @Transactional
+    public void deleteCvWithTransaction(long cvId) {
+        cvService.deleteCv(cvId);
+    }
 }
