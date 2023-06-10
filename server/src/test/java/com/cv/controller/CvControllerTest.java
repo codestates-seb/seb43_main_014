@@ -6,6 +6,7 @@ import com.cv.domain.cv.mapper.CvMapper;
 import com.cv.domain.cv.service.CvService;
 import com.cv.helper.StubDataForCv;
 import com.google.gson.Gson;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebMvcTest(value = CvController.class, excludeFilters = {
-//        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfigurer.class)
-//})
 //@WebMvcTest(value = CvController.class)
 //@MockBean(JpaMetamodelMappingContext.class)
+@Disabled("API 문서화 swagger로 변경")
 //@AutoConfigureRestDocs
 public class CvControllerTest {
 //
@@ -50,8 +49,8 @@ public class CvControllerTest {
 //    private Gson gson;
 //
 //    @WithMockUser
-//    @Test
-//    void postCvTest() throws Exception {
+    @Test
+    void postCvTest() throws Exception {
 //
 //        // given
 //        CvResponseDto.Post post = StubDataForCv.getCvPost();
@@ -228,11 +227,11 @@ public class CvControllerTest {
 //                                )
 //                        )
 //                ));
-//    }
+    }
 //
 //    @WithMockUser
-//    @Test
-//        public void patchCvTest() throws Exception {
+    @Test
+        public void patchCvTest() throws Exception {
 //
 //        // given
 //        CvResponseDto.Post post = StubDataForCv.getCvPost();
@@ -406,11 +405,11 @@ public class CvControllerTest {
 //                                )
 //                        )
 //                ));
-//    }
+    }
 //
 //    @WithMockUser
-//    @Test
-//    void getCvTest() throws Exception {
+    @Test
+    void getCvTest() throws Exception {
 //
 //        // given
 //        long cvId = 1L;
@@ -512,11 +511,11 @@ public class CvControllerTest {
 //                                )
 //                        )
 //                ));
-//    }
+    }
 //
 //    @WithMockUser
-//    @Test
-//    void deleteCvTest() throws Exception {
+    @Test
+    void deleteCvTest() throws Exception {
 //
 //        // given
 //        long cvId = 1L;
@@ -540,5 +539,5 @@ public class CvControllerTest {
 //                                )
 //                        )
 //                );
-//    }
+    }
 }
