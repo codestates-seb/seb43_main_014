@@ -421,7 +421,7 @@ const CvBasicInfo = ({ check, setCheck }) => {
         <div className="test2">
           <div className="birth2">
             <span>생년월일</span>
-            <FormControl sx={{ m: 1, width: 115, height: 0 }}>
+            <FormControl sx={{ m: 1, width: 100, height: 0 }}>
               <InputLabel id="demo-simple-select-label">월</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -438,7 +438,7 @@ const CvBasicInfo = ({ check, setCheck }) => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 120 }}>
+            <FormControl sx={{ m: 1, width: 100 }}>
               <InputLabel id="demo-simple-select-label">일</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -455,7 +455,7 @@ const CvBasicInfo = ({ check, setCheck }) => {
                 ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ m: 1, width: 170 }}>
+            <FormControl sx={{ m: 1, width: 180 }}>
               <InputLabel id="demo-simple-select-label">년</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -476,7 +476,7 @@ const CvBasicInfo = ({ check, setCheck }) => {
           <div className="develop">
             <span>개발 직무</span>
 
-            <FormControl sx={{ m: 1, width: 190 }}>
+            <FormControl sx={{ m: 1, width: 180 }}>
               <InputLabel id="demo-simple-select-label">직무</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
