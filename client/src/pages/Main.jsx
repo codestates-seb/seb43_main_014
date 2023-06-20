@@ -106,7 +106,7 @@ export default Main;
 const StyledButton = styled.button`
   width: 15rem;
   height: 6rem;
-  margin: 20rem 0 0 18rem;
+  margin: 10rem 0 0 18rem;
   font-size: 1.2rem;
   cursor: pointer;
   border: none;
@@ -140,25 +140,26 @@ const Container = styled.div`
   }
   .top {
     margin-left: 5rem;
+    span {
+      margin-left: 10rem;
+    }
   }
   .mid {
     margin-left: 7rem;
+    margin-top: 10rem;
   }
   h3 {
     font-size: 1.8rem;
   }
+
   .Logo {
+    margin-top: 15rem;
     margin-left: 15rem;
-    margin-bottom: 5rem;
+    margin-bottom: 8rem;
     width: 20rem;
     opacity: 0.8;
     transition: 0.3s ease-in-out;
-    animation: sildeSideimg 2s forwards 1s;
-    @keyframes sildeSideimg {
-      100% {
-        border-radius: 100px 0px 100px 0px;
-      }
-    }
+
     :hover {
       transform: rotateY(-20deg);
     }
