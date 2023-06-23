@@ -38,6 +38,8 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -97,8 +99,7 @@ public class CvService {
     private void findExistSkillStack(Cv cv) {
         if(cv.getCvSkillStacks() != null)
             for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
-                SkillStack findSkillStack = skillStackRepository.findById(cvSkillStack.getSkillStack().getSkillStackId())
-                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+                SkillStack findSkillStack = findSkillStackById(cvSkillStack.getSkillStack().getSkillStackId());
 
                 cvSkillStack.setSkillStack(findSkillStack);
             }
@@ -107,8 +108,7 @@ public class CvService {
             for (Career career : cv.getCareers()) {
                 if (career.getCareerSkillStacks() != null) {
                     for (CareerSkillStack careerSkillStack : career.getCareerSkillStacks()) {
-                        SkillStack findSkillStack = skillStackRepository.findById(careerSkillStack.getSkillStack().getSkillStackId())
-                                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+                        SkillStack findSkillStack = findSkillStackById(careerSkillStack.getSkillStack().getSkillStackId());
 
                         careerSkillStack.setSkillStack(findSkillStack);
 
@@ -122,9 +122,7 @@ public class CvService {
             for (Project project : cv.getProjects()) {
                 if (project.getProjectSkillStacks() != null) {
                     for (ProjectSkillStack projectSkillStack : project.getProjectSkillStacks()) {
-                    SkillStack findSkillStack = skillStackRepository.findById(projectSkillStack.getSkillStack().getSkillStackId())
-                            .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
-
+                    SkillStack findSkillStack = findSkillStackById(projectSkillStack.getSkillStack().getSkillStackId());
                     projectSkillStack.setSkillStack(findSkillStack);
 
                     projectSkillStack.setProject(project);
@@ -151,28 +149,40 @@ public class CvService {
 
 
     private void editResume(Cv cv, Cv findCv) {
-        Optional.ofNullable(cv.getName())
-                .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
-        Optional.ofNullable(cv.getTitle())
-                .ifPresentOrElse(findCv::setTitle, () -> findCv.setTitle(null));
-        Optional.ofNullable(cv.getImageUrl())
-                .ifPresentOrElse(findCv::setImageUrl, () -> findCv.setImageUrl(null));
-        Optional.ofNullable(cv.getEmail())
-                .ifPresentOrElse(findCv::setEmail, () -> findCv.setEmail(null));
-        Optional.ofNullable(cv.getPhone())
-                .ifPresentOrElse(findCv::setPhone, () -> findCv.setPhone(null));
-        Optional.ofNullable(cv.getAddress())
-                .ifPresentOrElse(findCv::setAddress, () -> findCv.setAddress(null));
-        Optional.ofNullable(cv.getBirthDay())
-                .ifPresentOrElse(findCv::setBirthDay, () -> findCv.setBirthDay(null));
-        Optional.ofNullable(cv.getBirthMonth())
-                .ifPresentOrElse(findCv::setBirthMonth, () -> findCv.setBirthMonth(null));
-        Optional.ofNullable(cv.getBirthYear())
-                .ifPresentOrElse(findCv::setBirthYear, () -> findCv.setBirthYear(null));
-        Optional.ofNullable(cv.getSelfIntroduction())
-                .ifPresentOrElse(findCv::setSelfIntroduction, () -> findCv.setSelfIntroduction(null));
-        Optional.ofNullable(cv.getDevelopmentJob())
-                .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
+        editField(cv::getName, findCv::setName);
+        editField(cv::getTitle, findCv::setTitle);
+        editField(cv::getImageUrl, findCv::setImageUrl);
+        editField(cv::getEmail, findCv::setEmail);
+        editField(cv::getPhone, findCv::setPhone);
+        editField(cv::getAddress, findCv::setAddress);
+        editField(cv::getBirthDay, findCv::setBirthDay);
+        editField(cv::getBirthMonth, findCv::setBirthMonth);
+        editField(cv::getBirthYear, findCv::setBirthYear);
+        editField(cv::getSelfIntroduction, findCv::setSelfIntroduction);
+        editField(cv::getDevelopmentJob, findCv::setDevelopmentJob);
+
+//        Optional.ofNullable(cv.getName())
+//                .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
+//        Optional.ofNullable(cv.getTitle())
+//                .ifPresentOrElse(findCv::setTitle, () -> findCv.setTitle(null));
+//        Optional.ofNullable(cv.getImageUrl())
+//                .ifPresentOrElse(findCv::setImageUrl, () -> findCv.setImageUrl(null));
+//        Optional.ofNullable(cv.getEmail())
+//                .ifPresentOrElse(findCv::setEmail, () -> findCv.setEmail(null));
+//        Optional.ofNullable(cv.getPhone())
+//                .ifPresentOrElse(findCv::setPhone, () -> findCv.setPhone(null));
+//        Optional.ofNullable(cv.getAddress())
+//                .ifPresentOrElse(findCv::setAddress, () -> findCv.setAddress(null));
+//        Optional.ofNullable(cv.getBirthDay())
+//                .ifPresentOrElse(findCv::setBirthDay, () -> findCv.setBirthDay(null));
+//        Optional.ofNullable(cv.getBirthMonth())
+//                .ifPresentOrElse(findCv::setBirthMonth, () -> findCv.setBirthMonth(null));
+//        Optional.ofNullable(cv.getBirthYear())
+//                .ifPresentOrElse(findCv::setBirthYear, () -> findCv.setBirthYear(null));
+//        Optional.ofNullable(cv.getSelfIntroduction())
+//                .ifPresentOrElse(findCv::setSelfIntroduction, () -> findCv.setSelfIntroduction(null));
+//        Optional.ofNullable(cv.getDevelopmentJob())
+//                .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
 
         if (cv.getEducations() != null) {
             if(cv.getEducations().size() > findCv.getEducations().size()){
@@ -350,5 +360,14 @@ public class CvService {
         }   else {
             findCv.setProjects(null);
         }
+    }
+
+    private SkillStack findSkillStackById(Long skillStackId) {
+        return skillStackRepository.findById(skillStackId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));
+    }
+
+    private <T> void editField(Supplier<T> supplier, Consumer<T> consumer) {
+        Optional.ofNullable(supplier.get()).ifPresentOrElse(consumer, () -> consumer.accept(null));
     }
 }
