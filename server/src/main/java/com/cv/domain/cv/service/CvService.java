@@ -142,7 +142,8 @@ public class CvService {
         Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
         return cvRepository.findByUserIdFromRecently(userId, pageable);
     }
-    
+
+    // TODO 왜 injectLowDomain을 만들었을까.. 흠
     public void injectLowDomain(Cv cv){
         findExistSkillStack(cv);
     }
@@ -161,6 +162,7 @@ public class CvService {
         editField(cv::getSelfIntroduction, findCv::setSelfIntroduction);
         editField(cv::getDevelopmentJob, findCv::setDevelopmentJob);
 
+        // TODO 확인 후 필요 없으면 제거 (editFeild로 대체)
 //        Optional.ofNullable(cv.getName())
 //                .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
 //        Optional.ofNullable(cv.getTitle())
