@@ -52,6 +52,7 @@ public class CvServiceImpl implements CvService{
     private final LinkRepository linkRepository;
 
 
+    // 이력서 생성
     @Override
     public Cv createCv(Cv cv){
 
@@ -59,35 +60,40 @@ public class CvServiceImpl implements CvService{
         return cvRepository.save(cv);
     }
 
+    // 이력서 수정
     @Override
     public Cv updateCv(Cv cv) {
         Cv findCv = findVerifiedCv(cv.getCvId());
 
-        IsCvValid(findCv);  // 이력서 상태가 IsDelete 인지 확인
-        editResume(cv, findCv); // 이력서 수정
+        isCvValid(findCv);
+        editResume(cv, findCv);
 
         return cvRepository.save(findCv);
     }
 
+    // 이력서 조회
     @Override
     @Transactional(readOnly = true)
     public Cv getCv(long cvId) {
         Cv cv = findVerifiedCv(cvId);
 
-        IsCvValid(cv);
+        isCvValid(cv);
 
         return cv;
     }
 
+    // 이력서 삭제
     @Override
     public void deleteCv(long cvId) {
         Cv findCv = findVerifiedCv(cvId);
-        IsCvValid(findCv);
+        isCvValid(findCv);
         findCv.setIsDelete(true);
         cvRepository.save(findCv);
     }
 
-    private Cv findVerifiedCv(long cvId) {
+    // 이력서가 존재하는지 확인하는 메서드
+    @Override
+    public Cv findVerifiedCv(long cvId) {
         Optional<Cv> optionalCv = cvRepository.findById(cvId);
 
         return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
@@ -129,7 +135,9 @@ public class CvServiceImpl implements CvService{
         }
     }
 
-    private void IsCvValid(Cv findCv) {
+    // 유효한 이력서인지 확인하는 메서드
+    @Override
+    public void isCvValid(Cv findCv) {
         if (findCv.getIsDelete()) {
             throw new BusinessLogicException(ExceptionCode.RESUME_WAS_DELETED);
         }
@@ -146,6 +154,7 @@ public class CvServiceImpl implements CvService{
     }
 
 
+    // 이력서 업데이트하는 메서드
     private void editResume(Cv cv, Cv findCv) {
         editField(cv::getName, findCv::setName);
         editField(cv::getTitle, findCv::setTitle);
@@ -349,6 +358,7 @@ public class CvServiceImpl implements CvService{
         }
     }
 
+    // 연관된 SkillStack 찾는 메서드
     private SkillStack findSkillStackById(Long skillStackId) {
         return skillStackRepository.findById(skillStackId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SKILL_STACK_NOT_FOUND));

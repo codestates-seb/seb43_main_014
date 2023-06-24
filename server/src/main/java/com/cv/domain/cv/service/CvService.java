@@ -7,4 +7,7 @@ public interface CvService {
     Cv updateCv(Cv cv);
     Cv getCv(long cvId);
     void deleteCv(long cvId);
+    Cv findVerifiedCv(long cvId);
+    void isCvValid(Cv cv);
 }
+
