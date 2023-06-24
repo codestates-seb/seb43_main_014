@@ -1,37 +1,13 @@
 package com.cv.controller;
 
-import com.cv.domain.cv.controller.CvController;
-import com.cv.domain.cv.entity.Cv;
-import com.cv.domain.cv.mapper.CvMapper;
-import com.cv.domain.cv.service.CvService;
-import com.cv.helper.StubDataForCv;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
-import java.util.List;
 
 //import static com.cv.util.ApiDocumentUtils.getRequestPreProcessor;
 //import static com.cv.util.ApiDocumentUtils.getResponsePreProcessor;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@WebMvcTest(value = CvController.class)
 //@MockBean(JpaMetamodelMappingContext.class)
@@ -42,7 +18,7 @@ public class CvControllerTest {
 //    @Autowired
 //    private MockMvc mockMvc;
 //    @MockBean
-//    private CvService cvService;
+//    private CvServiceImpl cvService;
 //    @MockBean
 //    private CvMapper mapper;
 //    @Autowired

@@ -2,7 +2,7 @@ package com.cv.domain.user.controller;
 
 import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.cv.entity.Cv;
-import com.cv.domain.cv.service.CvService;
+import com.cv.domain.cv.service.CvServiceImpl;
 import com.cv.domain.user.dto.login.*;
 import com.cv.domain.user.dto.logout.LogoutDto;
 import com.cv.domain.user.dto.logout.LogoutResponseDto;
@@ -47,7 +47,7 @@ import java.util.Map;
 public class UserController {
     private final DefaultUserService defaultUserService;
     private final ReadOnlyUserService readOnlyUserService;
-    private final CvService cvService;
+    private final CvServiceImpl cvServiceImpl;
 
     // 회원등록
     @Operation(summary = "회원등록", description = "회원을 등록합니다",
@@ -167,7 +167,7 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("userId") @Positive Long userId,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
         User user = readOnlyUserService.findUser(userId);
-        Page<Cv> cvPage = cvService.findLatestCvsByUser(userId, page);
+        Page<Cv> cvPage = cvServiceImpl.findLatestCvsByUser(userId, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
 
         Map<String, Object> result = new HashMap<>();
@@ -196,7 +196,7 @@ public class UserController {
     @PreAuthorize("#userId == authentication.principal.userId")
     public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("userId") Long userId,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        Page<Cv> cvPage = cvService.findLatestCvsByUser(userId, page);
+        Page<Cv> cvPage = cvServiceImpl.findLatestCvsByUser(userId, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
         return ResponseEntity.ok(latestCvDto);
     }
