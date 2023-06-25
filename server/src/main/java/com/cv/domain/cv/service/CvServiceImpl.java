@@ -100,6 +100,7 @@ public class CvServiceImpl implements CvService{
     }
 
     private void findExistSkillStack(Cv cv) {
+
         if(cv.getCvSkillStacks() != null)
             for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
                 SkillStack findSkillStack = findSkillStackById(cvSkillStack.getSkillStack().getSkillStackId());
