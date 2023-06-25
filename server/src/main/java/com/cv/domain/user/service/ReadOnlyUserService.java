@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
@@ -46,23 +45,30 @@ public class ReadOnlyUserService implements UserServiceInter {
     }
 
     @Override
-    public LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
-        throw new UnsupportedOperationException("This method is not supported in read-only mode.");
-    }
-
-    // userId가 db에 있는지 확인
-    @Override
-    public User findUser(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-    }
-    @Override
-    public UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto) {
+    public LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public Long findUserIdByUUID(String uuid) {
+        Long userId = findUserByUUID(uuid).getUserId();
+        if (userId == null) {
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
+        return userId;
+    }
+    @Override
+    public User findUserByUUID(String uuid) {
+        return userRepository.findByUuid(uuid);
+    }
+
+    @Override
+    public UserPatchResponseDto updateUserInfo(String uuid, UserPatchDto userInfoPatchDto) {
+        throw new UnsupportedOperationException("This method is not supported in read-only mode.");
+    }
+
+    @Override
+    public void deleteUser(String uuid) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
@@ -77,7 +83,7 @@ public class ReadOnlyUserService implements UserServiceInter {
     }
 
     @Override
-    public UserPatchResponseDto uploadProfile(Long userId, ProfileImageDto profileImageDto) {
+    public UserPatchResponseDto uploadProfile(String uuid, ProfileImageDto profileImageDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 

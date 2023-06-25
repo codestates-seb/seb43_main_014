@@ -1,5 +1,6 @@
 package com.cv.domain.user.service;
 
+
 import com.cv.domain.user.dto.login.EmailDto;
 import com.cv.domain.user.dto.login.PhoneDto;
 import com.cv.domain.user.dto.login.ReissueDto;
@@ -22,13 +23,17 @@ public interface UserServiceInter {
     SignUpResponseDto createUser(UserPostDto userPostDto);
     ReissueResponseDto reissue(ReissueDto reissue);
     LogoutResponseDto logout(LogoutDto logout);
-    LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto);
-    User findUser(Long userId);
-    UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto);
-    void deleteUser(Long userId);
+    LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto);
+
+    Long findUserIdByUUID(String uuid);
+
+    User findUserByUUID(String uuid);
+
+    UserPatchResponseDto updateUserInfo(String uuid, UserPatchDto userInfoPatchDto);
+    void deleteUser(String uuid);
     void createMailAndChangePassword(String userEmail);
     void sendMail(MailDto mailDto);
-    UserPatchResponseDto uploadProfile(Long userId, ProfileImageDto profileImageDto);
+    UserPatchResponseDto uploadProfile(String uuid, ProfileImageDto profileImageDto);
     boolean isEmailDuplicated(EmailDto userEmailDto);
     boolean isPhoneDuplicated(PhoneDto userPhoneDto);
 }

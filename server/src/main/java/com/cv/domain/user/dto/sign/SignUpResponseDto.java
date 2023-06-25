@@ -8,5 +8,5 @@ import java.time.LocalDate;
 @Data
 public class SignUpResponseDto {
     @Schema(description = "회원 식별자", example = "1")
-    private Long userId;
+    private String uuid;
 }
