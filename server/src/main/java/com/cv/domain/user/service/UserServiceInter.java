@@ -1,5 +1,6 @@
 package com.cv.domain.user.service;
 
+
 import com.cv.domain.user.dto.login.EmailDto;
 import com.cv.domain.user.dto.login.PhoneDto;
 import com.cv.domain.user.dto.login.ReissueDto;
@@ -22,7 +23,10 @@ public interface UserServiceInter {
     SignUpResponseDto createUser(UserPostDto userPostDto);
     ReissueResponseDto reissue(ReissueDto reissue);
     LogoutResponseDto logout(LogoutDto logout);
-    LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto);
+    LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto);
+
+    Long findUserIdByUUID(String uuid);
+
     User findUser(Long userId);
     UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto);
     void deleteUser(Long userId);

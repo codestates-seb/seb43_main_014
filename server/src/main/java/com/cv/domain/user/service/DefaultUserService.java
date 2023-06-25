@@ -148,7 +148,8 @@ public class DefaultUserService implements UserServiceInter{
 
     // 비밀번호 변경
     @Override
-    public LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
+    public LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto) {
+        Long userId = findUserIdByUUID(uuid);
         User loggedInUser = readOnlyUserService.findUser(userId);
 
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
@@ -165,6 +166,15 @@ public class DefaultUserService implements UserServiceInter{
         }
         return loggedInUser.getModifiedAt().toLocalDate();
     }
+
+    @Override
+    public Long findUserIdByUUID(String uuid) {
+        Long userId = userRepository.findByUUID(uuid);
+        if (userId == null) {
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
+        return userId;
+}
 
 
     // userId가 db에 있는지 확인

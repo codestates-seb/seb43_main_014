@@ -46,7 +46,7 @@ public class ReadOnlyUserService implements UserServiceInter {
     }
 
     @Override
-    public LocalDate changePassword(Long userId, UserPasswordPatchDto userPasswordPatchDto) {
+    public LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");
     }
 
@@ -56,6 +56,15 @@ public class ReadOnlyUserService implements UserServiceInter {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
+    @Override
+    public Long findUserIdByUUID(String uuid) {
+        Long userId = userRepository.findByUUID(uuid);
+        if (userId == null) {
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
+        return userId;
+    }
+
     @Override
     public UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto) {
         throw new UnsupportedOperationException("This method is not supported in read-only mode.");

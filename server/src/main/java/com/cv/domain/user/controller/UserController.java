@@ -15,6 +15,7 @@ import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.DefaultUserService;
 import com.cv.domain.user.service.ReadOnlyUserService;
+import com.cv.domain.user.service.UserServiceInter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -109,12 +110,12 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @PatchMapping("/my-page/password/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
+    @PatchMapping("/my-page/password/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
     public LocalDate changePassword(Authentication authentication,
-                                    @PathVariable("userId") @Positive Long userId,
+                                    @PathVariable("uuid") String uuid,
                                     @Valid @RequestBody UserPasswordPatchDto userPasswordPatchDto) {
-        return defaultUserService.changePassword(userId, userPasswordPatchDto);
+        return defaultUserService.changePassword(uuid, userPasswordPatchDto);
     }
 
     // 이름, 휴대번호 변경
