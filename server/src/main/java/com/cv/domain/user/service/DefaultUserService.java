@@ -149,9 +149,7 @@ public class DefaultUserService implements UserServiceInter{
     // 비밀번호 변경
     @Override
     public LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto) {
-        Long userId = findUserIdByUUID(uuid);
-        User loggedInUser = readOnlyUserService.findUser(userId);
-
+        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
         String currentPassword = userPasswordPatchDto.getCurrentPassword();
         String newPassword = userPasswordPatchDto.getNewPassword();
 
@@ -169,25 +167,23 @@ public class DefaultUserService implements UserServiceInter{
 
     @Override
     public Long findUserIdByUUID(String uuid) {
-        Long userId = userRepository.findByUUID(uuid);
+        Long userId = userRepository.findByUuid(uuid).getUserId();
         if (userId == null) {
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
         return userId;
-}
-
-
-    // userId가 db에 있는지 확인
-    @Override
-    public User findUser(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
+
+    @Override
+    public User findUserByUUID(String uuid) {
+        return null;
+    }
+
 
     // 회원의 기본정보(이름,휴대번호변경) 변경
     @Override
-    public UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto) {
-        User loggedInUser = readOnlyUserService.findUser(userId);
+    public UserPatchResponseDto updateUserInfo(String uuid, UserPatchDto userInfoPatchDto) {
+        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
         loggedInUser.checkActiveUser(loggedInUser);
 
         if(!userInfoPatchDto.getName().equals(loggedInUser.getName())){ loggedInUser.setName(userInfoPatchDto.getName());}
@@ -198,8 +194,8 @@ public class DefaultUserService implements UserServiceInter{
 
     // 회원의 활동상태를 탈퇴 상태로 변경
     @Override
-    public void deleteUser(Long userId) {
-        User loggedInUser = readOnlyUserService.findUser(userId);
+    public void deleteUser(String uuid) {
+        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
         loggedInUser.checkActiveUser(loggedInUser);
         loggedInUser.setUserStatus(User.UserStatus.USER_WITHDRAWN);
         loggedInUser.setDelete(true);
@@ -239,8 +235,8 @@ public class DefaultUserService implements UserServiceInter{
 
     // 이미지 경로 저장하기
     @Override
-    public UserPatchResponseDto uploadProfile(Long userId, ProfileImageDto profileImageDto) {
-        User loggedInUser = readOnlyUserService.findUser(userId);
+    public UserPatchResponseDto uploadProfile(String uuid, ProfileImageDto profileImageDto) {
+        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
         loggedInUser.checkActiveUser(loggedInUser);
         loggedInUser.setProfileImage(profileImageDto.getProfileImage());
         userRepository.save(loggedInUser);

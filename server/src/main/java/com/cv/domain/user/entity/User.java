@@ -26,7 +26,7 @@ public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    @Column(nullable = false, unique = true)
+    @Column
     private String uuid = UUID.randomUUID().toString();
     @Column(nullable = false, unique = true)
     private String email;

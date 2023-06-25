@@ -27,12 +27,13 @@ public interface UserServiceInter {
 
     Long findUserIdByUUID(String uuid);
 
-    User findUser(Long userId);
-    UserPatchResponseDto updateUserInfo(Long userId, UserPatchDto userInfoPatchDto);
-    void deleteUser(Long userId);
+    User findUserByUUID(String uuid);
+
+    UserPatchResponseDto updateUserInfo(String uuid, UserPatchDto userInfoPatchDto);
+    void deleteUser(String uuid);
     void createMailAndChangePassword(String userEmail);
     void sendMail(MailDto mailDto);
-    UserPatchResponseDto uploadProfile(Long userId, ProfileImageDto profileImageDto);
+    UserPatchResponseDto uploadProfile(String uuid, ProfileImageDto profileImageDto);
     boolean isEmailDuplicated(EmailDto userEmailDto);
     boolean isPhoneDuplicated(PhoneDto userPhoneDto);
 }

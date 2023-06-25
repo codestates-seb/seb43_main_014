@@ -128,11 +128,11 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @PatchMapping("/my-page/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity updateUser(@PathVariable("userId") @Positive Long userId,
+    @PatchMapping("/my-page/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity updateUser(@PathVariable("uuid") @Positive String uuid,
                                      @Valid @RequestBody UserPatchDto userInfoPatchDto) {
-        UserPatchResponseDto updatedUser = defaultUserService.updateUserInfo(userId, userInfoPatchDto);
+        UserPatchResponseDto updatedUser = defaultUserService.updateUserInfo(uuid, userInfoPatchDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -146,10 +146,10 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @DeleteMapping("/my-page/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity deleteUser(@PathVariable("userId") @Positive Long userId) {
-        defaultUserService.deleteUser(userId);
+    @DeleteMapping("/my-page/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity deleteUser(@PathVariable("uuid") @Positive String uuid) {
+        defaultUserService.deleteUser(uuid);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -163,13 +163,13 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @GetMapping("/my-page/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("userId") @Positive Long userId,
+    @GetMapping("/my-page/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("uuid") @Positive String uuid,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        User user = readOnlyUserService.findUser(userId);
-        Page<Cv> cvPage = cvService.findLatestCvsByUser(userId, page);
+        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
+        User user = readOnlyUserService.findUserByUUID(uuid);
 
         Map<String, Object> result = new HashMap<>();
         result.put("profileImage", user.getProfileImage());
@@ -193,11 +193,11 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @GetMapping("/my-page/{userId}/cvs")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("userId") Long userId,
+    @GetMapping("/my-page/{uuid}/cvs")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("uuid") String uuid,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        Page<Cv> cvPage = cvService.findLatestCvsByUser(userId, page);
+        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
         return ResponseEntity.ok(latestCvDto);
     }
@@ -212,11 +212,11 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @PostMapping("/my-page/{userId}/profile-image")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("userId") Long userId,
+    @PostMapping("/my-page/{uuid}/profile-image")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("uuid") String uuid,
                                                                    @RequestBody ProfileImageDto profileImageDto) {
-        UserPatchResponseDto updatedUser = defaultUserService.uploadProfile(userId, profileImageDto);
+        UserPatchResponseDto updatedUser = defaultUserService.uploadProfile(uuid, profileImageDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
