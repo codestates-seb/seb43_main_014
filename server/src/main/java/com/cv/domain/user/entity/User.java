@@ -5,33 +5,35 @@ import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.global.audit.Auditable;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Data
 @Table(name = "member")
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Component
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
+    @Column
+    private String uuid = UUID.randomUUID().toString();
     @Column(nullable = false, unique = true)
     private String email;
-
     @Column(nullable = false)
     private String password;
-
     @Column(length = 10, nullable = false)
     private String name;
-
     @Column(unique = true)
     private String phone;
 
@@ -49,7 +51,7 @@ public class User extends Auditable {
     @Column(name = "profileImage")
     private String profileImage;
 
-    // 기술스택
+//     기술스택
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
 //    private List<UserSkillStack> tagNames = new ArrayList<>();
 

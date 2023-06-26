@@ -56,7 +56,7 @@ public class CvServiceImpl implements CvService{
     @Override
     public Cv createCv(Cv cv){
 
-        readOnlyUserService.findUser(cv.getUser().getUserId());
+        readOnlyUserService.findUserByUUID(cv.getUser().getUuid());
         return cvRepository.save(cv);
     }
 
@@ -144,7 +144,8 @@ public class CvServiceImpl implements CvService{
         }
     }
 
-    public Page<Cv> findLatestCvsByUser(Long userId, int page) {
+    public Page<Cv> findLatestCvsByUser(Long uuid, int page) {
+        Long userId = readOnlyUserService.findUserIdByUUID(uuid);
         Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
         return cvRepository.findByUserIdFromRecently(userId, pageable);
     }

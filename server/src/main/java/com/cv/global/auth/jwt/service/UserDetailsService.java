@@ -40,7 +40,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     private final class UserDetails extends User implements org.springframework.security.core.userdetails.UserDetails {
         UserDetails(User user) {
-            setUserId(user.getUserId());
+            setUuid(user.getUuid());
             setEmail(user.getEmail());
             setPassword(user.getPassword());
             setRoles(user.getRoles());

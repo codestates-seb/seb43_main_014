@@ -2,7 +2,7 @@ package com.cv.domain.user.controller;
 
 import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.cv.entity.Cv;
-import com.cv.domain.cv.service.CvServiceImpl;
+import com.cv.domain.cv.service.CvService;
 import com.cv.domain.user.dto.login.*;
 import com.cv.domain.user.dto.logout.LogoutDto;
 import com.cv.domain.user.dto.logout.LogoutResponseDto;
@@ -13,8 +13,7 @@ import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
 import com.cv.domain.user.dto.sign.SignUpResponseDto;
 import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
-import com.cv.domain.user.service.DefaultUserService;
-import com.cv.domain.user.service.ReadOnlyUserService;
+import com.cv.domain.user.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,9 +44,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name = "USER", description = "USER API Document")
 public class UserController {
-    private final DefaultUserService defaultUserService;
-    private final ReadOnlyUserService readOnlyUserService;
-    private final CvServiceImpl cvServiceImpl;
+    private final UserInfoServiceInterface infoService;
+    private final UserLoginServiceInterface loginService;
+    private final UserServiceUtilsInterface serviceUtils;
+    private final UserSignupServiceInterface signupService;
+    private final CvService cvService;
 
     // 회원등록
     @Operation(summary = "회원등록", description = "회원을 등록합니다",
@@ -60,7 +61,7 @@ public class UserController {
             })
     @PostMapping
     public ResponseEntity createUser(@Valid @RequestBody UserPostDto userPostDto) {
-        SignUpResponseDto createdUser = defaultUserService.createUser(userPostDto);
+        SignUpResponseDto createdUser = signupService.createUser(userPostDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -77,7 +78,7 @@ public class UserController {
             })
     @PostMapping("/reissue")
     public ResponseEntity reissue(@Valid @RequestBody ReissueDto reissue) {
-        ReissueResponseDto reissueResponse = defaultUserService.reissue(reissue);
+        ReissueResponseDto reissueResponse = loginService.reissue(reissue);
 
         return new ResponseEntity<>(reissueResponse, HttpStatus.valueOf(reissueResponse.getState()));
     }
@@ -94,7 +95,7 @@ public class UserController {
             })
     @PostMapping("/logout")
     public ResponseEntity logout(@Valid @RequestBody LogoutDto logout) {
-        LogoutResponseDto logoutResponse = defaultUserService.logout(logout);
+        LogoutResponseDto logoutResponse = loginService.logout(logout);
 
         return new ResponseEntity<>(logoutResponse, HttpStatus.valueOf(logoutResponse.getState()));
     }
@@ -109,12 +110,12 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @PatchMapping("/my-page/password/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
+    @PatchMapping("/my-page/password/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
     public LocalDate changePassword(Authentication authentication,
-                                    @PathVariable("userId") @Positive Long userId,
+                                    @PathVariable("uuid") String uuid,
                                     @Valid @RequestBody UserPasswordPatchDto userPasswordPatchDto) {
-        return defaultUserService.changePassword(userId, userPasswordPatchDto);
+        return infoService.changePassword(uuid, userPasswordPatchDto);
     }
 
     // 이름, 휴대번호 변경
@@ -127,11 +128,11 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @PatchMapping("/my-page/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity updateUser(@PathVariable("userId") @Positive Long userId,
+    @PatchMapping("/my-page/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity updateUser(@PathVariable("uuid") @Positive String uuid,
                                      @Valid @RequestBody UserPatchDto userInfoPatchDto) {
-        UserPatchResponseDto updatedUser = defaultUserService.updateUserInfo(userId, userInfoPatchDto);
+        UserPatchResponseDto updatedUser = infoService.updateUserInfo(uuid, userInfoPatchDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -145,10 +146,10 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @DeleteMapping("/my-page/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity deleteUser(@PathVariable("userId") @Positive Long userId) {
-        defaultUserService.deleteUser(userId);
+    @DeleteMapping("/my-page/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity deleteUser(@PathVariable("uuid") @Positive String uuid) {
+        signupService.deleteUser(uuid);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -162,13 +163,13 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @GetMapping("/my-page/{userId}")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("userId") @Positive Long userId,
+    @GetMapping("/my-page/{uuid}")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("uuid") @Positive String uuid,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        User user = readOnlyUserService.findUser(userId);
-        Page<Cv> cvPage = cvServiceImpl.findLatestCvsByUser(userId, page);
+        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
+        User user = serviceUtils.findUserByUUID(uuid);
 
         Map<String, Object> result = new HashMap<>();
         result.put("profileImage", user.getProfileImage());
@@ -176,7 +177,7 @@ public class UserController {
         result.put("email", user.getEmail());
         result.put("phone", user.getPhone());
         result.put("createdAt", user.getCreatedAt());
-        result.put("modifiedAt", user.getModifiedAt());
+        result.put("modifiedAt", user.getModifiedAt().toLocalDate().toString().substring(0, 10));
         result.put("cvs", latestCvDto);
 
         return ResponseEntity.ok(result);
@@ -192,11 +193,11 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @GetMapping("/my-page/{userId}/cvs")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("userId") Long userId,
+    @GetMapping("/my-page/{uuid}/cvs")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("uuid") String uuid,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        Page<Cv> cvPage = cvServiceImpl.findLatestCvsByUser(userId, page);
+        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
         return ResponseEntity.ok(latestCvDto);
     }
@@ -211,11 +212,11 @@ public class UserController {
                     @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                     @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
             })
-    @PostMapping("/my-page/{userId}/profile-image")
-    @PreAuthorize("#userId == authentication.principal.userId")
-    public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("userId") Long userId,
+    @PostMapping("/my-page/{uuid}/profile-image")
+    @PreAuthorize("#uuid == authentication.principal.uuid")
+    public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("uuid") String uuid,
                                                                    @RequestBody ProfileImageDto profileImageDto) {
-        UserPatchResponseDto updatedUser = defaultUserService.uploadProfile(userId, profileImageDto);
+        UserPatchResponseDto updatedUser = infoService.uploadProfile(uuid, profileImageDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -245,7 +246,7 @@ public class UserController {
             })
     @PostMapping("/sign/email")
     public boolean isEmailDuplicated(@RequestBody EmailDto userEmailDto) {
-        return readOnlyUserService.isEmailDuplicated(userEmailDto);
+        return serviceUtils.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
@@ -260,6 +261,6 @@ public class UserController {
             })
     @PostMapping("/sign/phone")
     public boolean isPhoneDuplicated(@RequestBody PhoneDto userPhoneDto) {
-        return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
+        return serviceUtils.isPhoneDuplicated(userPhoneDto);
     }
 }
