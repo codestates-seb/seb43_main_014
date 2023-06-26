@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CvContentAtom } from '../../recoil/CvContentAtom';
 import { useRecoilState } from 'recoil';
 import TagInput from './TagInput';
+import AWS from 'aws-sdk';
+import axios from 'axios';
 
 const days = [
   '일',
@@ -249,7 +250,71 @@ const CvBasicInfo = ({ check, setCheck }) => {
       setUrl4(links[3].linkAddress);
     }
   }, []);
+  const token = localStorage.getItem('jwt_token');
+  const fileInputRef = useRef(null);
+  const onClick = () => {
+    fileInputRef.current?.click();
+  };
+  const onFileChange = (e) => {
+    const ACCESS_KEY = process.env.REACT_APP_AWS_ACCESS_KEY;
+    const SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+    const REGION = 'ap-northeast-2';
+    const S3_BUCKET = 'hyun-upload-img';
+    // AWS ACCESS KEY를 세팅합니다.
+    AWS.config.update({
+      accessKeyId: ACCESS_KEY,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    });
+    // 버킷에 맞는 이름과 리전을 설정합니다.
+    const myBucket = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+    const file = e.target.files[0];
+    const params = {
+      ACL: 'public-read',
+      Body: file,
+      Bucket: S3_BUCKET,
+      Key: file.name,
+    };
+    const object_name = params.Key;
 
+    if (!e.target.files.length) {
+      return;
+    } else {
+      myBucket
+        .putObject(params)
+        .on('httpUploadProgress', (e) => {
+          console.log(e);
+          const imageUrl = `https://${S3_BUCKET}.s3.${REGION}.amazonaws.com/${object_name}`;
+          updateProfileImage(imageUrl);
+        })
+        .send((err) => {
+          if (err) console.log(err);
+        });
+    }
+  };
+  const updateProfileImage = (imageUrl) => {
+    axios
+      .post(
+        `http://ec2-13-209-35-225.ap-northeast-2.compute.amazonaws.com:8080/user/my-page/${userId}/profile-image`,
+        {
+          profileImage: imageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+      .then((response) => {
+        console.log('dkdk', response.data);
+        // 이미지 업로드 후에 필요한 추가 작업 수행
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const cvContent1 = {
     userId: userId,
     title: title,
@@ -378,7 +443,15 @@ const CvBasicInfo = ({ check, setCheck }) => {
         </div>
         <div className="test2">
           <div className="photo">
-            <img src="https://blog.kakaocdn.net/dn/OZ3vp/btqWW9GQeUf/AscsDSgZbtKRKXxMuw2bPk/img.jpg" />
+            <button onClick={onClick}>
+              이력서 사진을 업로드 하세요.
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={onFileChange}
+              />
+            </button>
           </div>
           <div className="name">
             {isEmpty && <Warning>성명을 입력하세요.</Warning>}
@@ -619,6 +692,22 @@ const Container = styled.div`
     width: 20rem;
     height: 20rem;
     margin: 0 1rem 0 0rem;
+    input {
+      display: none;
+    }
+    button {
+      width: 16rem;
+      height: 20rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 1rem;
+      border: none;
+      border-radius: 0.3rem var(--puple100);
+      background-color: var(--bgColor);
+      color: var(--puple100);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 10px;
+    }
   }
   .body {
     margin: 3rem;
