@@ -13,9 +13,7 @@ import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
 import com.cv.domain.user.dto.sign.SignUpResponseDto;
 import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
-import com.cv.domain.user.service.DefaultUserService;
-import com.cv.domain.user.service.ReadOnlyUserService;
-import com.cv.domain.user.service.UserServiceInter;
+import com.cv.domain.user.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -46,8 +44,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Tag(name = "USER", description = "USER API Document")
 public class UserController {
-    private final DefaultUserService defaultUserService;
-    private final ReadOnlyUserService readOnlyUserService;
+    private final UserInfoServiceInterface infoService;
+    private final UserLoginServiceInterface loginService;
+    private final UserServiceUtilsInterface serviceUtils;
+    private final UserSignupServiceInterface signupService;
     private final CvService cvService;
 
     // 회원등록
@@ -61,7 +61,7 @@ public class UserController {
             })
     @PostMapping
     public ResponseEntity createUser(@Valid @RequestBody UserPostDto userPostDto) {
-        SignUpResponseDto createdUser = defaultUserService.createUser(userPostDto);
+        SignUpResponseDto createdUser = signupService.createUser(userPostDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
@@ -78,7 +78,7 @@ public class UserController {
             })
     @PostMapping("/reissue")
     public ResponseEntity reissue(@Valid @RequestBody ReissueDto reissue) {
-        ReissueResponseDto reissueResponse = defaultUserService.reissue(reissue);
+        ReissueResponseDto reissueResponse = loginService.reissue(reissue);
 
         return new ResponseEntity<>(reissueResponse, HttpStatus.valueOf(reissueResponse.getState()));
     }
@@ -95,7 +95,7 @@ public class UserController {
             })
     @PostMapping("/logout")
     public ResponseEntity logout(@Valid @RequestBody LogoutDto logout) {
-        LogoutResponseDto logoutResponse = defaultUserService.logout(logout);
+        LogoutResponseDto logoutResponse = loginService.logout(logout);
 
         return new ResponseEntity<>(logoutResponse, HttpStatus.valueOf(logoutResponse.getState()));
     }
@@ -115,7 +115,7 @@ public class UserController {
     public LocalDate changePassword(Authentication authentication,
                                     @PathVariable("uuid") String uuid,
                                     @Valid @RequestBody UserPasswordPatchDto userPasswordPatchDto) {
-        return defaultUserService.changePassword(uuid, userPasswordPatchDto);
+        return infoService.changePassword(uuid, userPasswordPatchDto);
     }
 
     // 이름, 휴대번호 변경
@@ -132,7 +132,7 @@ public class UserController {
     @PreAuthorize("#uuid == authentication.principal.uuid")
     public ResponseEntity updateUser(@PathVariable("uuid") @Positive String uuid,
                                      @Valid @RequestBody UserPatchDto userInfoPatchDto) {
-        UserPatchResponseDto updatedUser = defaultUserService.updateUserInfo(uuid, userInfoPatchDto);
+        UserPatchResponseDto updatedUser = infoService.updateUserInfo(uuid, userInfoPatchDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -149,7 +149,7 @@ public class UserController {
     @DeleteMapping("/my-page/{uuid}")
     @PreAuthorize("#uuid == authentication.principal.uuid")
     public ResponseEntity deleteUser(@PathVariable("uuid") @Positive String uuid) {
-        defaultUserService.deleteUser(uuid);
+        signupService.deleteUser(uuid);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -169,7 +169,7 @@ public class UserController {
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
         Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
-        User user = readOnlyUserService.findUserByUUID(uuid);
+        User user = serviceUtils.findUserByUUID(uuid);
 
         Map<String, Object> result = new HashMap<>();
         result.put("profileImage", user.getProfileImage());
@@ -216,7 +216,7 @@ public class UserController {
     @PreAuthorize("#uuid == authentication.principal.uuid")
     public ResponseEntity<UserPatchResponseDto> uploadProfileImage(@PathVariable("uuid") String uuid,
                                                                    @RequestBody ProfileImageDto profileImageDto) {
-        UserPatchResponseDto updatedUser = defaultUserService.uploadProfile(uuid, profileImageDto);
+        UserPatchResponseDto updatedUser = infoService.uploadProfile(uuid, profileImageDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
@@ -230,7 +230,7 @@ public class UserController {
             })
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody PasswordGetDto passwordGet) {
-        defaultUserService.createMailAndChangePassword(passwordGet.getEmail());
+        loginService.createMailAndChangePassword(passwordGet.getEmail());
         return ResponseEntity.ok().build();
     }
 
@@ -246,7 +246,7 @@ public class UserController {
             })
     @PostMapping("/sign/email")
     public boolean isEmailDuplicated(@RequestBody EmailDto userEmailDto) {
-        return readOnlyUserService.isEmailDuplicated(userEmailDto);
+        return serviceUtils.isEmailDuplicated(userEmailDto);
     }
 
     // 휴대폰번호 중복확인
@@ -261,6 +261,6 @@ public class UserController {
             })
     @PostMapping("/sign/phone")
     public boolean isPhoneDuplicated(@RequestBody PhoneDto userPhoneDto) {
-        return readOnlyUserService.isPhoneDuplicated(userPhoneDto);
+        return serviceUtils.isPhoneDuplicated(userPhoneDto);
     }
 }
