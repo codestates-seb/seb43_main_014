@@ -70,14 +70,21 @@ const Main = () => {
         <Container>
           <SectionsContainer {...options}>
             <Section>
-              <Link to="/">
+              <div className="top">
                 <img className="Logo" src={Logo} alt="로고 이미지" />
-              </Link>
-              <span>신입 개발자의 이력서 작성, 막막하기만 하다구요?</span>
-              <span>이력서를 가장 빠르고 쉽게 제작하는 방법!</span>
-              <Link to="/login">
-                <StyledButton>이력서 작성하기</StyledButton>
-              </Link>
+
+                <div>
+                  <span>신입 개발자의 이력서 작성, 막막하기만 하다구요?</span>
+                </div>
+                <div>
+                  <span>이력서를 가장 빠르고 쉽게 제작하는 방법!</span>
+                </div>
+                <div>
+                  <Link to="/create-cv">
+                    <StyledButton>이력서 작성하기</StyledButton>
+                  </Link>
+                </div>
+              </div>
             </Section>
             <Section>
               <div className="mid">
@@ -89,10 +96,9 @@ const Main = () => {
               </div>
             </Section>
             <Section>
-              <div className="tem">
-                <h3>전문적인 이력서 템플릿을 이용해보세요!</h3>
-                <CvSample />
-              </div>
+              <div className="tem"></div>
+              <h3>전문적인 이력서 템플릿을 이용해보세요!</h3>
+              <CvSample />
             </Section>
           </SectionsContainer>
         </Container>
