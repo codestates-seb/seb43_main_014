@@ -11,7 +11,6 @@ import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.domain.cv.entity.Link;
 import com.cv.domain.cv.entity.Portfolio;
 import com.cv.domain.cv.repository.CvRepository;
-import com.cv.domain.cv.repository.CvSkillStackRepository;
 import com.cv.domain.cv.repository.LinkRepository;
 import com.cv.domain.cv.repository.PortfolioRepository;
 import com.cv.domain.education.entity.Education;
@@ -22,7 +21,6 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
-import com.cv.domain.user.service.ReadOnlyUserService;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +31,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service

@@ -1,22 +1,14 @@
 package com.cv.domain.user.service;
 
-import com.cv.domain.user.dto.login.*;
+import com.cv.domain.user.dto.login.ReissueDto;
+import com.cv.domain.user.dto.login.ReissueResponseDto;
+import com.cv.domain.user.dto.login.TokenInfoDto;
 import com.cv.domain.user.dto.logout.LogoutDto;
 import com.cv.domain.user.dto.logout.LogoutResponseDto;
-import com.cv.domain.user.dto.mypage.ProfileImageDto;
-import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
-import com.cv.domain.user.dto.mypage.UserPatchDto;
-import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
 import com.cv.domain.user.dto.sign.MailDto;
-import com.cv.domain.user.dto.sign.SignUpResponseDto;
-import com.cv.domain.user.dto.sign.UserPostDto;
 import com.cv.domain.user.entity.User;
-import com.cv.domain.user.mapper.UserMapper;
 import com.cv.domain.user.repository.UserRepository;
 import com.cv.global.auth.jwt.tokenizer.JwtTokenizer;
-import com.cv.global.exception.BusinessLogicException;
-import com.cv.global.exception.ExceptionCode;
-import com.cv.global.auth.utils.UserAuthorityUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,42 +22,24 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.security.SecureRandom;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class DefaultUserService implements UserServiceInter{
+public class UserLoginService implements UserLoginServiceInterface{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserAuthorityUtils authorityUtils;
     private final JavaMailSender javaMailSender;
-    private final UserMapper mapper;
-    private final ReadOnlyUserService readOnlyUserService;
     private final JwtTokenizer jwtTokenizer;
     private final RedisTemplate redisTemplate;
-
     @Value("${spring.mail.username}")
     private String adminEmail;
 
-    // 회원등록
-    @Override
-    public SignUpResponseDto createUser(UserPostDto userPostDto) {
-        User user = mapper.userPostDtoToUser(userPostDto);
-        String encryptedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
-        List<String> roles = authorityUtils.createRoles(user.getEmail());
-        user.setRoles(roles);
-        User createdUser = userRepository.save(user);
-        return mapper.userPostToSignUpResponse(createdUser);
-    }
 
-    // access token/refresh token 재발급 요청
+
     public ReissueResponseDto reissue(ReissueDto reissue) {
         // Refresh Token 검증
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
@@ -75,8 +49,7 @@ public class DefaultUserService implements UserServiceInter{
             // Refresh Token이 만료되었을 경우 -> 로그인을 새롭게 할 것을 클라이언트에게 알리기 위함
             if (rtVerificationResult.equals("expired_token")) {
                 return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token has expired", null);
-            }
-            else { // Refresh Token이 유효하지 않거나 잘못된 상태임을 나타냄
+            } else { // Refresh Token이 유효하지 않거나 잘못된 상태임을 나타냄
                 return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token is not valid", null);
             }
         }
@@ -92,7 +65,7 @@ public class DefaultUserService implements UserServiceInter{
             return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not exist due to logout", null);
         }
         if (!refreshToken.equals(reissue.getRefreshToken())) {
-            return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not match",null);
+            return new ReissueResponseDto(HttpStatus.UNAUTHORIZED.value(), "Refresh Token does not match", null);
         }
 
         // 새로운 토큰 생성
@@ -104,10 +77,9 @@ public class DefaultUserService implements UserServiceInter{
                         jwtTokenizer.getRefreshTokenExpirationMinutes(), TimeUnit.MINUTES);
 
         return new ReissueResponseDto(HttpStatus.OK.value(), "Token information has been updated", tokenInfo);
-    }
 
-    // 토큰 재발급 요청 시, 새로운 access token/refresh token 생성
-    private TokenInfoDto generateToken(Map<String, Object> claims) {
+    }
+    private TokenInfoDto generateToken (Map < String, Object > claims){
         String subject = (String) claims.get("username");
         Date accessTokenExpiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         Date refreshTokenExpiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
@@ -119,7 +91,6 @@ public class DefaultUserService implements UserServiceInter{
         return new TokenInfoDto(accessToken, refreshToken);
     }
 
-    // 로그아웃
     public LogoutResponseDto logout(LogoutDto logout) {
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         String atVerificationResult = jwtTokenizer.verifySignature(logout.getAccessToken(), base64EncodedSecretKey);
@@ -146,63 +117,6 @@ public class DefaultUserService implements UserServiceInter{
         return new LogoutResponseDto(HttpStatus.OK.value(), "Logout has been successful");
     }
 
-    // 비밀번호 변경
-    @Override
-    public LocalDate changePassword(String uuid, UserPasswordPatchDto userPasswordPatchDto) {
-        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
-        String currentPassword = userPasswordPatchDto.getCurrentPassword();
-        String newPassword = userPasswordPatchDto.getNewPassword();
-
-        loggedInUser.checkActiveUser(loggedInUser);
-        String loggedInUserPassword = loggedInUser.getPassword();
-
-        if (passwordEncoder.matches(currentPassword, loggedInUserPassword)) {
-            loggedInUser.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(loggedInUser);
-        } else {
-            throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
-        }
-        return loggedInUser.getModifiedAt().toLocalDate();
-    }
-
-    @Override
-    public Long findUserIdByUUID(String uuid) {
-        Long userId = userRepository.findByUuid(uuid).getUserId();
-        if (userId == null) {
-            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
-        }
-        return userId;
-    }
-
-    @Override
-    public User findUserByUUID(String uuid) {
-        return null;
-    }
-
-
-    // 회원의 기본정보(이름,휴대번호변경) 변경
-    @Override
-    public UserPatchResponseDto updateUserInfo(String uuid, UserPatchDto userInfoPatchDto) {
-        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
-        loggedInUser.checkActiveUser(loggedInUser);
-
-        if(!userInfoPatchDto.getName().equals(loggedInUser.getName())){ loggedInUser.setName(userInfoPatchDto.getName());}
-        if(!userInfoPatchDto.getPhone().equals(loggedInUser.getPhone())){loggedInUser.setPhone(userInfoPatchDto.getPhone());}
-        User updatedUserInfo = userRepository.save(loggedInUser);
-        return mapper.userPatchToResponse(updatedUserInfo);
-    }
-
-    // 회원의 활동상태를 탈퇴 상태로 변경
-    @Override
-    public void deleteUser(String uuid) {
-        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
-        loggedInUser.checkActiveUser(loggedInUser);
-        loggedInUser.setUserStatus(User.UserStatus.USER_WITHDRAWN);
-        loggedInUser.setDelete(true);
-        userRepository.save(loggedInUser);
-    }
-
-    // 비밀번호 찾기
     @Override
     public void createMailAndChangePassword(String userEmail) {
         String tempPassword = getTempPassword();
@@ -220,8 +134,6 @@ public class DefaultUserService implements UserServiceInter{
         sendMail(mailDto);
     }
 
-
-    // 임시비밀번호 발급 이메일 보내기
     @Override
     public void sendMail(MailDto mailDto) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -231,16 +143,6 @@ public class DefaultUserService implements UserServiceInter{
         message.setFrom(adminEmail);
         message.setReplyTo(adminEmail);
         javaMailSender.send(message);
-    }
-
-    // 이미지 경로 저장하기
-    @Override
-    public UserPatchResponseDto uploadProfile(String uuid, ProfileImageDto profileImageDto) {
-        User loggedInUser = readOnlyUserService.findUserByUUID(uuid);
-        loggedInUser.checkActiveUser(loggedInUser);
-        loggedInUser.setProfileImage(profileImageDto.getProfileImage());
-        userRepository.save(loggedInUser);
-        return mapper.userPatchToResponse(loggedInUser);
     }
 
     // 현재 DB에 있는 사용자의 비밀번호 -> 임시 비밀번호로 업데이트
@@ -278,11 +180,4 @@ public class DefaultUserService implements UserServiceInter{
         return passwordBuilder.toString();
     }
 
-    public boolean isEmailDuplicated(EmailDto userEmailDto) {
-        throw new UnsupportedOperationException("This method is not supported in transaction mode.");
-    }
-
-    public boolean isPhoneDuplicated(PhoneDto userPhoneDto) {
-        throw new UnsupportedOperationException("This method is not supported in transaction mode.");
-    }
 }
