@@ -85,6 +85,7 @@ public class Cv extends Auditable {
             }
         }
     }
+
     public void setEducations(List<Education> educations){
         this.educations = educations;
         if(educations == null)
@@ -95,6 +96,7 @@ public class Cv extends Auditable {
             }
         }
     }
+
     public void setCustomSections(List<CustomSection> customSections){
         this.customSections = customSections;
         if(customSections == null)
@@ -105,6 +107,7 @@ public class Cv extends Auditable {
             }
         }
     }
+
     public void setProjects(List<Project> projects){
         this.projects = projects;
         if(projects == null)
@@ -115,6 +118,7 @@ public class Cv extends Auditable {
             }
         }
     }
+
     public void setCareers(List<Career> careers){
         this.careers = careers;
         if(careers == null)
@@ -125,6 +129,7 @@ public class Cv extends Auditable {
             }
         }
     }
+
     public void setLinks(List<Link> links){
         this.links = links;
         if(links == null)
@@ -135,6 +140,7 @@ public class Cv extends Auditable {
             }
         }
     }
+
     public void setPortfolios(List<Portfolio> portfolios){
         this.portfolios = portfolios;
         if(portfolios == null)

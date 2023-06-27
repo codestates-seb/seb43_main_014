@@ -3,9 +3,6 @@ package com.cv.domain.cv.controller;
 import com.cv.domain.cv.dto.cvDto.CvPatchDto;
 import com.cv.domain.cv.dto.cvDto.CvPostDto;
 import com.cv.domain.cv.dto.cvDto.CvResponseDto;
-import com.cv.domain.cv.entity.Cv;
-import com.cv.domain.cv.mapper.CvMapper;
-import com.cv.domain.cv.service.CvService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,8 +23,6 @@ import javax.validation.Valid;
 @RestController
 public class CvController {
 
-    private final CvService cvService;
-    private final CvMapper mapper;
     private final CvControllerHelper helper;
 
     // 이력서 작성
@@ -44,9 +39,7 @@ public class CvController {
     @PostMapping
     public ResponseEntity<CvResponseDto> postCv(@RequestBody @Valid CvPostDto requestBody){
 
-        CvResponseDto response = helper.createCvWithTransaction(requestBody);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(helper.createCvWithTransaction(requestBody), HttpStatus.CREATED);
     }
 
     // 이력서 수정
@@ -65,9 +58,7 @@ public class CvController {
     public ResponseEntity<CvResponseDto> patchCv(@PathVariable("cv-id") long cvId,
                                                           @RequestBody @Valid CvPatchDto requestBody) {
 
-        CvResponseDto response = helper.updateCvWithTransaction(requestBody);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(helper.updateCvWithTransaction(requestBody), HttpStatus.OK);
     }
 
     // 이력서 조회
@@ -85,9 +76,7 @@ public class CvController {
     @GetMapping("/{cv-id}")
     public ResponseEntity<CvResponseDto> getCv(@PathVariable("cv-id") long cvId) {
 
-        Cv cv = cvService.getCv(cvId);
-
-        return new ResponseEntity<>(mapper.cvToCvResponse(cv), HttpStatus.OK);
+        return new ResponseEntity<>(helper.getCvWithTransaction(cvId), HttpStatus.OK);
     }
 
     // 이력서 삭제
@@ -103,7 +92,7 @@ public class CvController {
             })
     @DeleteMapping("/{cv-id}")
     public ResponseEntity<HttpStatus> deleteCv(@PathVariable("cv-id") long cvId) {
-        cvService.deleteCv(cvId);
+        helper.deleteCvWithTransaction(cvId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -230,7 +230,7 @@ public class UserController {
             })
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody PasswordGetDto passwordGet) {
-        loginService.createMailAndChangePassword(passwordGet.getEmail());
+        defaultUserService.createMailAndChangePassword(passwordGet.getEmail());
         return ResponseEntity.ok().build();
     }
 
