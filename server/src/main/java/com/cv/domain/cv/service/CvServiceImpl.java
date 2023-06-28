@@ -21,7 +21,7 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
-import com.cv.domain.user.service.ReadOnlyUserService;
+import com.cv.domain.user.service.UserServiceUtilsInterface;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class CvServiceImpl implements CvService{
     private final SkillStackRepository skillStackRepository;
     private final CareerSkillStackRepository careerSkillStackRepository;
     private final ProjectSkillStackRepository projectSkillStackRepository;
-    private final ReadOnlyUserService readOnlyUserService;
+    private final UserServiceUtilsInterface serviceUtilsInter;
     private final EducationRepository educationRepository;
     private final ProjectRepository projectRepository;
     private final CustomSectionRepository customSectionRepository;
@@ -56,7 +56,7 @@ public class CvServiceImpl implements CvService{
     @Override
     public Cv createCv(Cv cv){
 
-        readOnlyUserService.findUserByUUID(cv.getUser().getUuid());
+        serviceUtilsInter.findUserByUUID(cv.getUser().getUuid());
         return cvRepository.save(cv);
     }
 
@@ -144,8 +144,9 @@ public class CvServiceImpl implements CvService{
         }
     }
 
-    public Page<Cv> findLatestCvsByUser(Long uuid, int page) {
-        Long userId = readOnlyUserService.findUserIdByUUID(uuid);
+    @Override
+    public Page<Cv> findLatestCvsByUser(String uuid, int page) {
+        Long userId = serviceUtilsInter.findUserIdByUUID(uuid);
         Pageable pageable = PageRequest.of(page -1, 3, Sort.by("createdAt").descending());
         return cvRepository.findByUserIdFromRecently(userId, pageable);
     }

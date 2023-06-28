@@ -48,6 +48,9 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+
+	implementation 'org.flywaydb:flyway-mysql' // flyway mysql 의존성 추가
+	implementation 'org.flywaydb:flyway-core' // flyway 의존성 추가
 }
 
 tasks.named('test') {
