@@ -21,7 +21,7 @@ public class CvResponseDto {
     private String title;
 
     @Schema(description = "회원 식별자", example = "1")
-    private long userId;
+    private String uuid;
 
     @Schema(description = "이력서에 작성할 이름", example = "홍길동")
     private String name;

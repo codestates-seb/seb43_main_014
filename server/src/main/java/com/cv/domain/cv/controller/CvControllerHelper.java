@@ -6,6 +6,7 @@ import com.cv.domain.cv.dto.cvDto.CvResponseDto;
 import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.mapper.CvMapper;
 import com.cv.domain.cv.service.CvServiceImpl;
+import com.cv.domain.user.service.UserServiceUtilsInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +17,12 @@ public class CvControllerHelper {
 
     private final CvMapper mapper;
     private final CvServiceImpl cvServiceImpl;
+    private final UserServiceUtilsInterface serviceUtilsInter;
 
     @Transactional
     public CvResponseDto createCvWithTransaction(CvPostDto requestBody) {
         Cv postCv = mapper.cvPostToCv(requestBody);
+        postCv.setUser(serviceUtilsInter.findUserByUUID(requestBody.getUuid()));
         Cv cv = cvServiceImpl.createCv(postCv);
         cvServiceImpl.injectLowDomain(cv);
         return mapper.cvToCvResponse(cv);
