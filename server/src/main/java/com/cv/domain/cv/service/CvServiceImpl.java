@@ -60,7 +60,7 @@ public class CvServiceImpl implements CvService{
         return cvRepository.save(cv);
     }
 
-    // TODO 이력서 RUD 작업 시 권한확인(uuid)
+    // TODO 이력서 RUD 작업 시 권한확인(uuid), RUD에도 @PreAuthorize("#uuid == authentication.principal.uuid") 추가
     // 이력서 수정
     @Override
     public Cv updateCv(Cv cv) {
