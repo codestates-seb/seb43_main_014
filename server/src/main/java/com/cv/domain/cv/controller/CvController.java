@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class CvController {
                         @ApiResponse(responseCode = "405", description = "웹 서버에서 요청된 URL에 대해 HTTP 메서드를 허용하지 않습니다.", content = @Content()),
                         @ApiResponse(responseCode = "500", description = "서버에서 문제가 발생했습니다.", content = @Content())
                 })
+    @PreAuthorize("#uuid == authentication.principal.uuid")
     @PostMapping
     public ResponseEntity<CvResponseDto> postCv(@RequestBody @Valid CvPostDto requestBody){
 
