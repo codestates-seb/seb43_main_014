@@ -1,143 +1,209 @@
--- CREATE TABLE IF NOT EXISTS member (
---     userId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     uuid VARCHAR(255),
---     email VARCHAR(255) NOT NULL UNIQUE,
---     password VARCHAR(255) NOT NULL,
---     name VARCHAR(10) NOT NULL,
---     phone VARCHAR(255) UNIQUE,
---     roles VARCHAR(255),
---     userStatus VARCHAR(20) NOT NULL,
---     profileImage TEXT,
---     isDelete BOOLEAN DEFAULT FALSE,
---     createdAt     TIMESTAMP,
---     lastModifiedDate  TIMESTAMP,
---     createdBy     varchar(255),
---     modifiedBy     varchar(255)
---     );
---
---
--- CREATE TABLE IF NOT EXISTS cv (
---     cvId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     title VARCHAR(255) NOT NULL,
---     email VARCHAR(255),
---     name VARCHAR(255),
---     address VARCHAR(255),
---     phone VARCHAR(255),
---     selfIntroduction TEXT,
---     developmentJob VARCHAR(255),
---     imageUrl TEXT,
---     birthYear VARCHAR(255),
---     birthMonth VARCHAR(255),
---     birthDay VARCHAR(255),
---     isDelete BOOLEAN DEFAULT FALSE,
---     createdAt TIMESTAMP,
---     lastModifiedDate TIMESTAMP,
---     createdBy BIGINT,
---     createdAt     TIMESTAMP,
---     lastModifiedDate  TIMESTAMP,
---     createdBy     varchar(255),
---     modifiedBy     varchar(255),
---     FOREIGN KEY (createdBy) REFERENCES user(userId)
---
---     );
---
--- CREATE TABLE IF NOT EXISTS cv_skill_stack (
---     cvSkillStackId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     skillStackId BIGINT,
---     cvId BIGINT,
---     FOREIGN KEY (skillStackId) REFERENCES skill_stack(skillStackId) ON DELETE CASCADE,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS link (
---     linkId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     linkName VARCHAR(255),
---     linkAddress VARCHAR(255),
---     cvId BIGINT,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS portfolio (
---     portfolioId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     portfolioAddress VARCHAR(255),
---     cvId BIGINT,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS custom_section (
---     customSectionId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     customName VARCHAR(255),
---     customContent TEXT,
---     cvId BIGINT,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS career (
---     careerId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     joinYear VARCHAR(10),
---     joinMonth VARCHAR(10),
---     retirementYear VARCHAR(10),
---     retirementMonth VARCHAR(10),
---     companyName VARCHAR(255),
---     duty VARCHAR(255),
---     developmentJob VARCHAR(255),
---     description TEXT,
---     cvId BIGINT,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS career_skill_stack (
---     careerSkillStackId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     careerId BIGINT,
---     skillStackId BIGINT NOT NULL,
---     FOREIGN KEY (careerId) REFERENCES career(careerId) ON DELETE CASCADE,
---     FOREIGN KEY (skillStackId) REFERENCES skill_stack(skillStackId)
---     );
---
--- CREATE TABLE IF NOT EXISTS education (
---     educationId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     admissionYear VARCHAR(255),
---     admissionMonth VARCHAR(255),
---     graduationYear VARCHAR(255),
---     graduationMonth VARCHAR(255),
---     schoolName VARCHAR(255),
---     major VARCHAR(255),
---     degree VARCHAR(255),
---     description TEXT,
---     cvId BIGINT,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS project (
---     projectId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     part VARCHAR(255),
---     startYear VARCHAR(255),
---     startMonth VARCHAR(255),
---     endYear VARCHAR(255),
---     endMonth VARCHAR(255),
---     projectSubject VARCHAR(255),
---     description TEXT,
---     link VARCHAR(255),
---     cvId BIGINT,
---     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS project_skill_stack (
---     projectSkillStackId BIGINT AUTO_INCREMENT PRIMARY KEY,
---     projectId BIGINT,
---     skillStackId BIGINT,
---     FOREIGN KEY (projectId) REFERENCES project(projectId) ON DELETE CASCADE,
---     FOREIGN KEY (skillStackId) REFERENCES skill_stack(skillStackId) ON DELETE CASCADE
---     );
---
--- CREATE TABLE IF NOT EXISTS skill_stack (
---    skill_stack_id BIGINT AUTO_INCREMENT PRIMARY KEY,
---    skill_name VARCHAR(255) NOT NULL
---     );
---
+create table if not exists member
+(
+    user_id bigint auto_increment,
+    uuid varchar(50),
+    email varchar(255) not null,
+    password varchar(255) not null,
+    name varchar(10) not null,
+    phone varchar(255),
+    roles varchar(255),
+    userStatus varchar(20) not null,
+    profileImage text,
+    isDelete boolean default false,
+    createdAt timestamp,
+    lastModifiedDate timestamp,
+    createdBy varchar(255),
+    modifiedBy varchar(255),
 
+    constraint pk_member_user_id primary key (user_id),
+    constraint uk_member_email unique (email),
+    constraint uk_member_phone unique (phone)
+    );
 
+create table if not exists cv
+(
+    cv_id bigint auto_increment,
+    title varchar(255) not null,
+    email varchar(255),
+    name varchar(255),
+    address varchar(255),
+    phone varchar(255),
+    selfIntroduction text,
+    developmentJob varchar(255),
+    imageUrl text,
+    birthYear varchar(255),
+    birthMonth varchar(255),
+    birthDay varchar(255),
+    isDelete boolean default false,
+    createdAt     timestamp,
+    lastModifiedDate  timestamp,
+    createdBy     varchar(255),
+    modifiedBy     varchar(255),
+    user_id bigint,
 
+    constraint pk_cv_cv_id primary key (cv_id)
+    );
 
+alter table cv
+    add constraint fk_cv_user_id
+        foreign key (user_id) references member(user_id);
 
+create table if not exists skill_stack
+(
+    skill_stack_id bigint auto_increment,
+    skill_name varchar(255) not null,
 
+    constraint pk_skill_stack_skill_stack_id primary key (skill_stack_id)
+    );
+
+create table if not exists cv_skill_stack
+(
+    cv_skill_stack_id bigint auto_increment,
+    skill_stack_id bigint,
+    cv_id bigint,
+
+    constraint pk_cv_skill_stack_cv_skill_stack_id primary key (cv_skill_stack_id)
+    );
+
+alter table cv_skill_stack
+    add constraint fk_cv_skill_stack_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+alter table cv_skill_stack
+    add constraint fk_cv_skill_stack_skill_stack_id
+        foreign key (skill_stack_id) references skill_stack(skill_stack_id) on delete cascade;
+
+create table if not exists link
+(
+    link_id bigint auto_increment,
+    link_name varchar(255),
+    link_address varchar(255),
+    cv_id bigint,
+
+    constraint pk_link_link_id primary key (link_id)
+    );
+
+alter table link
+    add constraint fk_link_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+create table if not exists portfolio
+(
+    portfolio_id bigint auto_increment,
+    portfolio_address varchar(255),
+    cv_id bigint,
+
+    constraint pk_portfolio_portfolio_id primary key (portfolio_id)
+    );
+
+alter table portfolio
+    add constraint fk_portfolio_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+create table if not exists custom_section
+(
+    custom_section_id bigint auto_increment,
+    custom_name varchar(255),
+    custom_content text,
+    cv_id bigint,
+
+    constraint pk_custom_section_custom_section_id primary key (custom_section_id)
+    );
+
+alter table custom_section
+    add constraint fk_custom_section_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+create table if not exists career
+(
+    career_id bigint auto_increment,
+    join_year varchar(10),
+    join_month varchar(10),
+    retirement_year varchar(10),
+    retirement_month varchar(10),
+    company_name varchar(255),
+    duty varchar(255),
+    development_job varchar(255),
+    description text,
+    cv_id bigint,
+
+    constraint pk_career_career_id primary key (career_id)
+    );
+
+alter table career
+    add constraint fk_career_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+create table if not exists career_skill_stack
+(
+    career_skill_stack_id bigint auto_increment,
+    career_id bigint,
+    skill_stack_id bigint not null,
+
+    constraint pk_career_skill_stack_career_skill_stack_id primary key (career_skill_stack_id)
+    );
+
+alter table career_skill_stack
+    add constraint fk_career_skill_stack_career_id
+        foreign key (career_id) references career(career_id) on delete cascade;
+
+alter table career_skill_stack
+    add constraint fk_career_skill_stack_skill_stack_id
+        foreign key (skill_stack_id) references skill_stack(skill_stack_id);
+
+create table if not exists education
+(
+    education_id bigint auto_increment,
+    admission_year varchar(255),
+    admission_month varchar(255),
+    graduation_year varchar(255),
+    graduation_month varchar(255),
+    school_name varchar(255),
+    major varchar(255),
+    degree varchar(255),
+    description text,
+    cv_id bigint,
+
+    constraint pk_education_education_id primary key (education_id)
+    );
+
+alter table education
+    add constraint fk_education_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+create table if not exists project
+(
+    project_id bigint auto_increment,
+    part varchar(255),
+    start_year varchar(255),
+    start_month varchar(255),
+    end_year varchar(255),
+    end_month varchar(255),
+    project_subject varchar(255),
+    description text,
+    link varchar(255),
+    cv_id bigint,
+
+    constraint pk_project_project_id primary key (project_id)
+    );
+
+alter table project
+    add constraint fk_project_cv_id
+        foreign key (cv_id) references cv(cv_id) on delete cascade;
+
+create table if not exists project_skill_stack
+(
+    project_skill_stack_id bigint auto_increment,
+    project_id bigint,
+    skill_stack_id bigint,
+
+    constraint pk_project_skill_stack_project_skill_stack_id primary key (project_skill_stack_id)
+    );
+
+alter table project_skill_stack
+    add constraint fk_project_skill_stack_project_id
+        foreign key (project_id) references project(project_id) on delete cascade;
+
+alter table project_skill_stack
+    add constraint fk_project_skill_stack_skill_stack_id
+        foreign key (skill_stack_id) references skill_stack(skill_stack_id) on delete cascade;

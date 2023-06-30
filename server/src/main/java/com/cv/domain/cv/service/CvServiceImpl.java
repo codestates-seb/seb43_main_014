@@ -21,7 +21,6 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
-import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.UserServiceUtilsInterface;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
@@ -53,12 +52,11 @@ public class CvServiceImpl implements CvService{
     private final LinkRepository linkRepository;
 
 
-    // 이력서 생성
     @Override
     public Cv createCv(Cv cv){
-
         return cvRepository.save(cv);
-    }
+    }// 이력서 생성
+
 
     // TODO 이력서 RUD 작업 시 권한확인(uuid), RUD에도 @PreAuthorize("#uuid == authentication.principal.uuid") 추가
     // 이력서 수정
