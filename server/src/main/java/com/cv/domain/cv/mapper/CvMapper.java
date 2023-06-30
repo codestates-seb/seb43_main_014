@@ -13,6 +13,7 @@ import com.cv.domain.cv.entity.Link;
 import com.cv.domain.cv.entity.Portfolio;
 import com.cv.domain.education.mapper.EducationMapper;
 import com.cv.domain.project.mapper.ProjectMapper;
+import com.cv.domain.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -22,10 +23,11 @@ import java.util.List;
         ProjectMapper.class, CareerMapper.class, CustomSectionMapper.class, EducationMapper.class
 })
 public interface CvMapper {
-    @Mapping(source = "userId", target = "user.userId")
+    @Mapping(source = "uuid", target = "user.uuid")
+    @Mapping(target = "user", ignore = true)
     Cv cvPostToCv(CvPostDto post);
     Cv cvPatchToCv(CvPatchDto patch);
-    @Mapping(source = "user.userId", target = "userId")
+    @Mapping(source = "user.uuid", target = "uuid")
     CvResponseDto cvToCvResponse(Cv cv);
     @Mapping(source = "skillStackId", target = "skillStack.skillStackId")
     CvSkillStack cvSkillStackAddToCvSkillStack(CvSkillStackAddDto cvSkillStackAdd);

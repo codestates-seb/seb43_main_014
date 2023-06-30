@@ -18,8 +18,8 @@ public class CvPostDto {
     @Schema(description = "이력서 제목", example = "이력서 제목")
     private String title;
 
-    @Schema(description = "회원 식별자", example = "1")
-    private long userId;
+    @Schema(description = "회원 식별자", example = "550e8400-e29b-41d4-a716-446655440000")
+    private String uuid;
 
     @Schema(description = "이력서에 작성할 이름", example = "홍길동")
     private String name;

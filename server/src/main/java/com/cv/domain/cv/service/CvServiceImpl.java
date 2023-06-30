@@ -52,13 +52,11 @@ public class CvServiceImpl implements CvService{
     private final LinkRepository linkRepository;
 
 
-    // 이력서 생성
     @Override
     public Cv createCv(Cv cv){
-
-        serviceUtilsInter.findUserByUUID(cv.getUser().getUuid());
         return cvRepository.save(cv);
-    }
+    }// 이력서 생성
+
 
     // 이력서 수정
     @Override

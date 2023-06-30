@@ -1,13 +1,11 @@
 package com.cv.domain.user.entity;
 
 import com.cv.domain.cv.entity.Cv;
-import com.cv.domain.cv.entity.CvSkillStack;
 import com.cv.global.audit.Auditable;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

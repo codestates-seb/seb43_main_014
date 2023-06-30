@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS member (
-    userId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     uuid VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS member (
     modifiedBy     varchar(255)
     );
 
-
 CREATE TABLE IF NOT EXISTS cv (
     cvId BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -30,22 +29,27 @@ CREATE TABLE IF NOT EXISTS cv (
     birthMonth VARCHAR(255),
     birthDay VARCHAR(255),
     isDelete BOOLEAN DEFAULT FALSE,
-    createdAt TIMESTAMP,
-    lastModifiedDate TIMESTAMP,
-    createdBy BIGINT,
     createdAt     TIMESTAMP,
     lastModifiedDate  TIMESTAMP,
     createdBy     varchar(255),
     modifiedBy     varchar(255),
-    FOREIGN KEY (createdBy) REFERENCES user(userId)
+    user_id bigint
+    );
 
+alter table cv
+    add constraint fk_cv_user_id
+        FOREIGN KEY (user_id) REFERENCES member(user_id);
+
+CREATE TABLE IF NOT EXISTS skill_stack (
+    skill_stack_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    skill_name VARCHAR(255) NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS cv_skill_stack (
     cvSkillStackId BIGINT AUTO_INCREMENT PRIMARY KEY,
     skillStackId BIGINT,
     cvId BIGINT,
-    FOREIGN KEY (skillStackId) REFERENCES skill_stack(skillStackId) ON DELETE CASCADE,
+    FOREIGN KEY (skillStackId) REFERENCES skill_stack(skill_stack_id) ON DELETE CASCADE,
     FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
     );
 
@@ -73,7 +77,7 @@ CREATE TABLE IF NOT EXISTS custom_section (
     );
 
 CREATE TABLE IF NOT EXISTS career (
-    careerId BIGINT AUTO_INCREMENT PRIMARY KEY,
+    career_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     joinYear VARCHAR(10),
     joinMonth VARCHAR(10),
     retirementYear VARCHAR(10),
@@ -90,8 +94,8 @@ CREATE TABLE IF NOT EXISTS career_skill_stack (
     careerSkillStackId BIGINT AUTO_INCREMENT PRIMARY KEY,
     careerId BIGINT,
     skillStackId BIGINT NOT NULL,
-    FOREIGN KEY (careerId) REFERENCES career(careerId) ON DELETE CASCADE,
-    FOREIGN KEY (skillStackId) REFERENCES skill_stack(skillStackId)
+    FOREIGN KEY (careerId) REFERENCES career(career_id) ON DELETE CASCADE,
+    FOREIGN KEY (skillStackId) REFERENCES skill_stack(skill_stack_id)
     );
 
 CREATE TABLE IF NOT EXISTS education (
@@ -118,23 +122,19 @@ CREATE TABLE IF NOT EXISTS project (
     projectSubject VARCHAR(255),
     description TEXT,
     link VARCHAR(255),
-    cvId BIGINT,
-    FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE
+    cvId BIGINT
     );
+
+alter table project
+    add FOREIGN KEY (cvId) REFERENCES cv(cvId) ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS project_skill_stack (
     projectSkillStackId BIGINT AUTO_INCREMENT PRIMARY KEY,
     projectId BIGINT,
     skillStackId BIGINT,
     FOREIGN KEY (projectId) REFERENCES project(projectId) ON DELETE CASCADE,
-    FOREIGN KEY (skillStackId) REFERENCES skill_stack(skillStackId) ON DELETE CASCADE
+    FOREIGN KEY (skillStackId) REFERENCES skill_stack(skill_stack_id) ON DELETE CASCADE
     );
-
-CREATE TABLE IF NOT EXISTS skill_stack (
-   skill_stack_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-   skill_name VARCHAR(255) NOT NULL
-    );
-
 
 
 
