@@ -5,6 +5,8 @@ import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.service.CvServiceImpl;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.UserServiceUtilsInterface;
+import com.cv.global.exception.BusinessLogicException;
+import com.cv.global.exception.ExceptionCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -107,5 +110,31 @@ public class CvServiceImplUnitTest {
         verify(cvRepository, times(1)).save(cv);
     }
 
-    // TODO 추가 구현 로직 테스트 작성
+    @DisplayName("RESUME not found exception 테스트")
+    @Test
+    void findVerifiedCvTest() {
+
+        long cvId = 2L;
+
+        BusinessLogicException exception = assertThrows(
+                BusinessLogicException.class,
+                () -> cvService.findVerifiedCv(cvId)
+        );
+
+        assertEquals(ExceptionCode.RESUME_NOT_FOUND, exception.getExceptionCode());
+    }
+
+    @DisplayName("유효한 이력서인지 확인하는 테스트")
+    @Test
+    void isCvValid() {
+
+        cv.setIsDelete(true);
+
+        BusinessLogicException exception = assertThrows(
+                BusinessLogicException.class,
+                () -> cvService.isCvValid(cv)
+        );
+
+        assertEquals(ExceptionCode.RESUME_WAS_DELETED, exception.getExceptionCode());
+    }
 }
