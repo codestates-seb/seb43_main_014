@@ -21,7 +21,6 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
-import com.cv.domain.user.entity.User;
 import com.cv.domain.user.service.UserServiceUtilsInterface;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
@@ -95,13 +94,16 @@ public class CvServiceImpl implements CvService{
     // 이력서가 존재하는지 확인하는 메서드
     @Override
     public Cv findVerifiedCv(long cvId) {
-        Optional<Cv> optionalCv = cvRepository.findById(cvId);
-
-        return optionalCv.orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
+        return cvRepository.findById(cvId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
 
     private void findExistSkillStack(Cv cv) {
 
+//        Optional.ofNullable(cv.getCvSkillStacks())
+//                .ifPresent(skillStacks -> skillStacks.forEach(cvSkillStack -> {
+//                    cvSkillStack.setSkillStack(findSkillStackById(cvSkillStack.getCvSkillStackId()));
+//                }));
         if(cv.getCvSkillStacks() != null)
             for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
                 SkillStack findSkillStack = findSkillStackById(cvSkillStack.getSkillStack().getSkillStackId());
