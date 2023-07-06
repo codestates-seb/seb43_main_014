@@ -91,7 +91,11 @@ const UserCv = () => {
           <div>
             <h4>기술스택</h4>
             <div>
-              <span></span>
+              {/* <span>
+                {userCvData.cvSkillStacks[0].skillStackId[0]} {}
+                {userCvData.cvSkillStacks[0].skillStackId[1]} {}
+                {userCvData.cvSkillStacks[0].skillStackId[2]} {}
+              </span> */}
             </div>
           </div>
         </div>
@@ -150,7 +154,11 @@ const UserCv = () => {
           </div>
           <div>{userCvData.projects[0].part}</div>
           <div>{userCvData.projects[0].link}</div>
-          <div></div>
+          {/* <div>
+            {userCvData.projects[0].projectSkillStacks[0].skillStackId[0]} {}
+            {userCvData.projects[0].projectSkillStacks[0].skillStackId[1]} {}
+            {userCvData.projects[0].projectSkillStacks[0].skillStackId[2]} {}
+          </div> */}
           <div>{userCvData.projects[0].description}</div>
           <h4>사용자 정의 섹션</h4>
           <h4>링크</h4>

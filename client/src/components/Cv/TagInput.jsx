@@ -4,7 +4,7 @@ import React from 'react';
 const TagInput = ({ tags, setTags }) => {
   const addTag = (e) => {
     if (
-      tags.length < 5 &&
+      tags.length < 3 &&
       !tags.includes(e.target.value) &&
       e.target.value !== ''
     ) {

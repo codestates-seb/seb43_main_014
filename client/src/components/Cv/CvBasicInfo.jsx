@@ -138,7 +138,6 @@ const jobs = [
   '개발 PM',
 ];
 const CvBasicInfo = ({ check, setCheck }) => {
-  const [tags, setTags] = useState('');
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -149,6 +148,7 @@ const CvBasicInfo = ({ check, setCheck }) => {
   const [birthYear, setBirthYear] = useState('');
   const [developmentJob, setDevelopmentJob] = useState('');
   const [selfIntroduction, setSelfIntroduction] = useState('');
+  const [tags, setTags] = useState('');
   const [url1, setUrl1] = useState('');
   const [url2, setUrl2] = useState('');
   const [url3, setUrl3] = useState('');
@@ -327,11 +327,11 @@ const CvBasicInfo = ({ check, setCheck }) => {
     birthYear: birthYear,
     developmentJob: developmentJob,
     selfIntroduction: selfIntroduction,
-    // cvSkillStacks: [
-    //   {
-    //     skillStackId: tags,
-    //   },
-    // ],
+    cvSkillStacks: [
+      {
+        skillStackId: tags,
+      },
+    ],
     links: [
       {
         linkName: 'LINK_GITHUB',
@@ -439,6 +439,7 @@ const CvBasicInfo = ({ check, setCheck }) => {
             onChange={onChange}
             placeholder="* 이력서 제목을 입력하세요."
           ></input>
+          <StyledButton onClick={handleClickSave}>임시저장</StyledButton>
           <hr></hr>
         </div>
         <div className="test2">
@@ -643,7 +644,6 @@ const CvBasicInfo = ({ check, setCheck }) => {
             onChange={onChange}
           ></input>
         </div>
-        <StyledButton onClick={handleClickSave}>임시저장</StyledButton>
       </div>
     </Container>
   );
@@ -697,15 +697,15 @@ const Container = styled.div`
     }
     button {
       width: 16rem;
-      height: 20rem;
+      height: 19rem;
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
       padding: 1rem;
       border: none;
       border-radius: 0.3rem var(--puple100);
-      background-color: var(--bgColor);
-      color: var(--puple100);
+      background-color: #ffffff;
+      color: gray;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 10px;
     }
   }
@@ -747,6 +747,9 @@ const Container = styled.div`
       width: 16rem;
       margin: 0;
     }
+    hr {
+      margin-top: 1rem;
+    }
   }
   .tag {
     margin-top: 1rem;
@@ -760,8 +763,12 @@ const Warning = styled.p`
 `;
 
 const StyledButton = styled.button`
-  width: 100%;
-  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: right;
+  width: 8rem;
+  height: 2rem;
   font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;

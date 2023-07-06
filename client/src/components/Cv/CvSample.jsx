@@ -21,7 +21,7 @@ const CvSample = () => {
         <div>
           <h4>이메일</h4>
           <div>
-            <span>gildong@naver.com</span>
+            <span>example@naver.com</span>
           </div>
         </div>
         <div>
@@ -33,13 +33,13 @@ const CvSample = () => {
         <div>
           <h4>주소</h4>
           <div>
-            <span>서울특별시 금천구</span>
+            <span>서울특별시 강남구</span>
           </div>
         </div>
         <div>
           <h4>생년월일</h4>
           <div>
-            <span>2000년 1월 1일</span>
+            <span>1995년 1월 1일</span>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ const CvSample = () => {
         <hr></hr>
         <div>
           태어날때 부터 개발자의 운명이었던것 같습니다. 귀사에 근무 시 최선을
-          다하여 노력하는 인재입니다. 저를 뽑아주신다면 항상 발전하는 모습을
+          다하여 노력하겠습니다. 저를 뽑아주신다면 항상 발전하는 모습을
           보여드리도록 하겠습니다.
         </div>
         <h4>학력 및 자격</h4>
@@ -110,7 +110,7 @@ const CvSample = () => {
           </div>
         </div>
         <div>팀장</div>
-        <div>http://www.com</div>
+        <div>http://www.rocketCV.com</div>
         <div>
           신입 개발자의 이력서를 로켓처럼 빠르게 제작해주는 서비스를
           제작하였습니다.
@@ -132,7 +132,7 @@ const CvSample = () => {
         </div>
         <div>
           <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
-          PORTFOLIO : http://.com
+          PORTFOLIO : http://rocketCV.com
         </div>
       </div>
     </Container>
