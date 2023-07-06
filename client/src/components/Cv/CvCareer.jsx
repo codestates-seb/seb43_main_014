@@ -159,11 +159,11 @@ const CvCareerInfo = ({ setCheck }) => {
         startYear: startYear,
         endMonth: endMonth,
         endYear: endYear,
-        // projectSkillStacks: [
-        //   {
-        //     skillStackId: tags,
-        //   },
-        // ],
+        projectSkillStacks: [
+          {
+            skillStackId: tags,
+          },
+        ],
         description: proDescription,
       },
     ],
@@ -270,6 +270,9 @@ const CvCareerInfo = ({ setCheck }) => {
       <div className="body">
         <div>
           <span>경력 및 프로젝트</span>
+          <StyledSaveButton onClick={handleClickSave}>
+            임시저장
+          </StyledSaveButton>
           <hr></hr>
         </div>
         <div className="test2">
@@ -393,9 +396,7 @@ const CvCareerInfo = ({ setCheck }) => {
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
-        </div>
-        <div>
-          <StyledButton>+ 학력 추가하기</StyledButton>
+          <StyledAddButton>학력 추가하기</StyledAddButton>
         </div>
       </div>
       <div className="body">
@@ -519,9 +520,7 @@ const CvCareerInfo = ({ setCheck }) => {
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
-        </div>
-        <div>
-          <StyledButton>+ 경력 추가하기</StyledButton>
+          <StyledAddButton>경력 추가하기</StyledAddButton>
         </div>
       </div>
       <div className="body">
@@ -647,11 +646,8 @@ const CvCareerInfo = ({ setCheck }) => {
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
+          <StyledAddButton>프로젝트 추가하기</StyledAddButton>
         </div>
-        <div>
-          <StyledButton>+ 프로젝트 추가하기</StyledButton>
-        </div>
-        <StyledButton onClick={handleClickSave}>임시저장</StyledButton>
       </div>
     </InputContainer>
   );
@@ -712,6 +708,9 @@ const InputContainer = styled.div`
 
   .body {
     margin: 3rem;
+    hr {
+      margin-top: 1.9rem;
+    }
   }
   .birth2 {
     width: 32.2rem;
@@ -736,9 +735,35 @@ const InputContainer = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
-  width: 100%;
-  height: 3.5rem;
+const StyledSaveButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: right;
+  width: 8rem;
+  height: 2rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: var(--bgColor);
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:hover {
+    background-color: var(--puple300);
+  }
+`;
+
+const StyledAddButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8rem;
+  float: right;
+  height: 2rem;
   font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
@@ -755,7 +780,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledDeleteButton = styled.button`
-  width: 6rem;
+  width: 8rem;
   height: 2rem;
   font-size: 0.8rem;
   font-weight: bold;
@@ -767,6 +792,6 @@ const StyledDeleteButton = styled.button`
   color: black;
 
   &:hover {
-    background-color: var(--puple300);
+    background-color: #d3d3d3;
   }
 `;

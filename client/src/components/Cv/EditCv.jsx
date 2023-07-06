@@ -783,9 +783,7 @@ const EditCv = () => {
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
-        </div>
-        <div>
-          <StyledButton>+ 학력 추가하기</StyledButton>
+          <StyledAddButton>+ 학력 추가하기</StyledAddButton>
         </div>
       </div>
       <div className="body">
@@ -909,9 +907,7 @@ const EditCv = () => {
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
-        </div>
-        <div>
-          <StyledButton>+ 경력 추가하기</StyledButton>
+          <StyledAddButton>+ 경력 추가하기</StyledAddButton>
         </div>
       </div>
       <div className="body">
@@ -1037,11 +1033,9 @@ const EditCv = () => {
         </div>
         <div>
           <StyledDeleteButton>삭제하기</StyledDeleteButton>
+          <StyledAddButton>프로젝트 추가하기</StyledAddButton>
         </div>
-        <div>
-          <StyledButton>+ 프로젝트 추가하기</StyledButton>
-        </div>
-        <StyledButton onClick={handleClickSave}>수정 완료</StyledButton>
+        <StyledSaveButton onClick={handleClickSave}>수정 완료</StyledSaveButton>
       </div>
     </Container>
   );
@@ -1157,9 +1151,35 @@ const Warning = styled.p`
   font-weight: 800;
 `;
 
-const StyledButton = styled.button`
+const StyledSaveButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 3.5rem;
+  height: 3rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: var(--bgColor);
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:hover {
+    background-color: var(--puple300);
+  }
+`;
+
+const StyledAddButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8rem;
+  float: right;
+  height: 2rem;
   font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
@@ -1176,7 +1196,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledDeleteButton = styled.button`
-  width: 6rem;
+  width: 8rem;
   height: 2rem;
   font-size: 0.8rem;
   font-weight: bold;
@@ -1188,6 +1208,6 @@ const StyledDeleteButton = styled.button`
   color: black;
 
   &:hover {
-    background-color: var(--puple300);
+    background-color: #d3d3d3;
   }
 `;

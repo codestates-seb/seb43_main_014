@@ -127,7 +127,6 @@ const StyledButton = styled.button`
 
 const Container = styled.div`
   overflow: hidden;
-  margin-top: 3rem;
   width: 100%;
   max-width: 100%;
   height: 100%;
@@ -152,14 +151,14 @@ const Container = styled.div`
   }
   .mid {
     margin-left: 7rem;
-    margin-top: 10rem;
+    margin-top: 5rem;
   }
   h3 {
     font-size: 1.8rem;
   }
 
   .Logo {
-    margin-top: 15rem;
+    margin-top: 10rem;
     margin-left: 15rem;
     margin-bottom: 8rem;
     width: 20rem;

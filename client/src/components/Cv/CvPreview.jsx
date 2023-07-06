@@ -61,7 +61,11 @@ const CvPreview = () => {
         <div>
           <h4>기술스택</h4>
           <div>
-            <span></span>
+            {/* <span>
+              {cvContent.cvSkillStacks[0].skillStackId[0]} {}
+              {cvContent.cvSkillStacks[0].skillStackId[1]} {}
+              {cvContent.cvSkillStacks[0].skillStackId[2]} {}
+            </span> */}
           </div>
         </div>
       </div>
@@ -120,7 +124,11 @@ const CvPreview = () => {
         </div>
         <div>{cvContent.projects[0].part}</div>
         <div>{cvContent.projects[0].link}</div>
-        <div></div>
+        {/* <div>
+          {cvContent.projects[0].projectSkillStacks[0].skillStackId[0]} {}
+          {cvContent.projects[0].projectSkillStacks[0].skillStackId[1]} {}
+          {cvContent.projects[0].projectSkillStacks[0].skillStackId[2]} {}
+        </div> */}
         <div>{cvContent.projects[0].description}</div>
         <h4>사용자 정의 섹션</h4>
         <h4>링크</h4>
