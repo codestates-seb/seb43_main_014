@@ -98,18 +98,18 @@ public class CvServiceImpl implements CvService{
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.RESUME_NOT_FOUND));
     }
 
-    private void findExistSkillStack(Cv cv) {
+    public void findExistSkillStack(Cv cv) {
 
-//        Optional.ofNullable(cv.getCvSkillStacks())
-//                .ifPresent(skillStacks -> skillStacks.forEach(cvSkillStack -> {
-//                    cvSkillStack.setSkillStack(findSkillStackById(cvSkillStack.getCvSkillStackId()));
-//                }));
-        if(cv.getCvSkillStacks() != null)
-            for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
-                SkillStack findSkillStack = findSkillStackById(cvSkillStack.getSkillStack().getSkillStackId());
-
-                cvSkillStack.setSkillStack(findSkillStack);
-            }
+        Optional.ofNullable(cv.getCvSkillStacks())
+                .ifPresent(skillStacks -> skillStacks.forEach(cvSkillStack -> {
+                    cvSkillStack.setSkillStack(findSkillStackById(cvSkillStack.getCvSkillStackId()));
+                }));
+//        if(cv.getCvSkillStacks() != null)
+//            for (CvSkillStack cvSkillStack : cv.getCvSkillStacks()) {
+//                SkillStack findSkillStack = findSkillStackById(cvSkillStack.getSkillStack().getSkillStackId());
+//
+//                cvSkillStack.setSkillStack(findSkillStack);
+//            }
 
         if(cv.getCareers() != null)
             for (Career career : cv.getCareers()) {
@@ -154,10 +154,10 @@ public class CvServiceImpl implements CvService{
         return cvRepository.findByUserIdFromRecently(userId, pageable);
     }
 
-    // TODO 왜 injectLowDomain을 만들었을까.. 흠
-    public void injectLowDomain(Cv cv){
-        findExistSkillStack(cv);
-    }
+//    // TODO 왜 injectLowDomain을 만들었을까.. 흠
+//    public void injectLowDomain(Cv cv){
+//        findExistSkillStack(cv);
+//    }
 
 
     // 이력서 업데이트하는 메서드

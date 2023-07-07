@@ -24,7 +24,8 @@ public class CvControllerHelper {
         Cv postCv = mapper.cvPostToCv(requestBody);
         postCv.setUser(serviceUtilsInter.findUserByUUID(requestBody.getUuid()));
         Cv cv = cvServiceImpl.createCv(postCv);
-        cvServiceImpl.injectLowDomain(cv);
+        cvServiceImpl.findExistSkillStack(cv);
+//        cvServiceImpl.injectLowDomain(cv);
         return mapper.cvToCvResponse(cv);
     }
 
