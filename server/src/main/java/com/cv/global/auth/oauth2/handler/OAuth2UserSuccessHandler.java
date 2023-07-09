@@ -127,7 +127,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             path = "/login/oauth2/already"; // 재로그인
 
             // UTF_8 인코딩(URL 인코딩) -> URI는 아스키 문자만 포함 가능
-            String encodedUserId = UriUtils.encode(String.valueOf(user.getUserId()), StandardCharsets.UTF_8);
+            String encodedUserId = UriUtils.encode(String.valueOf(user.getId()), StandardCharsets.UTF_8);
             String encodedName = UriUtils.encode(user.getName(), StandardCharsets.UTF_8);
 
             uriComponents = UriComponentsBuilder

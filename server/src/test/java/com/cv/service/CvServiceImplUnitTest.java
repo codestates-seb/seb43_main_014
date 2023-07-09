@@ -41,7 +41,7 @@ public class CvServiceImplUnitTest {
     void createCvTest() {
         // given
         User user = new User();
-        user.setUserId(1L);
+        user.setId(1L);
         cv.setUser(user);
 
         when(userServiceUtilsInterface.findUserByUUID(anyString())).thenReturn(user);
