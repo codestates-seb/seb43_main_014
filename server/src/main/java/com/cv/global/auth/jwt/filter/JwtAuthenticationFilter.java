@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Refresh", refreshToken);
 
         LinkedHashMap<String, Object> userInfo = new LinkedHashMap<>();
-        userInfo.put("userId", user.getUserId());
+        userInfo.put("userId", user.getId());
         userInfo.put("name", user.getName());
 
         Gson gson = new Gson();

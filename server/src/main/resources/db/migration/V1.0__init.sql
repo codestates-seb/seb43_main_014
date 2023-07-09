@@ -1,6 +1,6 @@
 create table if not exists member
 (
-    user_id bigint auto_increment,
+    id bigint auto_increment,
     uuid varchar(50),
     email varchar(255) not null,
     password varchar(255) not null,
@@ -14,7 +14,7 @@ create table if not exists member
     created_by varchar(255),
     modified_by varchar(255),
 
-    constraint pk_member_user_id primary key (user_id),
+    constraint pk_member_id primary key (id),
     constraint uk_member_email unique (email),
     constraint uk_member_phone unique (phone)
     );
@@ -51,7 +51,7 @@ create table if not exists cv
 
 alter table cv
     add constraint fk_cv_user_id
-        foreign key (user_id) references member(user_id);
+        foreign key (user_id) references member(id);
 
 create table if not exists skill_stack
 (

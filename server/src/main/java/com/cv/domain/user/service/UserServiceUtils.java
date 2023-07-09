@@ -17,7 +17,7 @@ public class UserServiceUtils implements UserServiceUtilsInterface{
     private final UserRepository userRepository;
     @Override
     public Long findUserIdByUUID(String uuid) {
-        Long userId = findUserByUUID(uuid).getUserId();
+        Long userId = findUserByUUID(uuid).getId();
         if (userId == null) {
             throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
         }
