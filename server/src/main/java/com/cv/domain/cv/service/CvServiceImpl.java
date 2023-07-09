@@ -52,12 +52,11 @@ public class CvServiceImpl implements CvService{
     private final LinkRepository linkRepository;
 
 
-    // 이력서 생성
     @Override
     public Cv createCv(Cv cv){
-
         return cvRepository.save(cv);
-    }
+    }// 이력서 생성
+
 
     // TODO 이력서 RUD 작업 시 권한확인(uuid), RUD에도 @PreAuthorize("#uuid == authentication.principal.uuid") 추가
     // 이력서 수정

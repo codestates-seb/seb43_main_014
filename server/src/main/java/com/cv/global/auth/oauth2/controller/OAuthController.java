@@ -1,6 +1,5 @@
 package com.cv.global.auth.oauth2.controller;
 
-import com.cv.domain.user.dto.sign.SignUpResponseDto;
 import com.cv.domain.user.entity.User;
 import com.cv.domain.user.repository.UserRepository;
 import com.cv.global.auth.oauth2.dto.PhonePostDto;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/oauth2")
@@ -54,7 +51,7 @@ public class OAuthController {
 
         PhonePostResponseDto phonePostResponseDto = PhonePostResponseDto
                 .builder()
-                .userId(findUser.getUserId())
+                .userId(findUser.getId())
                 .name(findUser.getName())
                 .build();
 

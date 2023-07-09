@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CvRepository extends JpaRepository<Cv, Long> {
-    @Query(value = "select cv from Cv cv where cv.user.userId = :userId and cv.isDelete = false")
+    @Query(value = "select cv from Cv cv where cv.user.id = :userId and cv.isDelete = false")
     Page<Cv> findByUserIdFromRecently (@Param("userId") Long userId, Pageable pageable);
 
 }
