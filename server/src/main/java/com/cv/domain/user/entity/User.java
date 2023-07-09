@@ -4,9 +4,7 @@ import com.cv.domain.cv.entity.Cv;
 import com.cv.global.audit.Auditable;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -15,11 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "member")
+@Table(name = "member") // 엔티티를 user -> member로 변경하는게 좋음 문제많이 터질수있음 감안 ㅜㅜ
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Component
+//@Data // 왠만하면 ToString 리소스면에서 문제생길수있음 무한루프 돌수있음 쓰지말아라
+@Getter
+@Setter
+@Component // test코드 때문에 작성을 했었음 -> 일반적으로는 엔티티에서 사용하지 않음
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

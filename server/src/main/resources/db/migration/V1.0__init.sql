@@ -6,12 +6,11 @@ create table if not exists member
     password varchar(255) not null,
     name varchar(10) not null,
     phone varchar(255),
-    roles varchar(255),
     user_status varchar(20) not null,
     profile_image text,
     is_delete boolean default false,
     created_at timestamp,
-    last_modified_date timestamp,
+    last_modified_at timestamp,
     created_by varchar(255),
     modified_by varchar(255),
 
@@ -19,6 +18,12 @@ create table if not exists member
     constraint uk_member_email unique (email),
     constraint uk_member_phone unique (phone)
     );
+
+create table if not exists user_roles
+(
+     user_id   bigint not null,
+     roles     varchar(255)
+);
 
 create table if not exists cv
 (
@@ -36,7 +41,7 @@ create table if not exists cv
     birth_day varchar(255),
     is_delete boolean default false,
     created_at     timestamp,
-    last_modified_date  timestamp,
+    last_modified_at  timestamp,
     created_by     varchar(255),
     modified_by     varchar(255),
     user_id bigint,
