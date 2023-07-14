@@ -4,6 +4,7 @@ import com.cv.domain.cv.entity.Cv;
 import com.cv.domain.cv.repository.CvRepository;
 import com.cv.domain.cv.service.CvServiceImpl;
 import com.cv.domain.user.entity.User;
+import com.cv.domain.user.repository.UserRepository;
 import com.cv.domain.user.service.UserServiceUtilsInterface;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
@@ -27,7 +28,7 @@ public class CvServiceImplUnitTest {
     @Mock
     private CvRepository cvRepository;
     @Mock
-    private UserServiceUtilsInterface userServiceUtilsInterface;
+    private UserRepository userRepository;
     @InjectMocks
     private CvServiceImpl cvService;
 
@@ -44,10 +45,10 @@ public class CvServiceImplUnitTest {
     void createCvTest() {
         // given
         User user = new User();
-        user.setId(1L);
+        user.setUuid("uuid");
         cv.setUser(user);
 
-        when(userServiceUtilsInterface.findUserByUUID(anyString())).thenReturn(user);
+        when(userRepository.findByUuid("uuid")).thenReturn(user);
         when(cvRepository.save(cv)).thenReturn(cv);
 
         // when
@@ -55,7 +56,7 @@ public class CvServiceImplUnitTest {
 
         // then
         assertEquals(cv, createCv);
-        verify(userServiceUtilsInterface, times(1)).findUserByUUID(anyString());
+        verify(userRepository, times(1)).findByUuid("uuid");
         verify(cvRepository, times(1)).save(cv);
     }
 

@@ -21,6 +21,9 @@ import com.cv.domain.project.repository.ProjectRepository;
 import com.cv.domain.project.repository.ProjectSkillStackRepository;
 import com.cv.domain.skillStack.entity.SkillStack;
 import com.cv.domain.skillStack.repository.SkillStackRepository;
+import com.cv.domain.user.entity.User;
+import com.cv.domain.user.repository.UserRepository;
+import com.cv.domain.user.service.UserServiceUtils;
 import com.cv.domain.user.service.UserServiceUtilsInterface;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
@@ -50,12 +53,14 @@ public class CvServiceImpl implements CvService{
     private final CareerRepository careerRepository;
     private final PortfolioRepository portfolioRepository;
     private final LinkRepository linkRepository;
+    private final UserRepository userRepository;
 
-
+    // 이력서 생성
     @Override
     public Cv createCv(Cv cv){
+        isValidUser(cv.getUser().getUuid());
         return cvRepository.save(cv);
-    }// 이력서 생성
+    }
 
 
     // TODO 이력서 RUD 작업 시 권한확인(uuid), RUD에도 @PreAuthorize("#uuid == authentication.principal.uuid") 추가
@@ -153,7 +158,6 @@ public class CvServiceImpl implements CvService{
         return cvRepository.findByUserIdFromRecently(userId, pageable);
     }
 
-//    // TODO 왜 injectLowDomain을 만들었을까.. 흠
 //    public void injectLowDomain(Cv cv){
 //        findExistSkillStack(cv);
 //    }
@@ -347,5 +351,12 @@ public class CvServiceImpl implements CvService{
 
     private <T> void editField(Supplier<T> supplier, Consumer<T> consumer) {
         Optional.ofNullable(supplier.get()).ifPresentOrElse(consumer, () -> consumer.accept(null));
+    }
+
+    // 유효한 회원인지 확인
+    public void isValidUser(String uuid) {
+        if(userRepository.findByUuid(uuid) == null){
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+        }
     }
 }
