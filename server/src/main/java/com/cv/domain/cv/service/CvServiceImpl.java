@@ -173,30 +173,6 @@ public class CvServiceImpl implements CvService{
         editField(cv::getSelfIntroduction, findCv::setSelfIntroduction);
         editField(cv::getDevelopmentJob, findCv::setDevelopmentJob);
 
-        // TODO 확인 후 필요 없으면 제거 (editFeild로 대체)
-//        Optional.ofNullable(cv.getName())
-//                .ifPresentOrElse(findCv::setName, () -> findCv.setName(null));
-//        Optional.ofNullable(cv.getTitle())
-//                .ifPresentOrElse(findCv::setTitle, () -> findCv.setTitle(null));
-//        Optional.ofNullable(cv.getImageUrl())
-//                .ifPresentOrElse(findCv::setImageUrl, () -> findCv.setImageUrl(null));
-//        Optional.ofNullable(cv.getEmail())
-//                .ifPresentOrElse(findCv::setEmail, () -> findCv.setEmail(null));
-//        Optional.ofNullable(cv.getPhone())
-//                .ifPresentOrElse(findCv::setPhone, () -> findCv.setPhone(null));
-//        Optional.ofNullable(cv.getAddress())
-//                .ifPresentOrElse(findCv::setAddress, () -> findCv.setAddress(null));
-//        Optional.ofNullable(cv.getBirthDay())
-//                .ifPresentOrElse(findCv::setBirthDay, () -> findCv.setBirthDay(null));
-//        Optional.ofNullable(cv.getBirthMonth())
-//                .ifPresentOrElse(findCv::setBirthMonth, () -> findCv.setBirthMonth(null));
-//        Optional.ofNullable(cv.getBirthYear())
-//                .ifPresentOrElse(findCv::setBirthYear, () -> findCv.setBirthYear(null));
-//        Optional.ofNullable(cv.getSelfIntroduction())
-//                .ifPresentOrElse(findCv::setSelfIntroduction, () -> findCv.setSelfIntroduction(null));
-//        Optional.ofNullable(cv.getDevelopmentJob())
-//                .ifPresentOrElse(findCv::setDevelopmentJob, () -> findCv.setDevelopmentJob(null));
-
         if (cv.getEducations() != null) {
             if(cv.getEducations().size() > findCv.getEducations().size()){
                 for (int i = 0; i < cv.getEducations().size() - findCv.getEducations().size(); i++) {
