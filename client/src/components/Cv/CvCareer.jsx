@@ -159,11 +159,11 @@ const CvCareerInfo = ({ setCheck }) => {
         startYear: startYear,
         endMonth: endMonth,
         endYear: endYear,
-        projectSkillStacks: [
-          {
-            skillStackId: tags,
-          },
-        ],
+        // projectSkillStacks: [
+        //   {
+        //     skillStackId: tags,
+        //   },
+        // ],
         description: proDescription,
       },
     ],
@@ -256,9 +256,11 @@ const CvCareerInfo = ({ setCheck }) => {
       setProjectSubject(value);
     } else if (name === 'part') {
       setPart(value);
-    } else if (name === 'protags') {
-      setTags(value);
-    } else if (name === 'prodescription') {
+    }
+    // else if (name === 'protags') {
+    //   setTags(value);
+    // }
+    else if (name === 'prodescription') {
       setProDescription(value);
     } else if (name === 'link') {
       setLink(value);

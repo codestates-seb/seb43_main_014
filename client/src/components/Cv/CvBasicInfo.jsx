@@ -327,11 +327,11 @@ const CvBasicInfo = ({ check, setCheck }) => {
     birthYear: birthYear,
     developmentJob: developmentJob,
     selfIntroduction: selfIntroduction,
-    cvSkillStacks: [
-      {
-        skillStackId: tags,
-      },
-    ],
+    // cvSkillStacks: [
+    //   {
+    //     skillStackId: tags,
+    //   },
+    // ],
     links: [
       {
         linkName: 'LINK_GITHUB',
