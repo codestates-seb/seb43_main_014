@@ -160,6 +160,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
 
+  @page {
+    size: A4;
+    margin: 20mm;
+  }
   width: 55rem;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

@@ -4,7 +4,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import CvBasicInfo from './CvBasicInfo';
 import CvCareer from './CvCareer';
 import CvSkillInput from './CvCustomInput';
@@ -15,6 +15,7 @@ import { CvContentAtom } from '../../recoil/CvContentAtom';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../../utils/API';
+import ReactToPrint from 'react-to-print';
 
 export default function CvPage() {
   const [check, setCheck] = useState(false);
@@ -73,6 +74,7 @@ export default function CvPage() {
     setCvContent(null);
   };
   console.log(2, check);
+  const ref = useRef();
 
   return (
     <Container>
@@ -111,8 +113,16 @@ export default function CvPage() {
                 <StyledResetButton onClick={handleReset}>
                   다시 작성하기
                 </StyledResetButton>
+                <ReactToPrint
+                  trigger={() => (
+                    <StyledPrintButton>PDF 저장하기</StyledPrintButton>
+                  )}
+                  content={() => ref.current}
+                />
               </div>
-              <CvPreview />
+              <div ref={ref}>
+                <CvPreview />
+              </div>
             </>
           )}
         </div>
@@ -154,7 +164,7 @@ const StyledButton = styled.button`
 const StyledSaveButton = styled.button`
   width: 7rem;
   height: 2rem;
-  margin: 2rem;
+  margin: 1rem;
   font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
@@ -170,6 +180,24 @@ const StyledSaveButton = styled.button`
 `;
 
 const StyledResetButton = styled.button`
+  width: 7rem;
+  height: 2rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 1rem;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: var(--bgColor);
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:hover {
+    background-color: var(--puple300);
+  }
+`;
+
+const StyledPrintButton = styled.button`
   width: 7rem;
   height: 2rem;
   font-size: 0.8rem;
