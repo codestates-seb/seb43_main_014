@@ -53,6 +53,12 @@ const UserCv = () => {
             </div>
           </div>
           <div>
+            <h4>개발직무</h4>
+            <div>
+              <span>{userCvData.developmentJob}</span>
+            </div>
+          </div>
+          <div>
             <h4>이메일</h4>
             <div>
               <span>{userCvData.email}</span>
@@ -83,12 +89,6 @@ const UserCv = () => {
           </div>
 
           <div>
-            <h4>개발직무</h4>
-            <div>
-              <span>{userCvData.developmentJob}</span>
-            </div>
-          </div>
-          <div>
             <h4>기술스택</h4>
             <div>
               {/* <span>
@@ -99,12 +99,17 @@ const UserCv = () => {
             </div>
           </div>
         </div>
+
         <div className="test2">
           <div>
             <h3>{userCvData.title}</h3>
           </div>
           <hr></hr>
           <div>{userCvData.selfIntroduction}</div>
+          <div>
+            <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
+            PORTFOLIO : {userCvData.links[3].linkAddress}
+          </div>
           <h4>학력 및 자격</h4>
           <hr></hr>
           <div className="edu">
@@ -174,9 +179,9 @@ const UserCv = () => {
             <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_blog.png" />
             BLOG : {userCvData.links[2].linkAddress}
           </div>
-          <div>
-            <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
-            PORTFOLIO : {userCvData.links[3].linkAddress}
+
+          <div className="pdf">
+            <StyledPrintButton>PDF 저장하기</StyledPrintButton>
           </div>
         </div>
       </Container>
@@ -235,5 +240,28 @@ const Container = styled.div`
     margin-right: 0.5rem;
     width: 1.2rem;
     height: 1.2rem;
+  }
+  .pdf {
+    display: flex;
+    float: right;
+    margin-top: 28rem;
+  }
+`;
+
+const StyledPrintButton = styled.button`
+  width: 7rem;
+  height: 2rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 1rem;
+  border: none;
+  border-radius: 0.3rem var(--puple100);
+  background-color: var(--bgColor);
+  color: var(--puple100);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:hover {
+    background-color: var(--puple300);
   }
 `;

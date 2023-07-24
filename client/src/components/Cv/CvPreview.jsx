@@ -22,6 +22,13 @@ const CvPreview = () => {
             <span>{cvContent.name}</span>
           </div>
         </div>
+
+        <div>
+          <h4>개발직무</h4>
+          <div>
+            <span>{cvContent.developmentJob}</span>
+          </div>
+        </div>
         <div>
           <h4>이메일</h4>
           <div>
@@ -53,12 +60,6 @@ const CvPreview = () => {
         </div>
 
         <div>
-          <h4>개발직무</h4>
-          <div>
-            <span>{cvContent.developmentJob}</span>
-          </div>
-        </div>
-        <div>
           <h4>기술스택</h4>
           <div>
             {/* <span>
@@ -75,6 +76,10 @@ const CvPreview = () => {
         </div>
         <hr></hr>
         <div>{cvContent.selfIntroduction}</div>
+        <div>
+          <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
+          PORTFOLIO : {cvContent.links[3].linkAddress}
+        </div>
         <h4>학력 및 자격</h4>
         <hr></hr>
         <div className="edu">
@@ -144,10 +149,6 @@ const CvPreview = () => {
           <img src="https://cdn.jumpit.co.kr/jumpit/personal/img_blog.png" />
           BLOG : {cvContent.links[2].linkAddress}
         </div>
-        <div>
-          <img src="https://cdn.icon-icons.com/icons2/2568/PNG/512/link_icon_153723.png" />
-          PORTFOLIO : {cvContent.links[3].linkAddress}
-        </div>
       </div>
     </Container>
   );
@@ -156,7 +157,7 @@ const CvPreview = () => {
 export default CvPreview;
 
 const Container = styled.div`
-  margin: 0 4rem 8rem 4rem;
+  margin: 2rem 4rem 8rem 4rem;
   display: flex;
   flex-direction: row;
 
