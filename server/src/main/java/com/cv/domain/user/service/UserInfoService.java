@@ -1,5 +1,8 @@
 package com.cv.domain.user.service;
 
+import com.cv.domain.cv.dto.PageLatestCvDto;
+import com.cv.domain.cv.entity.Cv;
+import com.cv.domain.cv.service.CvService;
 import com.cv.domain.user.dto.mypage.ProfileImageDto;
 import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
 import com.cv.domain.user.dto.mypage.UserPatchDto;
@@ -10,11 +13,15 @@ import com.cv.domain.user.repository.UserRepository;
 import com.cv.global.exception.BusinessLogicException;
 import com.cv.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +31,8 @@ public class UserInfoService implements UserInfoServiceInterface {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final UserMapper mapper;
+    private final CvService cvService;
+    private final UserServiceUtilsInterface serviceUtils;
 
 
     @Override
@@ -62,5 +71,30 @@ public class UserInfoService implements UserInfoServiceInterface {
         if(!userInfoPatchDto.getPhone().equals(loggedInUser.getPhone())){loggedInUser.setPhone(userInfoPatchDto.getPhone());}
         User updatedUserInfo = userRepository.save(loggedInUser);
         return mapper.userPatchToResponse(updatedUserInfo);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> getUserProfile(String uuid, int page) {
+        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
+        PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
+        User user = serviceUtils.findUserByUUID(uuid);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("profileImage", user.getProfileImage());
+        result.put("name", user.getName());
+        result.put("email", user.getEmail());
+        result.put("phone", user.getPhone());
+        result.put("createdAt", user.getCreatedAt());
+        result.put("modifiedAt", user.getModifiedAt().toLocalDate().toString().substring(0, 10));
+        result.put("cvs", latestCvDto);
+
+        return ResponseEntity.ok(result);
+    }
+
+
+    ResponseEntity<PageLatestCvDto> getLatestCvsByUser(String uuid, int page){
+        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
+        PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
+        return ResponseEntity.ok(latestCvDto);
     }
 }
