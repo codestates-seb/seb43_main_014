@@ -48,7 +48,7 @@ public class UserController {
     private final UserLoginServiceInterface loginService;
     private final UserServiceUtilsInterface serviceUtils;
     private final UserSignupServiceInterface signupService;
-    private final CvService cvService;
+
 
     // 회원등록
     @Operation(summary = "회원등록", description = "회원을 등록합니다",
@@ -167,20 +167,7 @@ public class UserController {
     @PreAuthorize("#uuid == authentication.principal.uuid")
     public ResponseEntity<Map<String, Object>> getUserProfile(@PathVariable("uuid") @Positive String uuid,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
-        PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
-        User user = serviceUtils.findUserByUUID(uuid);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("profileImage", user.getProfileImage());
-        result.put("name", user.getName());
-        result.put("email", user.getEmail());
-        result.put("phone", user.getPhone());
-        result.put("createdAt", user.getCreatedAt());
-        result.put("modifiedAt", user.getModifiedAt().toLocalDate().toString().substring(0, 10));
-        result.put("cvs", latestCvDto);
-
-        return ResponseEntity.ok(result);
+        return infoService.getUserProfile(uuid, page);
     }
 
     // 이력서 페이지네이션
@@ -197,9 +184,7 @@ public class UserController {
     @PreAuthorize("#uuid == authentication.principal.uuid")
     public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(@PathVariable("uuid") String uuid,
                                                               @RequestParam(name = "page", defaultValue = "1") int page) {
-        Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
-        PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
-        return ResponseEntity.ok(latestCvDto);
+        return infoService.getLatestCvsByUser(uuid, page);
     }
 
     // 프로필이미지 등록

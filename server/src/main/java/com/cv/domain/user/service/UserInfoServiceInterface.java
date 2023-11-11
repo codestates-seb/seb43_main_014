@@ -1,11 +1,14 @@
 package com.cv.domain.user.service;
 
+import com.cv.domain.cv.dto.PageLatestCvDto;
 import com.cv.domain.user.dto.mypage.ProfileImageDto;
 import com.cv.domain.user.dto.mypage.UserPasswordPatchDto;
 import com.cv.domain.user.dto.mypage.UserPatchDto;
 import com.cv.domain.user.dto.mypage.UserPatchResponseDto;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 public interface UserInfoServiceInterface {
     /**
@@ -35,5 +38,14 @@ public interface UserInfoServiceInterface {
      */
     UserPatchResponseDto uploadProfile(String uuid, ProfileImageDto profileImageDto);
 
+    /**
+     * <h2>마이페이지 조회</h2>
+     * </br>
+     * @param uuid 일련의 숫자와 문자로 구성된 128비트 랜덤 문자열
+     * @param page 페이지번호
+     * @return name, email, phone, profileImage, 마지막 수정일자, 회원가입 일자
+     */
+    ResponseEntity<Map<String, Object>> getUserProfile(String uuid, int page);
 
+    ResponseEntity<PageLatestCvDto> getLatestCvsByUser(String uuid, int page);
 }
