@@ -43,9 +43,16 @@ public interface UserInfoServiceInterface {
      * </br>
      * @param uuid 일련의 숫자와 문자로 구성된 128비트 랜덤 문자열
      * @param page 페이지번호
-     * @return name, email, phone, profileImage, 마지막 수정일자, 회원가입 일자
+     * @return name, email, phone, profileImage, 마지막 수정일자, 회원가입 일자, 이력서 리스트
      */
     ResponseEntity<Map<String, Object>> getUserProfile(String uuid, int page);
 
+    /**
+     * <h2>마이페이지 내 이력서 리스트 조회</h2>
+     * </br>
+     * @param uuid 일련의 숫자와 문자로 구성된 128비트 랜덤 문자열
+     * @param page 페이지번호 기본값1
+     * @return name, email, phone, profileImage, 마지막 수정일자, 회원가입 일자, 이력서 리스트
+     */
     ResponseEntity<PageLatestCvDto> getLatestCvsByUser(String uuid, int page);
 }

@@ -92,7 +92,8 @@ public class UserInfoService implements UserInfoServiceInterface {
     }
 
 
-    ResponseEntity<PageLatestCvDto> getLatestCvsByUser(String uuid, int page){
+    @Override
+    public ResponseEntity<PageLatestCvDto> getLatestCvsByUser(String uuid, int page) {
         Page<Cv> cvPage = cvService.findLatestCvsByUser(uuid, page);
         PageLatestCvDto latestCvDto = new PageLatestCvDto(cvPage);
         return ResponseEntity.ok(latestCvDto);
