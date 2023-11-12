@@ -27,7 +27,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'com.google.code.gson:gson:2.9.0'
-	testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
 	testImplementation 'net.bytebuddy:byte-buddy:1.12.22'
 	testImplementation 'org.mockito:mockito-inline:3.10.0'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
@@ -51,6 +50,12 @@ dependencies {
 
 	implementation 'org.flywaydb:flyway-mysql' // flyway mysql 의존성 추가
 	implementation 'org.flywaydb:flyway-core' // flyway 의존성 추가
+
+
+	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'// Spock 의존성
+	testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'// Spock spring 의존성
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'// Spring Boot 테스트 관련 의존성
 }
 
 tasks.named('test') {
