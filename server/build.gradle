@@ -1,0 +1,63 @@
+plugins {
+	id 'java'
+	id 'groovy'
+	id 'org.springframework.boot' version '2.7.11'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.cv'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'org.mockito:mockito-core'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'com.google.code.gson:gson:2.9.0'
+	testImplementation 'net.bytebuddy:byte-buddy:1.12.22'
+	testImplementation 'org.mockito:mockito-inline:3.10.0'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+
+	implementation 'org.flywaydb:flyway-mysql' // flyway mysql 의존성 추가
+	implementation 'org.flywaydb:flyway-core' // flyway 의존성 추가
+
+
+	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'// Spock 의존성
+	testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'// Spock spring 의존성
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'// Spring Boot 테스트 관련 의존성
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
